@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frog_circle_cropped" translatesAutoresizingMaskIntoConstraints="NO" id="uzG-5z-uH6">
-                                <rect key="frame" x="-162" y="-87" width="1274" height="944"/>
+                                <rect key="frame" x="-125" y="-88" width="1274" height="944"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQs-qh-OwL">
                                 <rect key="frame" x="373" y="266" width="278" height="71"/>
@@ -87,6 +87,7 @@
                     <connections>
                         <outlet property="groupNumber" destination="rX0-A2-6g3" id="2wr-jE-4yA"/>
                         <outlet property="serverIP" destination="X16-AL-1O2" id="czo-Oh-ive"/>
+                        <segue destination="NPb-yw-Qe1" kind="show" identifier="Associate" id="k7B-Pu-9kp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -419,31 +420,25 @@
         <!--TakeAPicture-->
         <scene sceneID="tWT-NR-dkD">
             <objects>
-                <viewController title="TakeAPicture" id="NPb-yw-Qe1" sceneMemberID="viewController">
+                <viewController title="TakeAPicture" id="NPb-yw-Qe1" customClass="takeAPictureViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0CX-m9-8Ml"/>
                         <viewControllerLayoutGuide type="bottom" id="Mxy-uT-HGV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="lwV-h0-1ZB" customClass="takeAPicture">
+                    <view key="view" contentMode="scaleToFill" id="lwV-h0-1ZB">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Example-1" translatesAutoresizingMaskIntoConstraints="NO" id="WsC-Gq-mdE">
-                                <rect key="frame" x="201" y="153" width="622" height="450"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RCQ-82-3jo">
                                 <rect key="frame" x="486" y="611" width="53" height="53"/>
                                 <state key="normal" image="icon-camera-128 copy-1">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="takePhoto:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="nRD-8b-IuP"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Take a Picture" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81e-EP-6bH">
-                                <rect key="frame" x="397" y="61" width="231" height="65"/>
-                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="37"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVR-Pe-UD1">
                                 <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
                                 <items>
@@ -492,6 +487,15 @@
                                     <action selector="sendTapped:" destination="lwV-h0-1ZB" eventType="touchUpInside" id="Jls-yc-Vcq"/>
                                 </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O4l-PF-ppg">
+                                <rect key="frame" x="122" y="121" width="780" height="482"/>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Take a Picture" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81e-EP-6bH">
+                                <rect key="frame" x="397" y="61" width="231" height="65"/>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="37"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -505,6 +509,9 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="scrollView" destination="O4l-PF-ppg" id="O1g-wT-Fct"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyf-1A-BEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

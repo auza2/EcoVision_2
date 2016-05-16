@@ -20,11 +20,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
+                                                                        style:UIBarButtonItemStyleDone
+                                                                       target:self
+                                                                       action:@selector(buttonizeButtonTap:)];
+    self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // I don't know if the stuff down here is necessary
+    if ([[segue identifier] isEqualToString:@"Associate"])
+    {
+        loginViewController *loginViewController = [segue destinationViewController];
+    }
 }
 
 /*
@@ -39,6 +54,12 @@
 
 
 // Jamie's Code
+/*
+ * This is the method we call when we want to segue to the Take a Picture Scene
+ */
+-(void)buttonizeButtonTap:(id)sender{
+    [self performSegueWithIdentifier:@"Associate" sender:sender];
+}
 
 /*
  * General method to throw an alert message
@@ -64,14 +85,18 @@
     // Testing
     NSLog(@"%@: %@",serverIP.text, groupNumber.text);
     
+    
     // Checks if the user filled in the Server IP and Group Number
     if(![server  isEqual: @""] &&  ![group  isEqual: @""]){
         //If they filled in both, segue to the next scene
         NSLog(@"IF");
+        [self buttonizeButtonTap:(id)sender];
         return;
     } else {
         [self throwErrorAlert: @"Please Enter both a Server IP and a Group Number before proceeding."];
     }
-    NSLog(@"AFTER");
+    
+    
+    return;
 }
 @end
