@@ -7,6 +7,7 @@
 //
 
 #import "loginViewController.h"
+#import "takeAPictureViewController.h"
 
 @interface loginViewController ()
 
@@ -17,6 +18,9 @@
 @synthesize serverIP;
 @synthesize groupNumber;
 
+/*
+ *  I don't know why this is here.
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -28,32 +32,35 @@
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 }
 
+/*
+ * I don't know why this is here
+ */
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+/*
+ * Can use this method after buttonizeButtonTap to instantiate anything before you segue into the next scene
+ * 
+ * @param segue The name of the segue
+ */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // I don't know if the stuff down here is necessary
     if ([[segue identifier] isEqualToString:@"Associate"])
     {
-        loginViewController *loginViewController = [segue destinationViewController];
+        // Set some properties of the next view controller ( for send data )
+        takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
+        takeAPictureViewController.groupNumber = self.grpNumber;
+        takeAPictureViewController.IPAddress = self.IPAddress;
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 // Jamie's Code
+
+
 /*
  * This is the method we call when we want to segue to the Take a Picture Scene
  */
@@ -88,8 +95,11 @@
     
     // Checks if the user filled in the Server IP and Group Number
     if(![server  isEqual: @""] &&  ![group  isEqual: @""]){
-        //If they filled in both, segue to the next scene
-        NSLog(@"IF");
+        // Initializing IPAddress and Group Number
+        _IPAddress = @"%@" , server;
+        _grpNumber = [group intValue];
+        
+        // Segue to the next scene
         [self buttonizeButtonTap:(id)sender];
         return;
     } else {

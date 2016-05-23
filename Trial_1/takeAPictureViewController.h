@@ -12,8 +12,38 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageView; // why
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIProgressView *progressView;
+@property (strong, nonatomic) IBOutlet UIView *innerView;
+@property (weak, nonatomic) IBOutlet UIAlertView *progress;
+@property int groupNumber;
+@property NSString *IPAddress;
+
 
 - (IBAction)takePhoto:(id)sender;
+- (IBAction)process:(id)sender;
+- (IBAction)analyze:(id)sender;
+- (IBAction)toAnalyze:(id)sender;
+
+// Given Methods
+- (void)viewDidLoad;
+- (void)didReceiveMemoryWarning;
+
+// Throw error alert
+- (void)throwErrorAlert:(NSString*) alertString;
+
+// Used to display the picture just taken from the camera onto the main viewer
+- (void)updateScrollView:(UIImage *) img;
+
+// Used to process the picture to be analyzed
+- (void)processMap;
+- (int)threshy;
+- (int)contoury;
+- (int)warpy;
+
+
+
+
+
 
 
 @end

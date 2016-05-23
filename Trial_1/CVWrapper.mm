@@ -18,7 +18,7 @@
 
 using namespace cv;
 
-int segIndex = 0;
+int segIndex = 0; // what
 UIImage* currentImage = nil;
 UIImage* currentThreshedImage = nil;
 int a[8];
@@ -40,6 +40,7 @@ int a[8];
 }
 
 + (void) setCurrentThreshedImage:(UIImage*) img {
+    printf("We set the current image to something");
     currentThreshedImage = img;
 }
 
@@ -311,7 +312,7 @@ int a[8];
     #define PASSWORD ""
     #define DATABASE "flag"
     
-
+    // Why do we have this 
     printf("Study Number %d\nTrial Number %d\n", studyNumber, trialNumber);
     
     
@@ -368,7 +369,7 @@ int a[8];
     }
     
     resetCoords();
-    
+    printf("After reset Coords\n");
 
     if (greenPieces > 0 || redPieces > 0 || brownPieces > 0 || bluePieces > 0) return 1;
 
