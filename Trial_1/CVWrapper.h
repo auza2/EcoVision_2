@@ -38,7 +38,7 @@
 
 + (int) getSegmentIndex;
 
-+ (void) getHSVValuesfromRed:(double)r Green:(double)g Blue:(double)b H:(int*)H S:(int*)S V:(int*)V;
++ (void) getHSVValuesfromRed:(double)r Green:(double)g Blue:(double)b H:(int*)H S:(int*)S V:(int*)V; 
 
 + (UIImage *) ApplyMedianFilter: (UIImage *) img;
 

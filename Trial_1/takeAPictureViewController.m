@@ -18,6 +18,7 @@
 @synthesize scrollView;
 @synthesize progressView;
 @synthesize innerView;
+@synthesize currentImage_TAP;
 
 UIImage *threshedGlobal = nil;
 UIImage *userImage = nil;
@@ -34,7 +35,7 @@ int cornersGlobal[8];
 int studyNumber;
 
 //char results[5000];
-char results[50]; // changed to do testing
+char results[5000]; // changed to do testing
 
 
 
@@ -64,9 +65,11 @@ char results[50]; // changed to do testing
     {
         // Set some properties of the next view controller ( for send data )
         //takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
-       // analysisViewController *analysisViewController = [segue destinationViewController];
-        UIImage * test = [CVWrapper getCurrentImage];
-
+        //analysisViewController *analysisViewController = [segue destinationViewController];
+        //UIImage * test = [CVWrapper getCurrentImage]; // Doesn't work
+        currentImage_TAP = warpedGlobal;
+        analysisViewController *analysisViewController = [segue destinationViewController];
+        analysisViewController.currentImage_A = currentImage_TAP;
     }
 }
 
@@ -84,19 +87,21 @@ char results[50]; // changed to do testing
 }
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
-    /*
+    
      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     */
+     
     
     //*******To Test Image*******//
     
     // Bypass Camera and go straight to the method that updates the scrollView
+    /*
     userImage = [UIImage imageNamed:@"IMG_0040.jpg"];
     [self updateScrollView:userImage];
+     */
     
 }
 
@@ -338,10 +343,11 @@ char results[50]; // changed to do testing
 #pragma mark - Analyze
 // Analyze the picture
 - (IBAction)analyze:(id)sender {
-     UIImage * test = [CVWrapper getCurrentImage];
+
     
     // for testing
     int worked;
+
     worked = [CVWrapper analysis:warpedGlobal studyNumber: 0 trialNumber:0 results: results];
     
     if(worked) {

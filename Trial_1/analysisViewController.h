@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface analysisViewController : UIViewController
+@property (nonatomic, weak) IBOutlet UIImageView* imageView; // why
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (nonatomic,strong) UIImage * currentImage_A;
 
 - (IBAction)toCalibrate:(id)sender;
 

@@ -18,4 +18,5 @@
 @property int grpNumber;
 @property NSString *IPAddress;
 
+
 @end

@@ -21,8 +21,13 @@ UIImage *Coloured;                 // image that displays the inspected colour e
 UIImage *mean_image;               // median filtered original image
 
 UIImageView *img;
-@synthesize myTextField;
+
+
 @synthesize threshSwitch;
+
+@synthesize currentImage_S;
+@synthesize sample1;
+@synthesize BIGVIEW;
 
 #pragma mark - BGR Value
 
@@ -110,7 +115,7 @@ void RemoveBGR(BGR_List* *list)
     free(temp);
 }
 
-HSV *getHSVVal(BGR_List *list)
+HSV *getHSVVal(BGR_List *list) // Why does this only return one HSV value?
 {
     //SIDE TRACK...
     //Obtain HSV values from OpenCV Mat equivalent image with changed colorspace
@@ -123,7 +128,7 @@ HSV *getHSVVal(BGR_List *list)
     
     
     HSV *entry = (HSV*) malloc(sizeof(HSV));
-    [CVWrapper getHSVValuesfromRed:list->r Green:list->g Blue:list->b H:&H S:&S V:&V];
+    [CVWrapper getHSVValuesfromRed:list->r Green:list->g Blue:list->b H:&H S:&S V:&V]; // Why do you use getHSVValuesfromRed
     entry->h = H;
     entry->s = S;
     entry->v = V;
@@ -261,16 +266,29 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    plainImage = currentImage_S;
+    [self updateScrollView:currentImage_S];
     
-    //plainImage = [CVWrapper getCurrentImage];                                //get a copy if the normal image
+    
+    doubleTap = [[UITapGestureRecognizer alloc]
+                 initWithTarget:self
+                 action:@selector(handleDoubleTapFrom:)];
+    doubleTap.numberOfTapsRequired = 1;
+    doubleTap.delegate = self;
+    
+    [BIGVIEW addGestureRecognizer:doubleTap];
+    //Fail to implement single tap if double tap is met
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+}
 
-    // Why doesn't the getCurrentImage work?
-    
-    if(plainImage != nil){
-        mean_image = [CVWrapper ApplyMedianFilter:[CVWrapper getCurrentImage]];  //also get a copy of the median altered image
-        [self updateScrollView:plainImage];
-    }
-    
+- (void) doubleTap1:(UITapGestureRecognizer *) recognizer {
+
+    sample1.backgroundColor = UIColor.whiteColor;
+}
+
+- (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
+{
+    BIGVIEW.backgroundColor = UIColor.blackColor;
 }
 
 #pragma mark - IBAction
@@ -278,7 +296,7 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
 }
 
 /*
- * !!! Method should be changed to just send the HSV Values of Swales
+ * !!! Method should be changed to just send the HSV Values of Swales only.
  */
 - (IBAction)SendHSVVals:(id)sender {
     
@@ -422,10 +440,8 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
 - (void)stateChanged:(UISwitch *)switchState
 {
     if ([switchState isOn]) {
-        self.myTextField.text = @"The Switch is On";
         [self threshold_image];
     } else {
-        self.myTextField.text = @"The Switch is Off";
         [self un_thresh_image];
     }
 }
@@ -441,6 +457,15 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
     }
     
     //thresh either the plain image or the median filtered image
+    /* thresholds image
+     ** colorCases: 0 = green
+     **             1 = red
+     **             2 = wood
+     **             3 = blue
+     **             4 = dark green (corner markers)
+     */
+
+    [CVWrapper setSegmentIndex:0];
     threshedImage = [CVWrapper thresh:plainImage colorCase: [CVWrapper getSegmentIndex]];
     [self updateScrollView:threshedImage];
 }
@@ -535,23 +560,25 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
     
     img = [[UIImageView alloc] initWithImage:newImg];
     
-    /*
     
+    /*
     //handle pinching in/ pinching out to zoom
     img.userInteractionEnabled = YES;
     img.backgroundColor = [UIColor clearColor];
     img.contentMode =  UIViewContentModeCenter;
     //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+     */
     
     //add a tap gesture recognizer for extracting colour
+
     singleTap = [[UITapGestureRecognizer alloc]
                  initWithTarget:self
                  action:@selector(handleSingleTapFrom:)];
     singleTap.numberOfTapsRequired = 1;
-    [img addGestureRecognizer:singleTap];
+    [_scrollView addGestureRecognizer:singleTap];
     singleTap.delegate = self;
     
-    
+    /*
     //add a tap gesture recognizer for zooming in
     doubleTap = [[UITapGestureRecognizer alloc]
                  initWithTarget:self
@@ -561,7 +588,7 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
     doubleTap.delegate = self;
     //Fail to implement single tap if double tap is met
     [singleTap requireGestureRecognizerToFail:doubleTap];
-    
+    */
     
     self.scrollView.minimumZoomScale=0.5;
     self.scrollView.maximumZoomScale=15.0;
@@ -570,10 +597,80 @@ MinMaxHSV *GetMinMaxHSVfromSample(BGR_List* list)
     self.scrollView.delegate = self;
     //self.TouchableImage.contentSize=CGSizeMake(1280, 960);
     
-    */
+    
     
     //Set image on the scrollview
     [self.scrollView addSubview:img];
 }
+
+
+- (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
+{
+    printf("I am single tapping...\n");
+    
+    CGPoint point =[singleTap locationInView:self.scrollView];
+    
+    UIColor * color = [self GetCurrentPixelColorAtPoint:point];
+    sample1.backgroundColor = color;
+}
+
+- (UIColor *) GetCurrentPixelColorAtPoint:(CGPoint)point
+{
+    // Extract Colour
+    unsigned char pixel[4] = {0};
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(pixel, 1, 1, 8, 4, colorSpace, kCGBitmapAlphaInfoMask & kCGImageAlphaPremultipliedLast);
+    CGContextTranslateCTM(context, -point.x, -point.y);
+    [self.scrollView.layer renderInContext:context];
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    UIColor *color = [UIColor colorWithRed:pixel[0]/255.0 green:pixel[1]/255.0 blue:pixel[2]/255.0 alpha:pixel[3]/255.0];
+    
+    printf("The pixel[0] | Red, %d\n", pixel[0]);
+    printf("The pixel[1] | Green, %d\n", pixel[1]);
+    printf("The pixel[2] | Blue, %d\n", pixel[2]);
+    printf("The pixel[3] | Alpha, %d\n", pixel[3]);
+
+
+    const CGFloat* components = CGColorGetComponents(color.CGColor);
+    NSLog(@"Red: %f", components[0]*255.0);
+    NSLog(@"Green: %f", components[1]*255.0);
+    NSLog(@"Blue: %f", components[2]*255.0);
+    NSLog(@"Alpha: %f", CGColorGetAlpha(color.CGColor)*255.0);
+    
+    //Save the BGR values of the pixel coordinates
+    clickedSegment = [CVWrapper getSegmentIndex];
+    
+    /* CHANGE SO IT DOESNT ADD
+    switch (clickedSegment) {
+        case 1:
+            printf("Extracting Sample for the colour red!!!\n");
+            insertNewBGR2(&RedSample,(double)pixel[2], (double)pixel[1], (double)pixel[0], (double)pixel[3]);
+            break;
+        case 0:
+            printf("Extracting Sample for the colour green!!!\n");
+            insertNewBGR2(&GreenSample,(double)pixel[2], (double)pixel[1], (double)pixel[0], (double)pixel[3]);
+            break;
+        case 3:
+            printf("Extracting Sample for the colour blue!!!\n");
+            insertNewBGR2(&BlueSample,(double)pixel[2], (double)pixel[1], (double)pixel[0], (double)pixel[3]);
+            break;
+        case 2:
+            printf("Extracting Sample for the colour brown!!!\n");
+            insertNewBGR2(&BrownSample,(double)pixel[2], (double)pixel[1], (double)pixel[0], (double)pixel[3]);
+            break;
+        case 4:
+            printf("Extracting Sample for a Corner Marker!!!\n");
+            insertNewBGR2(&CornerMarkers,(double)pixel[2], (double)pixel[1], (double)pixel[0], (double)pixel[3]);
+            break;
+        default:
+            break;
+    }
+    */
+    
+    return color;
+}
+
 
 @end
