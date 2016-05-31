@@ -46,13 +46,14 @@ UIImage* plainImage2 = nil;
         
         
         UINavigationController *navController = [segue destinationViewController];
-        
+        /*
         Swale *swale = navController.viewControllers[0];
         swale.currentImage_S = plainImage2;
         
         GreenRoof *greenRoof = navController.viewControllers[2];
         greenRoof.currentImage_GR  = plainImage2;
         
+        */
        // Swale *swale = (Swale *)navController.topViewController; //BREAKS
 
     }
