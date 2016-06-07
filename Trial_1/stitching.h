@@ -32,4 +32,7 @@ void getHSV_Values(int input[]);
 
 void setHSV_Values(int input[]);
 
+int* getCoords();
+int getCoordCount();
+
 #endif

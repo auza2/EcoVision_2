@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PermeablePaver : UIViewController
+@interface PermeablePaver : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
-@property (weak, nonatomic) IBOutlet UIButton *removeAllSamples;
+
+- (IBAction)removeAll:(id)sender;
 
 @end

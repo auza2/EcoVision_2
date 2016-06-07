@@ -13,6 +13,7 @@
 
 #import "CVWrapper.h"
 #import "UIImage+OpenCV.h"
+#import "Coordinate.h"
 #import "stitching.h"
 #import <math.h>
 
@@ -22,6 +23,16 @@ int segIndex = 0; // what
 UIImage* currentImage = nil;
 UIImage* currentThreshedImage = nil;
 int a[8];
+
+int redPieces = 0;
+int bluePieces = 0;
+int greenPieces = 0;
+int brownPieces = 0;
+
+NSMutableArray* coordinatesOfRainBarrels = [NSMutableArray array];
+NSMutableArray* coordinatesOfPermeablePavers = [NSMutableArray array];
+NSMutableArray* coordinatesOfSwales = [NSMutableArray array];
+NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
 
 @implementation CVWrapper
 
@@ -303,6 +314,73 @@ int a[8];
     return width;
 }
 
+#pragma -mark Getting Coordinates
+
++(void) initCoordinates{
+    NSMutableArray* coordinatesOfPieces = [NSMutableArray array];
+    
+    // Call in stitching.cpp a method
+    int * coordinatesAsIntArray;
+    coordinatesAsIntArray = getCoords();
+    int coordCount = getCoordCount();
+    
+    // Distributing Coordinates to proper NSMutableArray
+    printf("Printing from CVWrapper.mm -- 1 \n");
+    for( int i = 0 ; i < coordCount * 2 ; i = i+2){
+        Coordinate * c;
+        c = [[Coordinate alloc] initWithXCoord:coordinatesAsIntArray[i] YCoord:coordinatesAsIntArray[i+1]];
+        
+        if( i >= 0  && i <= (greenPieces-1) * 2 )
+            [coordinatesOfSwales addObject:c];
+        else if( i >= greenPieces * 2  && i < (greenPieces + redPieces) * 2 )
+            [coordinatesOfRainBarrels addObject:c];
+        else if( i >= (greenPieces + redPieces)*2 && i < (greenPieces + redPieces + brownPieces) * 2)
+            [coordinatesOfGreenRoofs addObject:c];
+        else
+            [coordinatesOfPermeablePavers addObject:c];
+
+    }
+    
+    
+    // Testing
+    /*
+    printf("Printing from CVWrapper.mm -- Swales \n");
+    for( Coordinate * coord in coordinatesOfSwales){
+         printf("X = %i, Y = %i \n",[coord getX],[coord getY] );
+    }
+    printf("Printing from CVWrapper.mm -- Rain Barrels \n");
+    for( Coordinate * coord in coordinatesOfRainBarrels){
+        printf("X = %i, Y = %i \n",[coord getX],[coord getY] );
+    }
+    printf("Printing from CVWrapper.mm -- Green Roofs \n");
+    for( Coordinate * coord in coordinatesOfGreenRoofs){
+        printf("X = %i, Y = %i \n",[coord getX],[coord getY] );
+    }
+    printf("Printing from CVWrapper.mm -- Permeable Pavers \n");
+    for( Coordinate * coord in coordinatesOfPermeablePavers){
+        printf("X = %i, Y = %i \n",[coord getX],[coord getY] );
+    }
+    printf("End printing from CVWrapper.mm\n");
+     */
+}
+
++(NSMutableArray*) getSwaleCoordinates{
+    return coordinatesOfSwales;
+}
+
++ (NSMutableArray*) getRainBarrelCoordinates{
+    return coordinatesOfRainBarrels;
+}
+
++ (NSMutableArray*) getPermeablePaverCoordinates{
+    return coordinatesOfPermeablePavers;
+}
+
++ (NSMutableArray*) getGreenRoofCoordinates{
+    return coordinatesOfGreenRoofs;
+}
+
+#pragma -mark Analysis
 
 +(int) analysis:(UIImage *)src studyNumber:(int)studyNumber trialNumber:(int) trialNumber results:(char *)results{
     
@@ -316,13 +394,13 @@ int a[8];
     printf("Study Number %d\nTrial Number %d\n", studyNumber, trialNumber);
     
     
-    int				calibrate = 0;
+    int	calibrate = 0;
 
     
-    int redPieces = 0;
-    int bluePieces = 0;
-    int greenPieces = 0;
-    int brownPieces = 0;
+    redPieces = 0;
+    bluePieces = 0;
+    greenPieces = 0;
+    brownPieces = 0;
     
     bool writeToFile = false;
     
@@ -346,7 +424,7 @@ int a[8];
             cvShowImage(windowName, imgThresh);
         }
         //cvResizeWindow(windowName , imgGreenThresh->width/2, imgGreenThresh->height/2);
-        int result = DetectAndDrawQuads(imgThresh, ipl_src, 0, i, writeToFile, calibrate, results);
+        int result = DetectAndDrawQuads(imgThresh, ipl_src, 0, i, writeToFile, calibrate, results); 
         
         switch(i){
             case 0:
@@ -367,6 +445,8 @@ int a[8];
                 break;
         }
     }
+    
+    [self initCoordinates]; // Initializes all NSMutableArrays of Coordinates
     
     resetCoords();
     printf("After reset Coords\n");

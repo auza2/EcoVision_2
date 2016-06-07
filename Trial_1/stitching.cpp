@@ -59,7 +59,7 @@ struct COORDS {
 #include "stitching.h"
 #include <iostream>
 #include <fstream>
-#include "opencv2/highgui/highgui.hpp" //WHAT ARE THESE AND WHY DO I GET AN ERROR :C
+#include "opencv2/highgui/highgui.hpp" 
 #include "opencv2/stitching/stitcher.hpp"
 #include <stdio.h>
 
@@ -209,12 +209,18 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                     }
                 }
 
+                /* Moved this down
                 coords[coordCount].x = x;
                 coords[coordCount].y = y;
                 coordCount++;
-
+                 */
                 
                 if(coordRepeat == 0) {
+                    
+                    coords[coordCount].x = x;
+                    coords[coordCount].y = y;
+                    coordCount++;
+                    
                     numPieces++;
                     if(calibrate == 1){
                         //cvDestroyWindow(windowName);
@@ -249,7 +255,7 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                     // printf("%d\n", stringCount);
                     
                     // print output to console
-                    printf("%d, %d, %d\n", colorCase, x, 24-y);
+                    printf("%d, %d, %d\n", colorCase, x, 24-y); // THIS IS WHERE WE ACTUALLY PRINT
                 }
                 
                //printf("%d %d\n", coords[coordCount-1].x, coords[coordCount-1].y);
@@ -264,6 +270,8 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
     return numPieces;
 }
 
+
+
 void resetResults(char results[]) {
     int i = 0;
     while (results[i] != '\0') {
@@ -272,13 +280,33 @@ void resetResults(char results[]) {
     stringCount = 0;
 }
 
+// FINISH
+int* getCoords(){
+    // Shave coords down to the minimal amount held in coord count :)
+    // return coords
+    int * coordinatesAsArray = new int[coordCount*2];
+    for( int i = 0; i < coordCount ; i++){
+        coordinatesAsArray[i*2]= coords[i].x;
+        coordinatesAsArray[i*2+1]= 24 - coords[i].y;
+    }
+    printf("Printing from stitching.cpp\n");
+    for (int i = 0; i < coordCount; i = i+2){
+        printf("X = %i, Y = %i \n",coordinatesAsArray[i],coordinatesAsArray[i+1] );
+    }
+    printf("End Printing from stitching.cpp\n");
+    return coordinatesAsArray;
+}
+
+int getCoordCount(){
+    return coordCount;
+}
+
 void resetCoords() {
     int i;
     for(i = 0; i < coordCount; i++) {
         coords[i].x = 0;
         coords[i].y = 0;
     }
-    
     coordCount = 0;
 }
 
@@ -411,4 +439,6 @@ int getCorners(IplImage * img, IplImage * original, CvPoint pts[], int frameNumb
     cvReleaseMemStorage(&storage);
     return ptsIndex;
 }
+
+
 

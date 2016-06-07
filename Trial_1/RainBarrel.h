@@ -1,18 +1,17 @@
 //
-//  Swale.h
+//  RainBarrel.h
 //  Trial_1
 //
-//  Created by Jamie Auza on 5/20/16.
+//  Created by Jamie Auza on 5/31/16.
 //  Copyright © 2016 Jamie Auza. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface Swale : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface RainBarrel : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
-@property (nonatomic,strong) UIImage * currentImage_S;
+@property (nonatomic,strong) UIImage * currentImage_RB;
 
 @property (weak, nonatomic) IBOutlet UIImageView *sample1;
 @property (weak, nonatomic) IBOutlet UIImageView *sample2;
@@ -25,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
 - (IBAction)removeAll:(id)sender;
-
-- (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer;
+@property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
 @end

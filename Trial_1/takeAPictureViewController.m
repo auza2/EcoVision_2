@@ -159,11 +159,18 @@ char results[5000]; // changed to do testing
     [self.scrollView addSubview:newView];
     self.scrollView.backgroundColor = [UIColor whiteColor];
     self.scrollView.contentSize = self.imageView.bounds.size;
-    self.scrollView.maximumZoomScale = 4.0;
+    self.scrollView.maximumZoomScale = 6.0;
     self.scrollView.minimumZoomScale = 0.5;
+    
+    self.scrollView.clipsToBounds = YES;
+    self.scrollView.delegate = self;
+    
     self.scrollView.contentOffset = CGPointMake(-(self.scrollView.bounds.size.width-self.imageView.bounds.size.width)/2, -(self.scrollView.bounds.size.height-self.imageView.bounds.size.height)/2);
     [self.scrollView addSubview:newView];
     //Set image on the scrollview
+}
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return _imageView;
 }
 
 /*
@@ -349,6 +356,7 @@ char results[5000]; // changed to do testing
     int worked;
 
     worked = [CVWrapper analysis:warpedGlobal studyNumber: 0 trialNumber:0 results: results];
+    // After they analyze they reset the coords
     
     if(worked) {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"We found your pieces!" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];

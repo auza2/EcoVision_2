@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface takeAPictureViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface takeAPictureViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageView; // why
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -37,6 +37,7 @@
 
 // Used to display the picture just taken from the camera onto the main viewer
 - (void)updateScrollView:(UIImage *) img;
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView;
 
 // Used to process the picture to be analyzed
 - (void)processMap;

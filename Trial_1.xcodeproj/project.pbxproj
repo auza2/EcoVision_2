@@ -21,7 +21,6 @@
 		7D2622C71CEF825B008E0F39 /* IMG_0040.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 7D2622C61CEF825B008E0F39 /* IMG_0040.JPG */; };
 		7D2622CD1CEF95BB008E0F39 /* analysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2622CC1CEF95BB008E0F39 /* analysisViewController.m */; };
 		7D2622D31CEFCE51008E0F39 /* Swale.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2622D21CEFCE51008E0F39 /* Swale.m */; };
-		7D2622D91CEFCF40008E0F39 /* HSVValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2622D81CEFCF40008E0F39 /* HSVValue.m */; };
 		7D47450C1CED352500CDA2A7 /* IMG_0030.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D47450B1CED352500CDA2A7 /* IMG_0030.jpg */; };
 		7D58FCD21CFD0D8D006E5A38 /* PermeablePaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58FCD11CFD0D8D006E5A38 /* PermeablePaver.m */; };
 		7D7835261CE1BBC0003CB313 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D7835251CE1BBC0003CB313 /* Main.storyboard */; };
@@ -33,8 +32,11 @@
 		7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D7D82051CC53FF6004D8BC2 /* LaunchScreen.storyboard */; };
 		7D7D82121CC53FF6004D8BC2 /* Trial_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D82111CC53FF6004D8BC2 /* Trial_1Tests.m */; };
 		7D7D821D1CC53FF6004D8BC2 /* Trial_1UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */; };
+		7DAFB4EC1CFDE28F00AC4204 /* RainBarrel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */; };
 		7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DC34F551CEA95900069C04F /* IMG_0001.jpg */; };
 		7DC3E6B71CF9073500D0FCC0 /* GreenRoof.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */; };
+		7DE7EEB81D00C1AF00724596 /* Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7EEB71D00C1AF00724596 /* Coordinate.m */; };
+		7DE7EEBA1D03880C00724596 /* watermark.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DE7EEB91D03880C00724596 /* watermark.png */; };
 		7DFCA6151CE52BF8003262CC /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFCA6141CE52BF8003262CC /* loginViewController.m */; };
 		7DFCA6181CE53D85003262CC /* takeAPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFCA6171CE53D85003262CC /* takeAPictureViewController.m */; };
 /* End PBXBuildFile section */
@@ -77,8 +79,6 @@
 		7D2622CC1CEF95BB008E0F39 /* analysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = analysisViewController.m; sourceTree = "<group>"; };
 		7D2622D11CEFCE51008E0F39 /* Swale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Swale.h; sourceTree = "<group>"; };
 		7D2622D21CEFCE51008E0F39 /* Swale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Swale.m; sourceTree = "<group>"; };
-		7D2622D71CEFCF40008E0F39 /* HSVValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSVValue.h; sourceTree = "<group>"; };
-		7D2622D81CEFCF40008E0F39 /* HSVValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSVValue.m; sourceTree = "<group>"; };
 		7D47450B1CED352500CDA2A7 /* IMG_0030.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0030.jpg; sourceTree = "<group>"; };
 		7D58FCD01CFD0D8D006E5A38 /* PermeablePaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PermeablePaver.h; sourceTree = "<group>"; };
 		7D58FCD11CFD0D8D006E5A38 /* PermeablePaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PermeablePaver.m; sourceTree = "<group>"; };
@@ -99,9 +99,14 @@
 		7D7D82181CC53FF6004D8BC2 /* Trial_1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Trial_1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Trial_1UITests.m; sourceTree = "<group>"; };
 		7D7D821E1CC53FF6004D8BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DAFB4EA1CFDE28F00AC4204 /* RainBarrel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainBarrel.h; sourceTree = "<group>"; };
+		7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainBarrel.m; sourceTree = "<group>"; };
 		7DC34F551CEA95900069C04F /* IMG_0001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0001.jpg; sourceTree = "<group>"; };
 		7DC3E6B51CF9073500D0FCC0 /* GreenRoof.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GreenRoof.h; sourceTree = "<group>"; };
 		7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenRoof.m; sourceTree = "<group>"; };
+		7DE7EEB61D00C1AF00724596 /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
+		7DE7EEB71D00C1AF00724596 /* Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coordinate.m; sourceTree = "<group>"; };
+		7DE7EEB91D03880C00724596 /* watermark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watermark.png; path = ../../watermark.png; sourceTree = "<group>"; };
 		7DFCA6131CE52BF8003262CC /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
 		7DFCA6141CE52BF8003262CC /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
 		7DFCA6161CE53D85003262CC /* takeAPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = takeAPictureViewController.h; sourceTree = "<group>"; };
@@ -195,12 +200,14 @@
 				7D2622D21CEFCE51008E0F39 /* Swale.m */,
 				7DC3E6B51CF9073500D0FCC0 /* GreenRoof.h */,
 				7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */,
+				7DAFB4EA1CFDE28F00AC4204 /* RainBarrel.h */,
+				7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */,
 				7D58FCD01CFD0D8D006E5A38 /* PermeablePaver.h */,
 				7D58FCD11CFD0D8D006E5A38 /* PermeablePaver.m */,
 				7D1323F31CE5616100440F4F /* CVWrapper.h */,
 				7D1323F41CE5616100440F4F /* CVWrapper.mm */,
-				7D2622D71CEFCF40008E0F39 /* HSVValue.h */,
-				7D2622D81CEFCF40008E0F39 /* HSVValue.m */,
+				7DE7EEB61D00C1AF00724596 /* Coordinate.h */,
+				7DE7EEB71D00C1AF00724596 /* Coordinate.m */,
 				7D1323F61CE561C900440F4F /* UIImage+OpenCV.h */,
 				7D1323F71CE561C900440F4F /* UIImage+OpenCV.mm */,
 				7D1323FA1CE5651100440F4F /* stitching.h */,
@@ -217,6 +224,7 @@
 		7D7D81F41CC53FF6004D8BC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7DE7EEB91D03880C00724596 /* watermark.png */,
 				7D2622C61CEF825B008E0F39 /* IMG_0040.JPG */,
 				7D7D81F51CC53FF6004D8BC2 /* main.m */,
 				7D47450B1CED352500CDA2A7 /* IMG_0030.jpg */,
@@ -351,6 +359,7 @@
 				7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */,
 				7D47450C1CED352500CDA2A7 /* IMG_0030.jpg in Resources */,
 				7D7835261CE1BBC0003CB313 /* Main.storyboard in Resources */,
+				7DE7EEBA1D03880C00724596 /* watermark.png in Resources */,
 				7D2622C71CEF825B008E0F39 /* IMG_0040.JPG in Resources */,
 				7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */,
 				7D7D82041CC53FF6004D8BC2 /* Assets.xcassets in Resources */,
@@ -381,16 +390,17 @@
 				7D7D82021CC53FF6004D8BC2 /* Trial_1.xcdatamodeld in Sources */,
 				7D2622D31CEFCE51008E0F39 /* Swale.m in Sources */,
 				7D1323FB1CE5651100440F4F /* stitching.cpp in Sources */,
-				7D2622D91CEFCF40008E0F39 /* HSVValue.m in Sources */,
 				7D1323F81CE561C900440F4F /* UIImage+OpenCV.mm in Sources */,
 				7D7D81FC1CC53FF6004D8BC2 /* ViewController.m in Sources */,
 				7DC3E6B71CF9073500D0FCC0 /* GreenRoof.m in Sources */,
+				7DAFB4EC1CFDE28F00AC4204 /* RainBarrel.m in Sources */,
 				7D2622CD1CEF95BB008E0F39 /* analysisViewController.m in Sources */,
 				7DFCA6151CE52BF8003262CC /* loginViewController.m in Sources */,
 				7DFCA6181CE53D85003262CC /* takeAPictureViewController.m in Sources */,
 				7D58FCD21CFD0D8D006E5A38 /* PermeablePaver.m in Sources */,
 				7D7D81F91CC53FF6004D8BC2 /* AppDelegate.m in Sources */,
 				7D1323F51CE5616100440F4F /* CVWrapper.mm in Sources */,
+				7DE7EEB81D00C1AF00724596 /* Coordinate.m in Sources */,
 				7D7D81F61CC53FF6004D8BC2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

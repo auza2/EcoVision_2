@@ -1,29 +1,27 @@
 //
-//  GreenRoof.m
+//  RainBarrel.m
 //  Trial_1
 //
-//  Created by Jamie Auza on 5/27/16.
+//  Created by Jamie Auza on 5/31/16.
 //  Copyright © 2016 Jamie Auza. All rights reserved.
 //
 
-#import "GreenRoof.h"
+#import "RainBarrel.h"
 #import "CVWrapper.h"
 
+@implementation RainBarrel
+UITapGestureRecognizer * singleTap_RB; // tap that recognizes color extraction
+UITapGestureRecognizer * doubleTap_RB; // tap that recognizes removal of sample
 
-@implementation GreenRoof
+UIImage* plainImage_RB = nil;
+UIImageView * img_RB;
+UIImage* threshedImage_RB = nil;
 
-UITapGestureRecognizer * singleTap_GR; // tap that recognizes color extraction
-UITapGestureRecognizer * doubleTap_GR; // tap that recognizes removal of sample
+NSMutableArray * RainBarrelSamples;
+NSMutableArray * sampleImages_RB;
 
-UIImage* plainImage_GR = nil;
-UIImageView * img_GR;
-UIImage* threshedImage_GR = nil;
-
-NSMutableArray * GreenRoofSamples;
-NSMutableArray * sampleImages_GR;
-
-int highHue, highSaturation, highVal;
-int lowHue, lowSaturation, lowVal;
+int highHue_RB, highSaturation_RB, highVal_RB;
+int lowHue_RB, lowSaturation_RB, lowVal_RB;
 
 @synthesize sample1;
 @synthesize sample2;
@@ -37,7 +35,7 @@ int lowHue, lowSaturation, lowVal;
 
 
 
-long int clickedSegment_GR;
+long int clickedSegment_RB;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,22 +63,22 @@ long int clickedSegment_GR;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    plainImage_GR = _currentImage_GR;
+    plainImage_RB = _currentImage_RB;
     
-    [self updateScrollView:_currentImage_GR];
+    [self updateScrollView:_currentImage_RB];
     
-    GreenRoofSamples = [NSMutableArray array];
-    sampleImages_GR = [NSMutableArray array];
+    RainBarrelSamples = [NSMutableArray array];
+    sampleImages_RB = [NSMutableArray array];
     
-    [sampleImages_GR addObject:sample1];
-    [sampleImages_GR addObject:sample2];
-    [sampleImages_GR addObject:sample3];
-    [sampleImages_GR addObject:sample4];
-    [sampleImages_GR addObject:sample5];
-    [sampleImages_GR addObject:sample6];
-    [sampleImages_GR addObject:sample7];
-    [sampleImages_GR addObject:sample8];
-    [sampleImages_GR addObject:sample9];
+    [sampleImages_RB addObject:sample1];
+    [sampleImages_RB addObject:sample2];
+    [sampleImages_RB addObject:sample3];
+    [sampleImages_RB addObject:sample4];
+    [sampleImages_RB addObject:sample5];
+    [sampleImages_RB addObject:sample6];
+    [sampleImages_RB addObject:sample7];
+    [sampleImages_RB addObject:sample8];
+    [sampleImages_RB addObject:sample9];
     
     // Necessary to find where to put the sampled color
     sample1.backgroundColor = UIColor.whiteColor;
@@ -95,33 +93,33 @@ long int clickedSegment_GR;
     
     
     // Initializing the Tap Gestures
-    singleTap_GR = [[UITapGestureRecognizer alloc]
+    singleTap_RB = [[UITapGestureRecognizer alloc]
                     initWithTarget:self
                     action:@selector(handleSingleTapFrom:)];
-    singleTap_GR.numberOfTapsRequired = 1;
-    [_scrollView addGestureRecognizer:singleTap_GR];
-    singleTap_GR.delegate = self;
+    singleTap_RB.numberOfTapsRequired = 1;
+    [_scrollView addGestureRecognizer:singleTap_RB];
+    singleTap_RB.delegate = self;
     
     
-    doubleTap_GR = [[UITapGestureRecognizer alloc]
+    doubleTap_RB = [[UITapGestureRecognizer alloc]
                     initWithTarget:self
                     action:@selector(handleDoubleTapFrom:)];
-    doubleTap_GR.numberOfTapsRequired = 2;
-    doubleTap_GR.delegate = self;
+    doubleTap_RB.numberOfTapsRequired = 2;
+    doubleTap_RB.delegate = self;
     
     //Fail to implement single tap if double tap is met
-    [singleTap_GR requireGestureRecognizerToFail:doubleTap_GR];
+    [singleTap_RB requireGestureRecognizerToFail:doubleTap_RB];
     
     
     // Adding a Double Tap Gesture for all the Sample Views for the Ability to remove
-    for( UIImageView * sampleView in sampleImages_GR ){
-        UITapGestureRecognizer * doubleTap_GRTEST = [[UITapGestureRecognizer alloc]
-                        initWithTarget:self
-                        action:@selector(handleDoubleTapFrom:)];
-        doubleTap_GRTEST.numberOfTapsRequired = 2;
-        doubleTap_GRTEST.delegate = self;
+    for( UIImageView * sampleView in sampleImages_RB ){
+        UITapGestureRecognizer * doubleTap_RBTEST = [[UITapGestureRecognizer alloc]
+                                                     initWithTarget:self
+                                                     action:@selector(handleDoubleTapFrom:)];
+        doubleTap_RBTEST.numberOfTapsRequired = 2;
+        doubleTap_RBTEST.delegate = self;
         [sampleView setUserInteractionEnabled:YES];
-        [sampleView addGestureRecognizer: doubleTap_GRTEST];
+        [sampleView addGestureRecognizer: doubleTap_RBTEST];
     }
     
 }
@@ -133,13 +131,13 @@ long int clickedSegment_GR;
  */
 - (void) updateScrollView:(UIImage *) newImg {
     //MAKE SURE THAT IMAGE VIEW IS REMOVED IF IT EXISTS ON SCROLLVIEW!!
-    if (img_GR != nil)
+    if (img_RB != nil)
     {
-        [img_GR removeFromSuperview];
+        [img_RB removeFromSuperview];
         
     }
     
-    img_GR = [[UIImageView alloc] initWithImage:newImg];
+    img_RB = [[UIImageView alloc] initWithImage:newImg];
     
     
     /*
@@ -155,7 +153,7 @@ long int clickedSegment_GR;
     
     self.scrollView.minimumZoomScale=0.5;
     self.scrollView.maximumZoomScale=15.0;
-    self.scrollView.contentSize = CGSizeMake(img_GR.frame.size.width+100, img_GR.frame.size.height+100);
+    self.scrollView.contentSize = CGSizeMake(img_RB.frame.size.width+100, img_RB.frame.size.height+100);
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
     //self.TouchableImage.contentSize=CGSizeMake(1280, 960);
@@ -163,22 +161,22 @@ long int clickedSegment_GR;
     
     
     //Set image on the scrollview
-    [self.scrollView addSubview:img_GR];
+    [self.scrollView addSubview:img_RB];
 }
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
 {
     printf("I am single tapping...\n");
     
-    CGPoint point =[singleTap_GR locationInView:self.scrollView];
+    CGPoint point =[singleTap_RB locationInView:self.scrollView];
     
     UIColor * color = [self GetCurrentPixelColorAtPoint:point];
     
     // Find the first view that has no color and add the color we found
-    for (UIImageView * view in sampleImages_GR) {
+    for (UIImageView * view in sampleImages_RB) {
         if( [view.backgroundColor isEqual:UIColor.whiteColor]){
             view.backgroundColor = color;
-            [GreenRoofSamples addObject:color];
+            [RainBarrelSamples addObject:color];
             break;
         }
     }
@@ -190,12 +188,12 @@ long int clickedSegment_GR;
     UIView *view = recognizer.view;
     
     Boolean removed = false;
-    // Finds the color in the GreenRoofSamples array and removes it
-    for (UIColor * color in GreenRoofSamples) {
+    // Finds the color in the RainBarrelSamples array and removes it
+    for (UIColor * color in RainBarrelSamples) {
         if( [color isEqual:view.backgroundColor]){
-            [GreenRoofSamples removeObject:color];
+            [RainBarrelSamples removeObject:color];
             printf("Removed a color\n");
-            printf("Green Samples has %i things", GreenRoofSamples.count);
+            printf("Green Samples has %i things", RainBarrelSamples.count);
             removed = true;
             break;
         }
@@ -228,12 +226,12 @@ long int clickedSegment_GR;
 #pragma -mark Action Buttons
 
 - (IBAction)removeAll:(id)sender {
-    [GreenRoofSamples removeAllObjects];
-    for( UIImageView * sample in sampleImages_GR){
+    [RainBarrelSamples removeAllObjects];
+    for( UIImageView * sample in sampleImages_RB){
         sample.backgroundColor = UIColor.whiteColor;
     }
     [self setDefaultHSV];
-    printf("Green Samples has %i things \n", GreenRoofSamples.count);
+    printf("Green Samples has %i things \n", RainBarrelSamples.count);
 }
 
 #pragma mark - Threshold
@@ -253,7 +251,7 @@ long int clickedSegment_GR;
  * Threshold
  */
 - (void) threshold_image{
-    if (plainImage_GR == nil) {
+    if (plainImage_RB == nil) {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"No image to threshold!" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
         [alert show];
         return;
@@ -262,26 +260,26 @@ long int clickedSegment_GR;
     //thresh either the plain image or the median filtered image
     /* thresholds image
      ** colorCases: 0 = green
-     **             1 = red
-     **             2 = wood <--
+     **             1 = red  <--
+     **             2 = wood
      **             3 = blue
      **             4 = dark green (corner markers)
      */
     
-    [CVWrapper setSegmentIndex:2];
+    [CVWrapper setSegmentIndex:1];
     [self changeHSVVals];
-    threshedImage_GR = [CVWrapper thresh:plainImage_GR colorCase: [CVWrapper getSegmentIndex]];
-    [self updateScrollView:threshedImage_GR];
+    threshedImage_RB = [CVWrapper thresh:plainImage_RB colorCase: 1];
+    [self updateScrollView:threshedImage_RB];
 }
 
 /*
  * UnThreshold
  */
 - (void) un_thresh_image{
-    if (img_GR != nil && (img_GR.image != plainImage_GR))
+    if (img_RB != nil && (img_RB.image != plainImage_RB))
     {
         printf("Reseting to unthreshed image\n");
-        [self updateScrollView:plainImage_GR];
+        [self updateScrollView:plainImage_RB];
     }
 }
 
@@ -308,10 +306,10 @@ long int clickedSegment_GR;
     if(error) {
         NSLog(@"File reading error: default hsv values loaded");
         int hsvDefault[] = {10, 80, 50, 200, 50, 255,       // Green (Swale)
-                            80, 175, 140, 255, 100, 255,    // Red (Rain Barrel
-                            90, 110, 40, 100, 120, 225,     // Brown (Green Roof)
-                            0, 15, 30, 220, 50, 210,        // Blue (Permeable Paver)
-                            15, 90, 35, 200, 35, 130};      // Dark Green (Corner Markers)
+            80, 175, 140, 255, 100, 255,    // Red (Rain Barrel
+            90, 110, 40, 100, 120, 225,     // Brown (Green Roof)
+            0, 15, 30, 220, 50, 210,        // Blue (Permeable Paver)
+            15, 90, 35, 200, 35, 130};      // Dark Green (Corner Markers)
         [CVWrapper setHSV_Values:hsvDefault];
         return;
     }
@@ -328,26 +326,34 @@ long int clickedSegment_GR;
 }
 
 - (void) changeHSVVals{
-    int caseNum = 2;
+    /* thresholds image
+     ** colorCases: 0 = green
+     **             1 = red  <--
+     **             2 = wood
+     **             3 = blue
+     **             4 = dark green (corner markers)
+     */
+
+    int caseNum = 1;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (GreenRoofSamples == NULL)
+    if (RainBarrelSamples == NULL)
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
         [alert show];
     }
     
     // Find the High and Low Values
-    [self setHighandLowValues];
+    [self setHighandlowVal_RBues];
     
     // changes the values by the CVWrapper
-    vals[caseNum * 6] = lowHue;
-    vals[caseNum * 6 + 1] = highHue;
-    vals[caseNum * 6 + 2] = lowSaturation;
-    vals[caseNum * 6 + 3] = highSaturation;
-    vals[caseNum * 6 + 4] = lowVal;
-    vals[caseNum * 6 + 5] = highVal;
+    vals[caseNum * 6] = lowHue_RB;
+    vals[caseNum * 6 + 1] = highHue_RB;
+    vals[caseNum * 6 + 2] = lowSaturation_RB;
+    vals[caseNum * 6 + 3] = highSaturation_RB;
+    vals[caseNum * 6 + 4] = lowVal_RB;
+    vals[caseNum * 6 + 5] = highVal_RB;
     
     [CVWrapper setHSV_Values:vals];
 }
@@ -355,51 +361,52 @@ long int clickedSegment_GR;
 /*
  * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
  */
--(void) setHighandLowValues{
+-(void) setHighandlowVal_RBues{
     int H_Sample;
     int S_Sample;
     int V_Sample;
     
-    for( UIColor * color in GreenRoofSamples) {
+    for( UIColor * color in RainBarrelSamples) {
         const CGFloat* components = CGColorGetComponents(color.CGColor);
         
         int red = components[0]*255.0;
         int green = components[1]*255.0;
         int blue = components[2]*255.0;
         /*
-        NSLog(@"Red: %f", components[0]*255.0);
-        NSLog(@"Green: %f", components[1]*255.0);
-        NSLog(@"Blue: %f", components[2]*255.0);
-        NSLog(@"Alpha: %f", CGColorGetAlpha(color.CGColor)*255.0);
-        */
+         NSLog(@"Red: %f", components[0]*255.0);
+         NSLog(@"Green: %f", components[1]*255.0);
+         NSLog(@"Blue: %f", components[2]*255.0);
+         NSLog(@"Alpha: %f", CGColorGetAlpha(color.CGColor)*255.0);
+         */
         [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
         
         /*
-        NSLog(@"___________________________________");
-        NSLog(@"Hue Sample: %i",H_Sample);
-        NSLog(@"Saturation Sample: %i", S_Sample);
-        NSLog(@"Value Sample: %i", V_Sample);
-        */
+         NSLog(@"___________________________________");
+         NSLog(@"Hue Sample: %i",H_Sample);
+         NSLog(@"Saturation Sample: %i", S_Sample);
+         NSLog(@"Value Sample: %i", V_Sample);
+         */
         
-        highHue = ( highHue < H_Sample ) ? H_Sample : highHue ;
-        highSaturation = ( highSaturation < S_Sample ) ? S_Sample : highSaturation ;
-        highVal = ( highVal < V_Sample ) ? V_Sample : highVal ;
+        highHue_RB = ( highHue_RB < H_Sample ) ? H_Sample : highHue_RB ;
+        highSaturation_RB = ( highSaturation_RB < S_Sample ) ? S_Sample : highSaturation_RB ;
+        highVal_RB = ( highVal_RB < V_Sample ) ? V_Sample : highVal_RB ;
         
-        lowHue = ( lowHue > H_Sample ) ? H_Sample : lowHue ;
-        lowSaturation = ( lowSaturation > S_Sample ) ? S_Sample : lowSaturation ;
-        lowVal = ( lowVal > V_Sample ) ? V_Sample : lowVal;
+        lowHue_RB = ( lowHue_RB > H_Sample ) ? H_Sample : lowHue_RB ;
+        lowSaturation_RB = ( lowSaturation_RB > S_Sample ) ? S_Sample : lowSaturation_RB ;
+        lowVal_RB = ( lowVal_RB > V_Sample ) ? V_Sample : lowVal_RB;
         
     }
 }
 
 - (void) setDefaultHSV{
-    lowHue = 90;
-    highHue = 110;
+ 
+    lowHue_RB = 80;
+    highHue_RB = 175;
     
-    lowSaturation = 40;
-    highSaturation = 100;
+    lowSaturation_RB = 140;
+    highSaturation_RB = 255;
     
-    lowVal = 120;
-    highVal = 225;
+    lowVal_RB = 100;
+    highVal_RB = 255;
 }
 @end

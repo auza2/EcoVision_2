@@ -42,4 +42,11 @@
 
 + (UIImage *) ApplyMedianFilter: (UIImage *) img;
 
++ (void) initCoordinates;
++ (NSMutableArray*) getSwaleCoordinates;
++ (NSMutableArray*) getRainBarrelCoordinates;
++ (NSMutableArray*) getPermeablePaverCoordinates;
++ (NSMutableArray*) getGreenRoofCoordinates;
+
+
 @end
