@@ -293,6 +293,11 @@ int pressedButton = -1;
         rainBarrel.currentImage_RB = plainImage2;
         
      }
+    
+    if ([[segue identifier] isEqualToString:@"toBack"])
+    {
+        
+    }
 }
 
 /*
@@ -369,5 +374,15 @@ int pressedButton = -1;
     }
     
     NSLog(@"Pressed button is %i", pressedButton);
+}
+
+
+#pragma -mark Back Button
+- (IBAction)retakePicture:(id)sender {
+    [self buttonizeButtonTap2:self];
+}
+
+-(void)buttonizeButtonTap2:(id)sender{
+    [self performSegueWithIdentifier:@"toBack" sender:sender];
 }
 @end

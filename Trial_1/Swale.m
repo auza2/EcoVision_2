@@ -7,7 +7,9 @@
 //
 
 #import "Swale.h"
+#import "PermeablePaver.h"
 #import "CVWrapper.h"
+#import "Coordinate.h"
 #import <math.h>
 #import <stdlib.h>
 
@@ -22,9 +24,11 @@ UIImage* threshedImage_S = nil;
 
 NSMutableArray * SwaleSamples;
 NSMutableArray * sampleImages_S;
+NSMutableArray* swaleCoordinatesCalibrated;
 
 int highHue_S, highSaturation_S, highVal_S;
 int lowHue_S, lowSaturation_S, lowVal_S;
+int hasNoDefaultValues;
 
 @synthesize sample1;
 @synthesize sample2;
@@ -35,16 +39,18 @@ int lowHue_S, lowSaturation_S, lowVal_S;
 @synthesize sample7;
 @synthesize sample8;
 @synthesize sample9;
-
+@synthesize noDefaultButton;
+@synthesize viewIconSwitch;
 
 
 long int clickedSegment_S;
+char resultsCalibrated[5000]; // changed to do testing
+
+UIImage* swaleIcon2 = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
     
     // Initializing the switch
     [self.threshSwitch addTarget:self
@@ -53,7 +59,47 @@ long int clickedSegment_S;
     
     // Set Default HSV Values
     [self setHSVValues];
-    [self setDefaultHSV];
+    
+    if( SwaleSamples.count == 0) {
+        SwaleSamples = [NSMutableArray array];
+        sampleImages_S = [NSMutableArray array];
+        
+        [sampleImages_S addObject:sample1];
+        [sampleImages_S addObject:sample2];
+        [sampleImages_S addObject:sample3];
+        [sampleImages_S addObject:sample4];
+        [sampleImages_S addObject:sample5];
+        [sampleImages_S addObject:sample6];
+        [sampleImages_S addObject:sample7];
+        [sampleImages_S addObject:sample8];
+        [sampleImages_S addObject:sample9];
+        
+        // Necessary to find where to put the sampled color
+        sample1.backgroundColor = UIColor.whiteColor;
+        sample2.backgroundColor = UIColor.whiteColor;
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        sample7.backgroundColor = UIColor.whiteColor;
+        sample8.backgroundColor = UIColor.whiteColor;
+        sample9.backgroundColor = UIColor.whiteColor;
+    }
+
+    // When switching between views we want to keep their settings the same
+    if( hasNoDefaultValues == true ){
+        noDefaultButton.selected = !noDefaultButton.selected;
+        [self setNoDefault:nil];
+    }else{
+        [self setDefaultHSV];
+        hasNoDefaultValues = false;
+    }
+    
+    // Switch to see icons
+    [viewIconSwitch addTarget:self
+          action:@selector(stateChangedViewIcon:) forControlEvents:UIControlEventValueChanged];
+    
+    swaleIcon2 = [UIImage imageNamed:@"Swale_Icon.png"];
 }
 
 
@@ -69,30 +115,6 @@ long int clickedSegment_S;
     plainImage_S = _currentImage_S;
     
     [self updateScrollView:_currentImage_S];
-    
-    SwaleSamples = [NSMutableArray array];
-    sampleImages_S = [NSMutableArray array];
-    
-    [sampleImages_S addObject:sample1];
-    [sampleImages_S addObject:sample2];
-    [sampleImages_S addObject:sample3];
-    [sampleImages_S addObject:sample4];
-    [sampleImages_S addObject:sample5];
-    [sampleImages_S addObject:sample6];
-    [sampleImages_S addObject:sample7];
-    [sampleImages_S addObject:sample8];
-    [sampleImages_S addObject:sample9];
-    
-    // Necessary to find where to put the sampled color
-    sample1.backgroundColor = UIColor.whiteColor;
-    sample2.backgroundColor = UIColor.whiteColor;
-    sample3.backgroundColor = UIColor.whiteColor;
-    sample4.backgroundColor = UIColor.whiteColor;
-    sample5.backgroundColor = UIColor.whiteColor;
-    sample6.backgroundColor = UIColor.whiteColor;
-    sample7.backgroundColor = UIColor.whiteColor;
-    sample8.backgroundColor = UIColor.whiteColor;
-    sample9.backgroundColor = UIColor.whiteColor;
     
     
     // Initializing the Tap Gestures
@@ -127,6 +149,53 @@ long int clickedSegment_S;
     
 }
 
+#pragma -mark Draw & Toggle Icons
+- (void)stateChangedViewIcon:(UISwitch *)switchState
+{
+    if( switchState.isOn ){
+        UIGraphicsBeginImageContext(_currentImage_S.size);
+        [_currentImage_S drawInRect:CGRectMake(0, 0, _currentImage_S.size.width, _currentImage_S.size.height)];
+        NSLog(@"stateChangedViewIcon -- Begin");
+
+        // Use the new HSV Values
+        [self changeHSVVals];
+         NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
+        int HSV_values[30];
+        [CVWrapper getHSV_Values:HSV_values];
+        
+        for( int x = 0; x < 30 ; x++)
+            NSLog(@"HSV VAL -- %i", HSV_values[x]);
+        NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
+        char resultafter[5000];
+        [CVWrapper analysis:_currentImage_S studyNumber: 0 trialNumber:0 results:resultafter];
+        
+        
+        swaleCoordinatesCalibrated = [CVWrapper getSwaleCoordinates];
+         NSLog(@"There are %i swales detected" , swaleCoordinatesCalibrated.count);
+        [self drawIconsInArray:swaleCoordinatesCalibrated image:swaleIcon2];
+        
+        UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    
+        [self updateScrollView:result];
+        NSLog(@"stateChangedViewIcon -- End ");
+    } else {
+        [self updateScrollView:_currentImage_S];
+    }
+
+}
+
+-(void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage{
+    CGFloat squareWidth = _currentImage_S.size.width/23;
+    CGFloat squareHeight = _currentImage_S.size.height/25;
+    for( Coordinate * coord in iconArray){
+        [iconImage drawInRect:CGRectMake( coord.getX * squareWidth,
+                                         _currentImage_S.size.height - ( coord.getY + 1 ) * squareHeight,
+                                         squareWidth, squareHeight)];
+    }
+}
+
+
 #pragma -mark Handle Taps
 
 /*
@@ -143,30 +212,29 @@ long int clickedSegment_S;
     img_S = [[UIImageView alloc] initWithImage:newImg];
     
     
-    /*
+    
      //handle pinching in/ pinching out to zoom
-     img.userInteractionEnabled = YES;
-     img.backgroundColor = [UIColor clearColor];
-     img.contentMode =  UIViewContentModeCenter;
+     img_S.userInteractionEnabled = YES;
+     img_S.backgroundColor = [UIColor clearColor];
+     img_S.contentMode =  UIViewContentModeCenter;
      //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-     */
-    
-    //add a tap gesture recognizer for extracting colour
-    
     
     self.scrollView.minimumZoomScale=0.5;
-    self.scrollView.maximumZoomScale=15.0;
+    self.scrollView.maximumZoomScale=6.0;
     self.scrollView.contentSize = CGSizeMake(img_S.frame.size.width+100, img_S.frame.size.height+100);
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
-    //self.TouchableImage.contentSize=CGSizeMake(1280, 960);
-    
+    self.scrollView.showsVerticalScrollIndicator = true;
+    self.scrollView.showsHorizontalScrollIndicator = true;
+
     
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_S];
 }
-
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return img_S;
+}
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
 {
@@ -182,6 +250,18 @@ long int clickedSegment_S;
             view.backgroundColor = color;
             [SwaleSamples addObject:color];
             break;
+        }
+    }
+}
+
+- (void) showSamples{
+    NSLog(@"In ShowSamples: Samples has %i",SwaleSamples.count );
+    for( UIColor * color in SwaleSamples){
+        for (UIImageView * view in sampleImages_S) {
+            if( [view.backgroundColor isEqual:UIColor.whiteColor]){
+                view.backgroundColor = color;
+                break;
+            }
         }
     }
 }
@@ -203,8 +283,11 @@ long int clickedSegment_S;
         }
     }
     
-    if( removed )
+    if( removed && hasNoDefaultValues == false )
         [self setDefaultHSV];
+    if( removed && hasNoDefaultValues == true )
+        [self setNoDefault];
+
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -234,8 +317,36 @@ long int clickedSegment_S;
     for( UIImageView * sample in sampleImages_S){
         sample.backgroundColor = UIColor.whiteColor;
     }
-    [self setDefaultHSV];
-    printf("Permeable Pavers has %i things \n", SwaleSamples.count);
+    if( hasNoDefaultValues == true )
+        [self setNoDefault];
+    else
+        [self setDefaultHSV];
+}
+
+- (IBAction)setNoDefault:(id)sender {
+    
+    if( hasNoDefaultValues == false ){
+        [self setNoDefault];
+        hasNoDefaultValues =  1;
+        noDefaultButton.selected = !noDefaultButton.selected;
+    }else {
+        [self setDefaultHSV];
+        hasNoDefaultValues =  0;
+        noDefaultButton.selected = !noDefaultButton.selected;
+    }
+}
+
+
+
+- (void) setNoDefault{
+    lowHue_S = 225;
+    highHue_S = 0;
+    
+    lowSaturation_S = 225;
+    highSaturation_S = 0;
+    
+    lowVal_S = 225;
+    highVal_S = 0;
 }
 
 
@@ -262,6 +373,7 @@ long int clickedSegment_S;
         return;
     }
     
+    
     //thresh either the plain image or the median filtered image
     /* thresholds image
      ** colorCases: 0 = green <--
@@ -274,6 +386,7 @@ long int clickedSegment_S;
     [CVWrapper setSegmentIndex:0];
     [self changeHSVVals];
     threshedImage_S = [CVWrapper thresh:plainImage_S colorCase: 0];
+    //_scrollView.zoomScale = plainImage_S.scale;
     [self updateScrollView:threshedImage_S];
 }
 
@@ -332,10 +445,10 @@ long int clickedSegment_S;
 
 - (void) changeHSVVals{
     /*
-     ** colorCases: 0 = green
+     ** colorCases: 0 = green <--
      **             1 = red
      **             2 = wood
-     **             3 = blue <--
+     **             3 = blue
      **             4 = dark green (corner markers)
      */
     
@@ -348,9 +461,15 @@ long int clickedSegment_S;
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
         [alert show];
     }
+    if( SwaleSamples.count < 2 && hasNoDefaultValues == true)
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Using no default settings means you need to have at least 2 samples before you can threshold the image" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+        [alert show];
+    }
     
     // Find the High and Low Values
-    [self setHighandlowVal_Sues];
+    if( hasNoDefaultValues == true )
+        [self setHighandlowVal_Sues];
     
     // changes the values by the CVWrapper
     vals[caseNum * 6] = lowHue_S;
@@ -413,6 +532,72 @@ long int clickedSegment_S;
     
     lowVal_S = 50;
     highVal_S = 255;
+}
+
+#pragma -mark Send Data
+- (IBAction)sendData:(id)sender {
+    [self sendData];
+}
+
+-(void)sendData{
+    int studyID = 1000; // CHANGE
+    int trialID = 1000; // CHANGE
+    NSString *IPAddress = @"";
+    IPAddress = @"10.8.229.228"; // CHANGE
+    
+    NSURL *server;
+    // SOMETHING WRONG WITHT THE SERVER URL
+    
+    //server = [NSURL URLWithString:[NSString stringWithFormat:@"jdbc:mysql://localhost:3306/citeam", IPAddress]]; -- FAIL
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    //server = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost/~Jamie/phpmyadmin"]]; -- FAIL
+    
+    // OH Results becomes different since we changed it... make dummy one
+    char results[5000];
+    [CVWrapper analysis:_currentImage_S studyNumber: studyID trialNumber:trialID results: &results];
+    
+    /*
+    results[0] = '0';
+    results[1] = ' ';
+    results[2] = '8';
+    results[1] = ' ';
+    */
+    
+    // get rid of trailing 'space' character in results string
+    int i = 0;
+    while(results[i] != '\0') {
+        //NSLog(@"%c", results[i]);
+        if(results[i+1] == '\0')
+            results[i] = '\0';
+        i++;
+    }
+    
+    for(int y = 0 ; y < i ; y++)
+        NSLog(@"%c", results[y]);
+    
+    // Takes the shortened char[] into a string
+    NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
+    
+    // Assigns fileContents to the said string ( even though we already have it in temp)
+    NSString *fileContents;
+    fileContents = temp;
+    
+    // Takes the 'fileContents' ( shortened char result string ) and puts '%' if unrecognized character
+    NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    // prints it
+    NSLog(@"%@\n", escapedFileContents);
+    
+    
+   
+    NSString *content;
+    //while content doesn't have anything assigned to it
+    while( !content ){
+        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents];
+        NSError *errorMessage;
+        content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+         NSLog(@"%@\n", errorMessage);
+    }
+   
 }
 
 @end

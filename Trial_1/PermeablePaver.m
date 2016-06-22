@@ -34,6 +34,8 @@ int lowHue_PP, lowSaturation_PP, lowVal_PP;
 @synthesize sample8;
 @synthesize sample9;
 
+@synthesize SwaleSamples;
+
 
 
 long int clickedSegment_PP;
@@ -52,6 +54,8 @@ long int clickedSegment_PP;
     // Set Default HSV Values
     [self setHSVValues];
     [self setDefaultHSV];
+    
+    NSLog(@"Swale samples has %i things", SwaleSamples.count);
 }
 
 

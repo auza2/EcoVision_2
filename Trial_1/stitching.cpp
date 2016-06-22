@@ -280,7 +280,7 @@ void resetResults(char results[]) {
     stringCount = 0;
 }
 
-// FINISH
+
 int* getCoords(){
     // Shave coords down to the minimal amount held in coord count :)
     // return coords

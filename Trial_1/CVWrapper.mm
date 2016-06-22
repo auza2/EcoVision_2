@@ -317,6 +317,11 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
 #pragma -mark Getting Coordinates
 
 +(void) initCoordinates{
+    [coordinatesOfSwales removeAllObjects];
+    [coordinatesOfGreenRoofs removeAllObjects];
+    [coordinatesOfRainBarrels removeAllObjects];
+    [coordinatesOfPermeablePavers removeAllObjects];
+    
     NSMutableArray* coordinatesOfPieces = [NSMutableArray array];
     
     // Call in stitching.cpp a method
@@ -326,6 +331,7 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
     
     // Distributing Coordinates to proper NSMutableArray
     printf("Printing from CVWrapper.mm -- 1 \n");
+
     for( int i = 0 ; i < coordCount * 2 ; i = i+2){
         Coordinate * c;
         c = [[Coordinate alloc] initWithXCoord:coordinatesAsIntArray[i] YCoord:coordinatesAsIntArray[i+1]];
@@ -343,11 +349,12 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
     
     
     // Testing
-    /*
+    
     printf("Printing from CVWrapper.mm -- Swales \n");
     for( Coordinate * coord in coordinatesOfSwales){
          printf("X = %i, Y = %i \n",[coord getX],[coord getY] );
     }
+    /*
     printf("Printing from CVWrapper.mm -- Rain Barrels \n");
     for( Coordinate * coord in coordinatesOfRainBarrels){
         printf("X = %i, Y = %i \n",[coord getX],[coord getY] );

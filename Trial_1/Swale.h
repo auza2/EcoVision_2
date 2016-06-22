@@ -23,9 +23,16 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample7;
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
+@property (weak, nonatomic) IBOutlet UIButton *noDefaultButton;
+@property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
 
 - (IBAction)removeAll:(id)sender;
+- (IBAction)setNoDefault:(id)sender;
+- (IBAction)sendData:(id)sender;
+
+
+@property (nonatomic,strong) NSMutableArray * SwaleSamples;
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer;
-
+- (void) setNoDefault;
 @end

@@ -25,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
-
+@property (nonatomic,strong) NSMutableArray * SwaleSamples;
 - (IBAction)removeAll:(id)sender;
 
 @end

@@ -19,6 +19,7 @@
 @synthesize progressView;
 @synthesize innerView;
 @synthesize currentImage_TAP;
+@synthesize analyzeScreen;
 
 UIImage *threshedGlobal = nil;
 UIImage *userImage = nil;
@@ -87,21 +88,23 @@ char results[5000]; // changed to do testing
 }
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
-    
+    /*
      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     
+     */
     
     //*******To Test Image*******//
     
     // Bypass Camera and go straight to the method that updates the scrollView
-    /*
+    
     userImage = [UIImage imageNamed:@"IMG_0040.jpg"];
     [self updateScrollView:userImage];
-     */
+    [self processMap];
+    [self analyze];
+    [analyzeScreen setEnabled:TRUE];
     
 }
 
@@ -128,6 +131,11 @@ char results[5000]; // changed to do testing
     }
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+    // Process then Analyze the picture
+    [self processMap];
+    [self analyze];
+    [analyzeScreen setEnabled:TRUE];
 }
 
 /*
@@ -233,20 +241,7 @@ char results[5000]; // changed to do testing
     [CVWrapper setHSV_Values:hsvValues];
     
 }
-- (IBAction)process:(id)sender {
-    /*  Tried having a popup with progress view bar, didn't work becasue couldnt change the message on the alert view T_T
-    progress = [[UIAlertView alloc] initWithTitle:@"Processing Picture" message:@"Change this alert message later" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-    
-    self.progressView = [[UIProgressView alloc] initWithProgressViewStyle: UIProgressViewStyleDefault];
-    [self.progressView setProgress:.4 animated:TRUE];
-    progressView.frame = CGRectMake(20, 20, 200, 15);
-    [progress setValue: progressView forKey:@"accessoryView"];
-    [progress show];
-     */
-    
-    
-    [self processMap];
-}
+
 - (void) processMap{
     int t = 0, c = 0, w = 0;
     
@@ -349,12 +344,11 @@ char results[5000]; // changed to do testing
 
 #pragma mark - Analyze
 // Analyze the picture
-- (IBAction)analyze:(id)sender {
 
-    
+- (void) analyze{
     // for testing
     int worked;
-
+    
     worked = [CVWrapper analysis:warpedGlobal studyNumber: 0 trialNumber:0 results: results];
     // After they analyze they reset the coords
     
@@ -364,12 +358,12 @@ char results[5000]; // changed to do testing
         
         
         // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold some shit
-
+        
         /*
-        UIImage* threshedImage = [CVWrapper thresh:warpedGlobal colorCase: [CVWrapper getSegmentIndex]];
-        [self updateScrollView:threshedImage];
+         UIImage* threshedImage = [CVWrapper thresh:warpedGlobal colorCase: [CVWrapper getSegmentIndex]];
+         [self updateScrollView:threshedImage];
          */
-
+        
         // ok why didn't this show...
         // DONT COMMENT OUT
         //[self sendData];

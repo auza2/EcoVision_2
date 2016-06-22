@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addPermeablePaverButton;
 
 - (IBAction)addGi:(id)sender;
+- (IBAction)retakePicture:(id)sender;
 
 - (void) test;
 - (void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage;

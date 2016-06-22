@@ -21,11 +21,10 @@
 
 @property int groupNumber;
 @property NSString *IPAddress;
+@property (weak, nonatomic) IBOutlet UIButton *analyzeScreen;
 
 
 - (IBAction)takePhoto:(id)sender;
-- (IBAction)process:(id)sender;
-- (IBAction)analyze:(id)sender;
 - (IBAction)toAnalyze:(id)sender;
 
 // Given Methods
