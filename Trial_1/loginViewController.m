@@ -54,16 +54,13 @@
 {
     if ([[segue identifier] isEqualToString:@"Associate"])
     {
+        NSLog(@" Login: Group Number = %@ || IP = %@", serverIP.text, groupNumber.text);
         // Set some properties of the next view controller ( for send data )
         takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
-        takeAPictureViewController.groupNumber = self.groupNumber;
-        takeAPictureViewController.IPAddress = self.serverIP;
+        takeAPictureViewController.groupNumber = groupNumber.text;
+        takeAPictureViewController.IPAddress = serverIP.text;
     }
 }
-
-
-
-// Jamie's Code
 
 
 /*
