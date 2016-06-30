@@ -47,12 +47,11 @@ int pressedButton = -1;
 @synthesize squareHeight;
 @synthesize switches; // doesnt need to be a property
 
-@synthesize watermarkButton;
-
 @synthesize addSwaleButton;
 @synthesize addRainBarrelButton;
 @synthesize addGreenRoofButton;
 @synthesize addPermeablePaverButton;
+
 
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -344,19 +343,6 @@ int pressedButton = -1;
     [self buttonizeButtonTap:self];
 }
 
-- (IBAction)watermark:(id)sender {
-    
-    UIGraphicsBeginImageContext(currentImage_A.size);
-    [currentImage_A drawInRect:CGRectMake(0, 0, currentImage_A.size.width, currentImage_A.size.height)];
-    
-    watermarkButton.selected = !watermarkButton.selected;
-    
-    
-    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    [self updateScrollView:result];
-}
 
 - (IBAction)addGi:(id)sender {
     UIButton * clickedButton = (UIButton*)sender;
@@ -380,6 +366,85 @@ int pressedButton = -1;
 #pragma -mark Back Button
 - (IBAction)retakePicture:(id)sender {
     [self buttonizeButtonTap2:self];
+}
+
+#pragma -mark Sending Data
+- (IBAction)send:(id)sender {
+    // Make Pop Up with all the stuff
+    NSString * info = [NSString stringWithFormat: @"Server IP: %@\nGroup Number: %@\nPlease Enter Trial Number Below:", _IPAddress, _groupNumber ];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message: info delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.keyboardType = UIKeyboardTypeNumberPad;
+    alertTextField.placeholder = @"We suggest: 8213";
+    [alert show];
+    
+    [self sendData];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+}
+
+-(void)sendData{
+    int studyID = _groupNumber; // CHANGE
+    int trialID = 1000; // CHANGE
+    NSString *IPAddress = @"";
+    IPAddress = @"192.168.1.244"; // CHANGE --> _IPAddress
+    
+    NSURL *server;
+    // SOMETHING WRONG WITHT THE SERVER URL
+    
+    //server = [NSURL URLWithString:[NSString stringWithFormat:@"jdbc:mysql://localhost:3306/citeam", IPAddress]]; -- FAIL
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    //server = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost/~Jamie/phpmyadmin"]]; -- FAIL
+    
+    // OH Results becomes different since we changed it... make dummy one
+    char results[5000];
+    [CVWrapper analysis:currentImage_A studyNumber: studyID trialNumber:trialID results: &results];
+    
+    /*
+     results[0] = '0';
+     results[1] = ' ';
+     results[2] = '8';
+     results[1] = ' ';
+     */
+    
+    // get rid of trailing 'space' character in results string
+    int i = 0;
+    while(results[i] != '\0') {
+        //NSLog(@"%c", results[i]);
+        if(results[i+1] == '\0')
+            results[i] = '\0';
+        i++;
+    }
+    
+    for(int y = 0 ; y < i ; y++)
+        NSLog(@"%c", results[y]);
+    
+    // Takes the shortened char[] into a string
+    NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
+    
+    // Assigns fileContents to the said string ( even though we already have it in temp)
+    NSString *fileContents;
+    fileContents = temp;
+    
+    // Takes the 'fileContents' ( shortened char result string ) and puts '%' if unrecognized character
+    NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    // prints it
+    NSLog(@"%@\n", escapedFileContents);
+    
+    
+    
+    NSString *content;
+    //while content doesn't have anything assigned to it
+    //while( !content ){
+        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents];
+        NSError *errorMessage;
+        content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+        NSLog(@"%@\n", errorMessage);
+    //}
+    
 }
 
 -(void)buttonizeButtonTap2:(id)sender{

@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *serverIP;
 @property (weak, nonatomic) IBOutlet UITextField *groupNumber;
 
-@property int grpNumber;
+@property NSString * grpNumber;
 @property NSString *IPAddress;
 
 

@@ -71,6 +71,8 @@ char results[5000]; // changed to do testing
         currentImage_TAP = warpedGlobal;
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = currentImage_TAP;
+        analysisViewController.groupNumber = self.groupNumber;
+        analysisViewController.IPAddress = self.IPAddress;
     }
 }
 
@@ -99,13 +101,12 @@ char results[5000]; // changed to do testing
     //*******To Test Image*******//
     
     // Bypass Camera and go straight to the method that updates the scrollView
-    
-    userImage = [UIImage imageNamed:@"IMG_0040.jpg"];
-    [self updateScrollView:userImage];
+    userImage = [UIImage imageNamed:@"IMG_0030.jpg"];
+    //[CVWrapper setCurrentImage:userImage];
+    //[self updateScrollView:userImage];
     [self processMap];
     [self analyze];
     [analyzeScreen setEnabled:TRUE];
-    
 }
 
 #pragma mark - Picture
@@ -357,7 +358,7 @@ char results[5000]; // changed to do testing
         [alert show];
         
         
-        // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold some shit
+        // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold somthing
         
         /*
          UIImage* threshedImage = [CVWrapper thresh:warpedGlobal colorCase: [CVWrapper getSegmentIndex]];
@@ -374,51 +375,6 @@ char results[5000]; // changed to do testing
         [self throwErrorAlert:@"No markers were found!"];
     }
 
-}
-
-#pragma mark - Send Data
--(void)sendData{
-    /*
-    int studyID = studyNumber;
-    int trialID = trialNumber;
-    */
-    // For Testing
-    int studyID = 0;
-    int trialID = 0;
-    NSString *IPAddress = self.IPAddress;
-
-    
-    server = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", IPAddress]];
-    
-    // get rid of trailing 'space' character in results string
-    // Ok we need to get rid of this part...
-    
-    int i = 0;
-    while(results[i] != '\0') {
-        if(results[i+1] == '\0')
-            results[i] = '\0';
-        i++;
-    }
-    
-    
-    NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
-    
-    fileContents = temp;
-    
-    NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSLog(@"%@", escapedFileContents);
-    
-    // What is the code below even doing...
-    /*
-    NSString *content;
-    while (!content){
-        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents];
-        content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-    }
-    NSLog(@"%@", content);
-    */
-     
-    
 }
 
 @end

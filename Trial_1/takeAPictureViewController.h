@@ -19,7 +19,7 @@
 @property (nonatomic,strong) UIImage * currentImage_TAP;
 
 
-@property int groupNumber;
+@property NSString * groupNumber;
 @property NSString *IPAddress;
 @property (weak, nonatomic) IBOutlet UIButton *analyzeScreen;
 

@@ -7,9 +7,9 @@
 //
 
 #import "Swale.h"
-#import "PermeablePaver.h"
 #import "CVWrapper.h"
 #import "Coordinate.h"
+#import "savedLocations.h"
 #import <math.h>
 #import <stdlib.h>
 
@@ -29,6 +29,7 @@ NSMutableArray* swaleCoordinatesCalibrated;
 int highHue_S, highSaturation_S, highVal_S;
 int lowHue_S, lowSaturation_S, lowVal_S;
 int hasNoDefaultValues;
+savedLocations* savedLocationsFromFile;
 
 @synthesize sample1;
 @synthesize sample2;
@@ -41,6 +42,7 @@ int hasNoDefaultValues;
 @synthesize sample9;
 @synthesize noDefaultButton;
 @synthesize viewIconSwitch;
+@synthesize tableView;
 
 
 long int clickedSegment_S;
@@ -100,6 +102,12 @@ UIImage* swaleIcon2 = nil;
           action:@selector(stateChangedViewIcon:) forControlEvents:UIControlEventValueChanged];
     
     swaleIcon2 = [UIImage imageNamed:@"Swale_Icon.png"];
+    
+    // For Drop Down
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    savedLocationsFromFile = [[savedLocations alloc] init];
 }
 
 
@@ -149,7 +157,7 @@ UIImage* swaleIcon2 = nil;
     
 }
 
-#pragma -mark Draw & Toggle Icons
+#pragma -mark View Icons Switch
 - (void)stateChangedViewIcon:(UISwitch *)switchState
 {
     if( switchState.isOn ){
@@ -196,7 +204,7 @@ UIImage* swaleIcon2 = nil;
 }
 
 
-#pragma -mark Handle Taps
+#pragma -mark Update View
 
 /*
  * Update the scroll view
@@ -232,9 +240,13 @@ UIImage* swaleIcon2 = nil;
     //Set image on the scrollview
     [self.scrollView addSubview:img_S];
 }
+
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return img_S;
 }
+
+
+#pragma -mark Handle Taps
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
 {
@@ -252,18 +264,8 @@ UIImage* swaleIcon2 = nil;
             break;
         }
     }
-}
-
-- (void) showSamples{
-    NSLog(@"In ShowSamples: Samples has %i",SwaleSamples.count );
-    for( UIColor * color in SwaleSamples){
-        for (UIImageView * view in sampleImages_S) {
-            if( [view.backgroundColor isEqual:UIColor.whiteColor]){
-                view.backgroundColor = color;
-                break;
-            }
-        }
-    }
+    
+    
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -283,11 +285,7 @@ UIImage* swaleIcon2 = nil;
         }
     }
     
-    if( removed && hasNoDefaultValues == false )
-        [self setDefaultHSV];
-    if( removed && hasNoDefaultValues == true )
-        [self setNoDefault];
-
+    [self setHighandlowVal_Sues];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -310,6 +308,18 @@ UIImage* swaleIcon2 = nil;
     return color;
 }
 
+- (void) showSamples{
+    NSLog(@"In ShowSamples: Samples has %i",SwaleSamples.count );
+    for( UIColor * color in SwaleSamples){
+        for (UIImageView * view in sampleImages_S) {
+            if( [view.backgroundColor isEqual:UIColor.whiteColor]){
+                view.backgroundColor = color;
+                break;
+            }
+        }
+    }
+}
+
 #pragma -mark Action Buttons
 
 - (IBAction)removeAll:(id)sender {
@@ -317,10 +327,23 @@ UIImage* swaleIcon2 = nil;
     for( UIImageView * sample in sampleImages_S){
         sample.backgroundColor = UIColor.whiteColor;
     }
-    if( hasNoDefaultValues == true )
-        [self setNoDefault];
-    else
-        [self setDefaultHSV];
+    
+    NSIndexPath *selectedIndexPath = [tableView indexPathForSelectedRow];
+    
+    NSMutableArray * newSetting  = [savedLocationsFromFile getHSVForSavedLocationAtIndex: selectedIndexPath.row Icon:0];
+    
+    lowHue_S = [[newSetting objectAtIndex:0] integerValue];
+    highHue_S = [[newSetting objectAtIndex:1] integerValue];
+    
+    lowSaturation_S = [[newSetting objectAtIndex:2] integerValue];
+    highSaturation_S = [[newSetting objectAtIndex:3] integerValue];
+    
+    lowVal_S = [[newSetting objectAtIndex:4] integerValue];
+    highVal_S = [[newSetting objectAtIndex:5] integerValue];
+    
+    NSLog(@"LowHue_S is %i", lowHue_S);
+    
+    [self changeHSVVals];
 }
 
 - (IBAction)setNoDefault:(id)sender {
@@ -336,21 +359,7 @@ UIImage* swaleIcon2 = nil;
     }
 }
 
-
-
-- (void) setNoDefault{
-    lowHue_S = 225;
-    highHue_S = 0;
-    
-    lowSaturation_S = 225;
-    highSaturation_S = 0;
-    
-    lowVal_S = 225;
-    highVal_S = 0;
-}
-
-
-#pragma mark - Threshold
+#pragma mark - Threshold Switch
 /*
  * This is the method that gets called when we toggle the switch.
  */
@@ -385,6 +394,7 @@ UIImage* swaleIcon2 = nil;
     
     [CVWrapper setSegmentIndex:0];
     [self changeHSVVals];
+    
     threshedImage_S = [CVWrapper thresh:plainImage_S colorCase: 0];
     //_scrollView.zoomScale = plainImage_S.scale;
     [self updateScrollView:threshedImage_S];
@@ -401,11 +411,10 @@ UIImage* swaleIcon2 = nil;
     }
 }
 
-
 #pragma -mark HSV Values
 
 /*
- * Set's the hue, saturation, and value for all the green infrastructure icons from a file.
+ * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
     int hsvValues[30];
@@ -432,6 +441,8 @@ UIImage* swaleIcon2 = nil;
         return;
     }
     
+    NSLog(@"Reading from hsvValues.txt from setHSVValues: %@", content);
+    
     NSArray *arr = [content componentsSeparatedByString:@" "];
     
     int i;
@@ -443,6 +454,10 @@ UIImage* swaleIcon2 = nil;
     [CVWrapper setHSV_Values:hsvValues];
 }
 
+/*
+ * Changes the HSV Values in CVWrapper
+ * Does this change the txt file?
+ */
 - (void) changeHSVVals{
     /*
      ** colorCases: 0 = green <--
@@ -468,8 +483,7 @@ UIImage* swaleIcon2 = nil;
     }
     
     // Find the High and Low Values
-    if( hasNoDefaultValues == true )
-        [self setHighandlowVal_Sues];
+    [self setHighandlowVal_Sues];
     
     // changes the values by the CVWrapper
     vals[caseNum * 6] = lowHue_S;
@@ -480,7 +494,19 @@ UIImage* swaleIcon2 = nil;
     vals[caseNum * 6 + 5] = highVal_S;
     
     [CVWrapper setHSV_Values:vals];
+    
+    NSError *error;
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"hsvValues"];
+    fileName = [fileName stringByAppendingPathExtension:@"txt"];
+    
+    NSString* content = [NSString stringWithContentsOfFile:fileName
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:&error];
+    NSLog(@"Reading from hsvValues.txt from changeHSV --  after we use CVWrapper, does it change?: %@", content);
 }
+
+#pragma change HSV Values based on samples
 
 /*
  * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
@@ -496,20 +522,8 @@ UIImage* swaleIcon2 = nil;
         int red = components[0]*255.0;
         int green = components[1]*255.0;
         int blue = components[2]*255.0;
-        /*
-         NSLog(@"Red: %f", components[0]*255.0);
-         NSLog(@"Green: %f", components[1]*255.0);
-         NSLog(@"Blue: %f", components[2]*255.0);
-         NSLog(@"Alpha: %f", CGColorGetAlpha(color.CGColor)*255.0);
-         */
-        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
         
-        /*
-         NSLog(@"___________________________________");
-         NSLog(@"Hue Sample: %i",H_Sample);
-         NSLog(@"Saturation Sample: %i", S_Sample);
-         NSLog(@"Value Sample: %i", V_Sample);
-         */
+        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
         
         highHue_S = ( highHue_S < H_Sample ) ? H_Sample : highHue_S ;
         highSaturation_S = ( highSaturation_S < S_Sample ) ? S_Sample : highSaturation_S ;
@@ -520,6 +534,17 @@ UIImage* swaleIcon2 = nil;
         lowVal_S = ( lowVal_S > V_Sample ) ? V_Sample : lowVal_S;
         
     }
+}
+
+- (void) setNoDefault{
+    lowHue_S = 225;
+    highHue_S = 0;
+    
+    lowSaturation_S = 225;
+    highSaturation_S = 0;
+    
+    lowVal_S = 225;
+    highVal_S = 0;
 }
 
 - (void) setDefaultHSV{
@@ -534,70 +559,72 @@ UIImage* swaleIcon2 = nil;
     highVal_S = 255;
 }
 
-#pragma -mark Send Data
-- (IBAction)sendData:(id)sender {
-    [self sendData];
+#pragma Change HSV Values based on Location
+
+#pragma -mark Drop Down Menu
+// Number of thins shown in the drop down
+
+- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
+    return [savedLocationsFromFile count];
 }
 
--(void)sendData{
-    int studyID = 1000; // CHANGE
-    int trialID = 1000; // CHANGE
-    NSString *IPAddress = @"";
-    IPAddress = @"10.8.229.228"; // CHANGE
+/*
+ * Returns the table cell at the specified index path.
+ *
+ * Return Value
+ * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
+ */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSURL *server;
-    // SOMETHING WRONG WITHT THE SERVER URL
+    static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
-    //server = [NSURL URLWithString:[NSString stringWithFormat:@"jdbc:mysql://localhost:3306/citeam", IPAddress]]; -- FAIL
-    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
-    //server = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost/~Jamie/phpmyadmin"]]; -- FAIL
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
-    // OH Results becomes different since we changed it... make dummy one
-    char results[5000];
-    [CVWrapper analysis:_currentImage_S studyNumber: studyID trialNumber:trialID results: &results];
-    
-    /*
-    results[0] = '0';
-    results[1] = ' ';
-    results[2] = '8';
-    results[1] = ' ';
-    */
-    
-    // get rid of trailing 'space' character in results string
-    int i = 0;
-    while(results[i] != '\0') {
-        //NSLog(@"%c", results[i]);
-        if(results[i+1] == '\0')
-            results[i] = '\0';
-        i++;
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
     
-    for(int y = 0 ; y < i ; y++)
-        NSLog(@"%c", results[y]);
+    // cell.textLabel.text = @"";
+    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
     
-    // Takes the shortened char[] into a string
-    NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
+    cell.textLabel.text = [savedLocationsFromFile nameOfObjectAtIndex:indexPath.row];
     
-    // Assigns fileContents to the said string ( even though we already have it in temp)
-    NSString *fileContents;
-    fileContents = temp;
+    return cell;
+}
+
+/*
+ * Tells the delegate that the specified row is now selected.
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Takes the 'fileContents' ( shortened char result string ) and puts '%' if unrecognized character
-    NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    // prints it
-    NSLog(@"%@\n", escapedFileContents);
+    UITableView * cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
+    [self.dropDown setTitle: [savedLocationsFromFile nameOfObjectAtIndex:indexPath.row]  forState:UIControlStateNormal];
     
-   
-    NSString *content;
-    //while content doesn't have anything assigned to it
-    while( !content ){
-        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents];
-        NSError *errorMessage;
-        content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
-         NSLog(@"%@\n", errorMessage);
-    }
-   
+    NSMutableArray * newSetting  = [savedLocationsFromFile getHSVForSavedLocationAtIndex:indexPath.row Icon:0];
+    
+    lowHue_S = [[newSetting objectAtIndex:0] integerValue];
+    highHue_S = [[newSetting objectAtIndex:1] integerValue];
+    
+    lowSaturation_S = [[newSetting objectAtIndex:2] integerValue];
+    highSaturation_S = [[newSetting objectAtIndex:3] integerValue];
+    
+    lowVal_S = [[newSetting objectAtIndex:4] integerValue];
+    highVal_S = [[newSetting objectAtIndex:5] integerValue];
+    
+    NSLog(@"LowHue_S is %i", lowHue_S);
+    
+    [self changeHSVVals];
+    
+    self.tableView.hidden =  TRUE;
+}
+
+
+- (IBAction)dropDownButton:(id)sender {
+    if( self.tableView.hidden == TRUE )
+        self.tableView.hidden =  FALSE;
+    else
+        self.tableView.hidden = TRUE;
 }
 
 @end

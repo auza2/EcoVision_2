@@ -30,6 +30,11 @@
                                                                        target:self
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
+    
+    self.serverIP.keyboardType = UIKeyboardTypeNumberPad;
+    self.serverIP.placeholder = @"Found on Router";
+    self.groupNumber.keyboardType =UIKeyboardTypeNumberPad;
+    self.groupNumber.placeholder = @"Ask your proctor";
 }
 
 /*
@@ -51,8 +56,8 @@
     {
         // Set some properties of the next view controller ( for send data )
         takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
-        takeAPictureViewController.groupNumber = self.grpNumber;
-        takeAPictureViewController.IPAddress = self.IPAddress;
+        takeAPictureViewController.groupNumber = self.groupNumber;
+        takeAPictureViewController.IPAddress = self.serverIP;
     }
 }
 
@@ -97,7 +102,8 @@
     if(![server  isEqual: @""] &&  ![group  isEqual: @""]){
         // Initializing IPAddress and Group Number
         _IPAddress = @"%@" , server;
-        _grpNumber = [group intValue];
+       // _grpNumber = [group intValue]; Don't have to change to int value
+        _grpNumber = @"%@",group;
         
         // Segue to the next scene
         [self buttonizeButtonTap:(id)sender];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Swale : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface Swale : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
@@ -25,11 +25,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 @property (weak, nonatomic) IBOutlet UIButton *noDefaultButton;
 @property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *dropDown;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)removeAll:(id)sender;
 - (IBAction)setNoDefault:(id)sender;
-- (IBAction)sendData:(id)sender;
-
+- (IBAction)dropDownButton:(id)sender;
 
 @property (nonatomic,strong) NSMutableArray * SwaleSamples;
 
