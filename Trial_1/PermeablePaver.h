@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PermeablePaver : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface PermeablePaver : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
@@ -25,7 +25,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
-@property (nonatomic,strong) NSMutableArray * SwaleSamples;
+@property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *dropDown;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+
+@property (nonatomic,strong) NSMutableArray * PermeablePaverSamples;
 - (IBAction)removeAll:(id)sender;
+- (IBAction)dropDownButton:(id)sender;
+- (IBAction)backButton:(id)sender;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Swale : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface Swale : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
@@ -23,17 +23,17 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample7;
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
-@property (weak, nonatomic) IBOutlet UIButton *noDefaultButton;
+
 @property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
 @property (weak, nonatomic) IBOutlet UIButton *dropDown;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)removeAll:(id)sender;
-- (IBAction)setNoDefault:(id)sender;
 - (IBAction)dropDownButton:(id)sender;
+- (IBAction)backButton:(id)sender;
 
 @property (nonatomic,strong) NSMutableArray * SwaleSamples;
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer;
-- (void) setNoDefault;
+
 @end

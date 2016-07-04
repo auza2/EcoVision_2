@@ -23,8 +23,15 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
+@property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *dropDown;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 - (IBAction)removeAll:(id)sender;
+- (IBAction)backButton:(id)sender;
+- (IBAction)dropDownButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
+
 
 - (void) changeHSVVals;
 

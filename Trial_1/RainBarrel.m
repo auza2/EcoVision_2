@@ -1,15 +1,21 @@
 //
-//  RainBarrel.m
+//  PermeablePaver.m
 //  Trial_1
 //
-//  Created by Jamie Auza on 5/31/16.
+//  Created by Jamie Auza on 5/20/16.
 //  Copyright © 2016 Jamie Auza. All rights reserved.
 //
 
 #import "RainBarrel.h"
 #import "CVWrapper.h"
+#import "Coordinate.h"
+#import "savedLocations.h"
+#import "analysisViewController.h"
+#import <math.h>
+#import <stdlib.h>
 
 @implementation RainBarrel
+
 UITapGestureRecognizer * singleTap_RB; // tap that recognizes color extraction
 UITapGestureRecognizer * doubleTap_RB; // tap that recognizes removal of sample
 
@@ -19,9 +25,11 @@ UIImage* threshedImage_RB = nil;
 
 NSMutableArray * RainBarrelSamples;
 NSMutableArray * sampleImages_RB;
+NSMutableArray* rainBarrelCoordinatesCalibrated;
 
 int highHue_RB, highSaturation_RB, highVal_RB;
 int lowHue_RB, lowSaturation_RB, lowVal_RB;
+savedLocations* savedLocationsFromFile_RB;
 
 @synthesize sample1;
 @synthesize sample2;
@@ -32,16 +40,16 @@ int lowHue_RB, lowSaturation_RB, lowVal_RB;
 @synthesize sample7;
 @synthesize sample8;
 @synthesize sample9;
-
-
+@synthesize viewIconSwitch;
+@synthesize tableView;
 
 long int clickedSegment_RB;
+
+UIImage* rainBarrelIcon2 = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
     
     // Initializing the switch
     [self.threshSwitch addTarget:self
@@ -50,15 +58,59 @@ long int clickedSegment_RB;
     
     // Set Default HSV Values
     [self setHSVValues];
-    [self setDefaultHSV];
-}
+    
+    if( RainBarrelSamples.count == 0) {
+        RainBarrelSamples = [NSMutableArray array];
+        sampleImages_RB = [NSMutableArray array];
+        
+        [sampleImages_RB addObject:sample1];
+        [sampleImages_RB addObject:sample2];
+        [sampleImages_RB addObject:sample3];
+        [sampleImages_RB addObject:sample4];
+        [sampleImages_RB addObject:sample5];
+        [sampleImages_RB addObject:sample6];
+        [sampleImages_RB addObject:sample7];
+        [sampleImages_RB addObject:sample8];
+        [sampleImages_RB addObject:sample9];
+        
+        // Necessary to find where to put the sampled color
+        sample1.backgroundColor = UIColor.whiteColor;
+        sample2.backgroundColor = UIColor.whiteColor;
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        sample7.backgroundColor = UIColor.whiteColor;
+        sample8.backgroundColor = UIColor.whiteColor;
+        sample9.backgroundColor = UIColor.whiteColor;
+    }
+    
+    
+    // Switch to see icons
+    [viewIconSwitch addTarget:self
+                       action:@selector(stateChangedViewIcon:) forControlEvents:UIControlEventValueChanged];
+    
+    rainBarrelIcon2 = [UIImage imageNamed:@"RainBarrel_Icon.png"];
+    
+    // For Drop Down
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    savedLocationsFromFile_RB = [[savedLocations alloc] init];
+    
+    // Back Button
+    UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
+                                                                        style:UIBarButtonItemStyleDone
+                                                                       target:self
+                                                                       action:@selector(buttonizeButtonTap:)];
+    self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -66,30 +118,6 @@ long int clickedSegment_RB;
     plainImage_RB = _currentImage_RB;
     
     [self updateScrollView:_currentImage_RB];
-    
-    RainBarrelSamples = [NSMutableArray array];
-    sampleImages_RB = [NSMutableArray array];
-    
-    [sampleImages_RB addObject:sample1];
-    [sampleImages_RB addObject:sample2];
-    [sampleImages_RB addObject:sample3];
-    [sampleImages_RB addObject:sample4];
-    [sampleImages_RB addObject:sample5];
-    [sampleImages_RB addObject:sample6];
-    [sampleImages_RB addObject:sample7];
-    [sampleImages_RB addObject:sample8];
-    [sampleImages_RB addObject:sample9];
-    
-    // Necessary to find where to put the sampled color
-    sample1.backgroundColor = UIColor.whiteColor;
-    sample2.backgroundColor = UIColor.whiteColor;
-    sample3.backgroundColor = UIColor.whiteColor;
-    sample4.backgroundColor = UIColor.whiteColor;
-    sample5.backgroundColor = UIColor.whiteColor;
-    sample6.backgroundColor = UIColor.whiteColor;
-    sample7.backgroundColor = UIColor.whiteColor;
-    sample8.backgroundColor = UIColor.whiteColor;
-    sample9.backgroundColor = UIColor.whiteColor;
     
     
     // Initializing the Tap Gestures
@@ -122,9 +150,84 @@ long int clickedSegment_RB;
         [sampleView addGestureRecognizer: doubleTap_RBTEST];
     }
     
+    // Creating Borders
+    [self.dropDown.layer setBorderWidth:2.0];
+    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    
+    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
+    self.tableView.layer.borderWidth = 2.0;
+    
 }
 
-#pragma -mark Handle Taps
+#pragma -mark Back Button
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"backToAnalysis"])
+    {
+        analysisViewController *analysisViewController = [segue destinationViewController];
+        analysisViewController.currentImage_A = _currentImage_RB;
+    }
+}
+-(void)buttonizeButtonTap:(id)sender{
+    [self performSegueWithIdentifier:@"backToAnalysis" sender:sender];
+}
+
+- (IBAction)backButton:(id)sender {
+    [self buttonizeButtonTap: self];
+}
+
+#pragma -mark View Icons Switch
+- (void)stateChangedViewIcon:(UISwitch *)switchState
+{
+    if( switchState.isOn ){
+        if( _threshSwitch.isOn)
+            [_threshSwitch setOn:false];
+        
+        UIGraphicsBeginImageContext(_currentImage_RB.size);
+        [_currentImage_RB drawInRect:CGRectMake(0, 0, _currentImage_RB.size.width, _currentImage_RB.size.height)];
+        NSLog(@"stateChangedViewIcon -- Begin");
+        
+        // Use the new HSV Values
+        [self changeHSVVals];
+        NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
+        int HSV_values[30];
+        [CVWrapper getHSV_Values:HSV_values];
+        
+        for( int x = 0; x < 30 ; x++)
+            NSLog(@"HSV VAL -- %i", HSV_values[x]);
+        NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
+        char resultafter[5000];
+        [CVWrapper analysis:_currentImage_RB studyNumber: 0 trialNumber:0 results:resultafter];
+        
+        
+        rainBarrelCoordinatesCalibrated = [CVWrapper getRainBarrelCoordinates];
+        NSLog(@"There are %i permeable pavers detected" , rainBarrelCoordinatesCalibrated.count);
+        [self drawIconsInArray:rainBarrelCoordinatesCalibrated image:rainBarrelIcon2];
+        
+        UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [self updateScrollView:result];
+        NSLog(@"stateChangedViewIcon -- End ");
+    } else {
+        [self updateScrollView:_currentImage_RB];
+    }
+    
+}
+
+-(void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage{
+    CGFloat squareWidth = _currentImage_RB.size.width/23;
+    CGFloat squareHeight = _currentImage_RB.size.height/25;
+    for( Coordinate * coord in iconArray){
+        [iconImage drawInRect:CGRectMake( coord.getX * squareWidth,
+                                         _currentImage_RB.size.height - ( coord.getY + 1 ) * squareHeight,
+                                         squareWidth, squareHeight)];
+    }
+}
+
+
+#pragma -mark Update View
 
 /*
  * Update the scroll view
@@ -140,29 +243,33 @@ long int clickedSegment_RB;
     img_RB = [[UIImageView alloc] initWithImage:newImg];
     
     
-    /*
-     //handle pinching in/ pinching out to zoom
-     img.userInteractionEnabled = YES;
-     img.backgroundColor = [UIColor clearColor];
-     img.contentMode =  UIViewContentModeCenter;
-     //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-     */
     
-    //add a tap gesture recognizer for extracting colour
-    
+    //handle pinching in/ pinching out to zoom
+    img_RB.userInteractionEnabled = YES;
+    img_RB.backgroundColor = [UIColor clearColor];
+    img_RB.contentMode =  UIViewContentModeCenter;
+    //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     self.scrollView.minimumZoomScale=0.5;
-    self.scrollView.maximumZoomScale=15.0;
+    self.scrollView.maximumZoomScale=6.0;
     self.scrollView.contentSize = CGSizeMake(img_RB.frame.size.width+100, img_RB.frame.size.height+100);
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
-    //self.TouchableImage.contentSize=CGSizeMake(1280, 960);
+    self.scrollView.showsVerticalScrollIndicator = true;
+    self.scrollView.showsHorizontalScrollIndicator = true;
     
     
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_RB];
 }
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return img_RB;
+}
+
+
+#pragma -mark Handle Taps
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
 {
@@ -180,6 +287,9 @@ long int clickedSegment_RB;
             break;
         }
     }
+    
+    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
+        [self changeColorSetToIndex: 0];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -193,14 +303,15 @@ long int clickedSegment_RB;
         if( [color isEqual:view.backgroundColor]){
             [RainBarrelSamples removeObject:color];
             printf("Removed a color\n");
-            printf("Green Samples has %i things", RainBarrelSamples.count);
+            printf("Permeable Pavers has %i things", RainBarrelSamples.count);
             removed = true;
             break;
         }
     }
     
-    if( removed )
-        [self setDefaultHSV];
+    // Before setting the High and Low values, change to default from picked color set
+    [self changeColorSetToIndex:clickedSegment_RB];
+    [self setHighandlowVal_RBues];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -223,6 +334,18 @@ long int clickedSegment_RB;
     return color;
 }
 
+- (void) showSamples{
+    NSLog(@"In ShowSamples: Samples has %i",RainBarrelSamples.count );
+    for( UIColor * color in RainBarrelSamples){
+        for (UIImageView * view in sampleImages_RB) {
+            if( [view.backgroundColor isEqual:UIColor.whiteColor]){
+                view.backgroundColor = color;
+                break;
+            }
+        }
+    }
+}
+
 #pragma -mark Action Buttons
 
 - (IBAction)removeAll:(id)sender {
@@ -230,17 +353,26 @@ long int clickedSegment_RB;
     for( UIImageView * sample in sampleImages_RB){
         sample.backgroundColor = UIColor.whiteColor;
     }
-    [self setDefaultHSV];
-    printf("Green Samples has %i things \n", RainBarrelSamples.count);
+    
+    if( _threshSwitch.isOn || viewIconSwitch.isOn){
+        [_threshSwitch setOn:false];
+        [viewIconSwitch setOn:false];
+        [self updateScrollView:_currentImage_RB];
+    }
+    
+    [self changeColorSetToIndex: clickedSegment_RB];
 }
 
-#pragma mark - Threshold
+#pragma mark - Threshold Switch
 /*
  * This is the method that gets called when we toggle the switch.
  */
 - (void)stateChanged:(UISwitch *)switchState
 {
     if ([switchState isOn]) {
+        if( viewIconSwitch.isOn)
+            [viewIconSwitch setOn:false];
+        
         [self threshold_image];
     } else {
         [self un_thresh_image];
@@ -257,6 +389,7 @@ long int clickedSegment_RB;
         return;
     }
     
+    
     //thresh either the plain image or the median filtered image
     /* thresholds image
      ** colorCases: 0 = green
@@ -266,9 +399,11 @@ long int clickedSegment_RB;
      **             4 = dark green (corner markers)
      */
     
-    [CVWrapper setSegmentIndex:1];
+    [CVWrapper setSegmentIndex:0];
     [self changeHSVVals];
+    
     threshedImage_RB = [CVWrapper thresh:plainImage_RB colorCase: 1];
+    //_scrollView.zoomScale = plainImage_RB.scale;
     [self updateScrollView:threshedImage_RB];
 }
 
@@ -283,11 +418,10 @@ long int clickedSegment_RB;
     }
 }
 
-
 #pragma -mark HSV Values
 
 /*
- * Set's the hue, saturation, and value for all the green infrastructure icons from a file.
+ * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
     int hsvValues[30];
@@ -314,6 +448,8 @@ long int clickedSegment_RB;
         return;
     }
     
+    NSLog(@"Reading from hsvValues.txt from setHSVValues: %@", content);
+    
     NSArray *arr = [content componentsSeparatedByString:@" "];
     
     int i;
@@ -325,15 +461,19 @@ long int clickedSegment_RB;
     [CVWrapper setHSV_Values:hsvValues];
 }
 
+/*
+ * Changes the HSV Values in CVWrapper
+ * Does this change the txt file?
+ */
 - (void) changeHSVVals{
-    /* thresholds image
+    /*
      ** colorCases: 0 = green
      **             1 = red  <--
      **             2 = wood
      **             3 = blue
      **             4 = dark green (corner markers)
      */
-
+    
     int caseNum = 1;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
@@ -344,7 +484,7 @@ long int clickedSegment_RB;
         [alert show];
     }
     
-    // Find the High and Low Values
+    // Find the High and Low Values from Samples
     [self setHighandlowVal_RBues];
     
     // changes the values by the CVWrapper
@@ -358,10 +498,12 @@ long int clickedSegment_RB;
     [CVWrapper setHSV_Values:vals];
 }
 
+#pragma change HSV Values based on samples
+
 /*
  * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
  */
--(void) setHighandlowVal_RBues{
+- (void) setHighandlowVal_RBues{
     int H_Sample;
     int S_Sample;
     int V_Sample;
@@ -372,20 +514,8 @@ long int clickedSegment_RB;
         int red = components[0]*255.0;
         int green = components[1]*255.0;
         int blue = components[2]*255.0;
-        /*
-         NSLog(@"Red: %f", components[0]*255.0);
-         NSLog(@"Green: %f", components[1]*255.0);
-         NSLog(@"Blue: %f", components[2]*255.0);
-         NSLog(@"Alpha: %f", CGColorGetAlpha(color.CGColor)*255.0);
-         */
-        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
         
-        /*
-         NSLog(@"___________________________________");
-         NSLog(@"Hue Sample: %i",H_Sample);
-         NSLog(@"Saturation Sample: %i", S_Sample);
-         NSLog(@"Value Sample: %i", V_Sample);
-         */
+        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
         
         highHue_RB = ( highHue_RB < H_Sample ) ? H_Sample : highHue_RB ;
         highSaturation_RB = ( highSaturation_RB < S_Sample ) ? S_Sample : highSaturation_RB ;
@@ -398,15 +528,116 @@ long int clickedSegment_RB;
     }
 }
 
+- (void) setNoDefault{
+    lowHue_RB = 225;
+    highHue_RB = 0;
+    
+    lowSaturation_RB = 225;
+    highSaturation_RB = 0;
+    
+    lowVal_RB = 225;
+    highVal_RB = 0;
+}
+
 - (void) setDefaultHSV{
- 
-    lowHue_RB = 80;
-    highHue_RB = 175;
     
-    lowSaturation_RB = 140;
-    highSaturation_RB = 255;
+    lowHue_RB = 10;
+    highHue_RB = 80;
     
-    lowVal_RB = 100;
+    lowSaturation_RB = 50;
+    highSaturation_RB = 200;
+    
+    lowVal_RB = 50;
     highVal_RB = 255;
 }
+
+#pragma Change HSV Values based on Location
+
+#pragma -mark Drop Down Menu
+// Number of thins shown in the drop down
+
+- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
+    return [savedLocationsFromFile_RB count];
+}
+
+/*
+ * Returns the table cell at the specified index path.
+ *
+ * Return Value
+ * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
+ */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // cell.textLabel.text = @"";
+    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
+    
+    cell.textLabel.text = [savedLocationsFromFile_RB nameOfObjectAtIndex:indexPath.row];
+    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
+    
+    return cell;
+}
+
+/*
+ * Tells the delegate that the specified row is now selected.
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if( _threshSwitch.isOn || viewIconSwitch.isOn){
+        [_threshSwitch setOn:false];
+        [viewIconSwitch setOn:false];
+        [self updateScrollView:_currentImage_RB];
+    }
+    
+    clickedSegment_RB = index;
+    [self changeColorSetToIndex:indexPath.row];
+}
+
+- (void) changeColorSetToIndex: (int)index{
+    clickedSegment_RB = index;
+    
+    [self.dropDown setTitle: [savedLocationsFromFile_RB nameOfObjectAtIndex:index]  forState:UIControlStateNormal];
+    
+    // Icon == CaseNum
+    /*
+    ** colorCases: 0 = green
+    **             1 = red  <--
+    **             2 = wood
+    **             3 = blue
+    **             4 = dark green (corner markers)
+    */
+    NSMutableArray * newSetting  = [savedLocationsFromFile_RB getHSVForSavedLocationAtIndex:index Icon:1];
+    
+    lowHue_RB = [[newSetting objectAtIndex:0] integerValue];
+    highHue_RB = [[newSetting objectAtIndex:1] integerValue];
+    
+    lowSaturation_RB = [[newSetting objectAtIndex:2] integerValue];
+    highSaturation_RB = [[newSetting objectAtIndex:3] integerValue];
+    
+    lowVal_RB = [[newSetting objectAtIndex:4] integerValue];
+    highVal_RB = [[newSetting objectAtIndex:5] integerValue];
+    
+    NSLog(@"lowHue_RB is %i", lowHue_RB);
+    
+    [self changeHSVVals];
+    
+    self.tableView.hidden =  TRUE;
+}
+
+
+- (IBAction)dropDownButton:(id)sender {
+    if( self.tableView.hidden == TRUE )
+        self.tableView.hidden =  FALSE;
+    else
+        self.tableView.hidden = TRUE;
+}
+
+
+
 @end

@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RainBarrel : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface RainBarrel : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic,strong) UIImage * currentImage_RB;
@@ -23,7 +24,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample8;
 @property (weak, nonatomic) IBOutlet UIImageView *sample9;
 
+@property (weak, nonatomic) IBOutlet UISwitch *viewIconSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *dropDown;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 - (IBAction)removeAll:(id)sender;
+- (IBAction)dropDownButton:(id)sender;
+- (IBAction)backButton:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
 @end

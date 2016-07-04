@@ -293,10 +293,6 @@ int pressedButton = -1;
         
      }
     
-    if ([[segue identifier] isEqualToString:@"toBack"])
-    {
-        
-    }
 }
 
 /*
@@ -390,7 +386,7 @@ int pressedButton = -1;
     int studyID = _groupNumber; // CHANGE
     int trialID = 1000; // CHANGE
     NSString *IPAddress = @"";
-    IPAddress = @"192.168.1.244"; // CHANGE --> _IPAddress
+    IPAddress = @"10.0.1.2"; // CHANGE --> _IPAddress
     
     NSURL *server;
     // SOMETHING WRONG WITHT THE SERVER URL

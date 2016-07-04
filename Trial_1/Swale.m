@@ -10,6 +10,7 @@
 #import "CVWrapper.h"
 #import "Coordinate.h"
 #import "savedLocations.h"
+#import "analysisViewController.h"
 #import <math.h>
 #import <stdlib.h>
 
@@ -29,7 +30,7 @@ NSMutableArray* swaleCoordinatesCalibrated;
 int highHue_S, highSaturation_S, highVal_S;
 int lowHue_S, lowSaturation_S, lowVal_S;
 int hasNoDefaultValues;
-savedLocations* savedLocationsFromFile;
+savedLocations* savedLocationsFromFile_S;
 
 @synthesize sample1;
 @synthesize sample2;
@@ -40,13 +41,11 @@ savedLocations* savedLocationsFromFile;
 @synthesize sample7;
 @synthesize sample8;
 @synthesize sample9;
-@synthesize noDefaultButton;
 @synthesize viewIconSwitch;
 @synthesize tableView;
 
 
 long int clickedSegment_S;
-char resultsCalibrated[5000]; // changed to do testing
 
 UIImage* swaleIcon2 = nil;
 
@@ -88,14 +87,6 @@ UIImage* swaleIcon2 = nil;
         sample9.backgroundColor = UIColor.whiteColor;
     }
 
-    // When switching between views we want to keep their settings the same
-    if( hasNoDefaultValues == true ){
-        noDefaultButton.selected = !noDefaultButton.selected;
-        [self setNoDefault:nil];
-    }else{
-        [self setDefaultHSV];
-        hasNoDefaultValues = false;
-    }
     
     // Switch to see icons
     [viewIconSwitch addTarget:self
@@ -107,15 +98,20 @@ UIImage* swaleIcon2 = nil;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    savedLocationsFromFile = [[savedLocations alloc] init];
+    savedLocationsFromFile_S = [[savedLocations alloc] init];
+    
+    // Back Button
+    UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
+                                                                        style:UIBarButtonItemStyleDone
+                                                                       target:self
+                                                                       action:@selector(buttonizeButtonTap:)];
+    self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -155,12 +151,40 @@ UIImage* swaleIcon2 = nil;
         [sampleView addGestureRecognizer: doubleTap_STEST];
     }
     
+    // Creating Borders
+    [self.dropDown.layer setBorderWidth:2.0];
+    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    
+    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
+    self.tableView.layer.borderWidth = 2.0;
+    
+}
+
+#pragma -mark Back Button
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"backToAnalysis"])
+    {
+        analysisViewController *analysisViewController = [segue destinationViewController];
+        analysisViewController.currentImage_A = _currentImage_S;
+    }
+}
+-(void)buttonizeButtonTap:(id)sender{
+    [self performSegueWithIdentifier:@"backToAnalysis" sender:sender];
+}
+
+- (IBAction)backButton:(id)sender {
+    [self buttonizeButtonTap: self];
 }
 
 #pragma -mark View Icons Switch
 - (void)stateChangedViewIcon:(UISwitch *)switchState
 {
     if( switchState.isOn ){
+        if( _threshSwitch.isOn)
+            [_threshSwitch setOn:false];
+        
         UIGraphicsBeginImageContext(_currentImage_S.size);
         [_currentImage_S drawInRect:CGRectMake(0, 0, _currentImage_S.size.width, _currentImage_S.size.height)];
         NSLog(@"stateChangedViewIcon -- Begin");
@@ -265,7 +289,8 @@ UIImage* swaleIcon2 = nil;
         }
     }
     
-    
+    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
+        [self changeColorSetToIndex: 0];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -285,6 +310,8 @@ UIImage* swaleIcon2 = nil;
         }
     }
     
+    // Before setting the High and Low values, change to default from picked color set
+    [self changeColorSetToIndex:clickedSegment_S];
     [self setHighandlowVal_Sues];
     
     // Remove the color on the view
@@ -328,35 +355,14 @@ UIImage* swaleIcon2 = nil;
         sample.backgroundColor = UIColor.whiteColor;
     }
     
-    NSIndexPath *selectedIndexPath = [tableView indexPathForSelectedRow];
-    
-    NSMutableArray * newSetting  = [savedLocationsFromFile getHSVForSavedLocationAtIndex: selectedIndexPath.row Icon:0];
-    
-    lowHue_S = [[newSetting objectAtIndex:0] integerValue];
-    highHue_S = [[newSetting objectAtIndex:1] integerValue];
-    
-    lowSaturation_S = [[newSetting objectAtIndex:2] integerValue];
-    highSaturation_S = [[newSetting objectAtIndex:3] integerValue];
-    
-    lowVal_S = [[newSetting objectAtIndex:4] integerValue];
-    highVal_S = [[newSetting objectAtIndex:5] integerValue];
-    
-    NSLog(@"LowHue_S is %i", lowHue_S);
-    
-    [self changeHSVVals];
-}
-
-- (IBAction)setNoDefault:(id)sender {
-    
-    if( hasNoDefaultValues == false ){
-        [self setNoDefault];
-        hasNoDefaultValues =  1;
-        noDefaultButton.selected = !noDefaultButton.selected;
-    }else {
-        [self setDefaultHSV];
-        hasNoDefaultValues =  0;
-        noDefaultButton.selected = !noDefaultButton.selected;
+    if( _threshSwitch.isOn || viewIconSwitch.isOn){
+        [_threshSwitch setOn:false];
+        [viewIconSwitch setOn:false];
+        [self updateScrollView:_currentImage_S];
     }
+
+    
+    [self changeColorSetToIndex: clickedSegment_S];
 }
 
 #pragma mark - Threshold Switch
@@ -366,6 +372,9 @@ UIImage* swaleIcon2 = nil;
 - (void)stateChanged:(UISwitch *)switchState
 {
     if ([switchState isOn]) {
+        if( viewIconSwitch.isOn)
+            [viewIconSwitch setOn:false];
+        
         [self threshold_image];
     } else {
         [self un_thresh_image];
@@ -476,13 +485,8 @@ UIImage* swaleIcon2 = nil;
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
         [alert show];
     }
-    if( SwaleSamples.count < 2 && hasNoDefaultValues == true)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Using no default settings means you need to have at least 2 samples before you can threshold the image" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
     
-    // Find the High and Low Values
+    // Find the High and Low Values from Samples
     [self setHighandlowVal_Sues];
     
     // changes the values by the CVWrapper
@@ -494,16 +498,6 @@ UIImage* swaleIcon2 = nil;
     vals[caseNum * 6 + 5] = highVal_S;
     
     [CVWrapper setHSV_Values:vals];
-    
-    NSError *error;
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"hsvValues"];
-    fileName = [fileName stringByAppendingPathExtension:@"txt"];
-    
-    NSString* content = [NSString stringWithContentsOfFile:fileName
-                                                  encoding:NSUTF8StringEncoding
-                                                     error:&error];
-    NSLog(@"Reading from hsvValues.txt from changeHSV --  after we use CVWrapper, does it change?: %@", content);
 }
 
 #pragma change HSV Values based on samples
@@ -511,7 +505,7 @@ UIImage* swaleIcon2 = nil;
 /*
  * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
  */
--(void) setHighandlowVal_Sues{
+- (void) setHighandlowVal_Sues{
     int H_Sample;
     int S_Sample;
     int V_Sample;
@@ -565,7 +559,7 @@ UIImage* swaleIcon2 = nil;
 // Number of thins shown in the drop down
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-    return [savedLocationsFromFile count];
+    return [savedLocationsFromFile_S count];
 }
 
 /*
@@ -587,7 +581,8 @@ UIImage* swaleIcon2 = nil;
     // cell.textLabel.text = @"";
     // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
     
-    cell.textLabel.text = [savedLocationsFromFile nameOfObjectAtIndex:indexPath.row];
+    cell.textLabel.text = [savedLocationsFromFile_S nameOfObjectAtIndex:indexPath.row];
+    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
     
     return cell;
 }
@@ -596,12 +591,22 @@ UIImage* swaleIcon2 = nil;
  * Tells the delegate that the specified row is now selected.
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if( _threshSwitch.isOn || viewIconSwitch.isOn){
+        [_threshSwitch setOn:false];
+        [viewIconSwitch setOn:false];
+        [self updateScrollView:_currentImage_S];
+    }
+
+    clickedSegment_S = index;
+    [self changeColorSetToIndex:indexPath.row];
+}
+
+- (void) changeColorSetToIndex: (int)index{
+    clickedSegment_S = index;
     
-    UITableView * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [self.dropDown setTitle: [savedLocationsFromFile_S nameOfObjectAtIndex:index]  forState:UIControlStateNormal];
     
-    [self.dropDown setTitle: [savedLocationsFromFile nameOfObjectAtIndex:indexPath.row]  forState:UIControlStateNormal];
-    
-    NSMutableArray * newSetting  = [savedLocationsFromFile getHSVForSavedLocationAtIndex:indexPath.row Icon:0];
+    NSMutableArray * newSetting  = [savedLocationsFromFile_S getHSVForSavedLocationAtIndex:index Icon:0];
     
     lowHue_S = [[newSetting objectAtIndex:0] integerValue];
     highHue_S = [[newSetting objectAtIndex:1] integerValue];
@@ -626,5 +631,7 @@ UIImage* swaleIcon2 = nil;
     else
         self.tableView.hidden = TRUE;
 }
+
+
 
 @end
