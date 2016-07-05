@@ -12,12 +12,8 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageView; // why
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIProgressView *progressView;
-@property (strong, nonatomic) IBOutlet UIView *innerView; // remove, was used for progress bar
-@property (weak, nonatomic) IBOutlet UIAlertView *progress;
 
 @property (nonatomic,strong) UIImage * currentImage_TAP;
-
 
 @property NSString * groupNumber;
 @property NSString *IPAddress;

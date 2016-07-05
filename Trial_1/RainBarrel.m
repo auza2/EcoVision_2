@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jamie Auza. All rights reserved.
 //
 
+#import "saveColors.h"
 #import "RainBarrel.h"
 #import "CVWrapper.h"
 #import "Coordinate.h"
@@ -107,6 +108,11 @@ UIImage* rainBarrelIcon2 = nil;
 
 }
 
+- (void)tabBarController:(UITabBarController *)tabBarController
+ didSelectViewController:(UIViewController *)viewController{
+    NSLog(@"wecalledthisnewmethod");
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -167,6 +173,11 @@ UIImage* rainBarrelIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_RB;
+    }
+    if ([[segue identifier] isEqualToString:@"toSave_RB"])
+    {
+        saveColors *savedColors = [segue destinationViewController];
+        NSLog(@"wooo going from RB to saved colors");
     }
 }
 -(void)buttonizeButtonTap:(id)sender{

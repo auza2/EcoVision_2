@@ -16,8 +16,6 @@
 
 @implementation takeAPictureViewController
 @synthesize scrollView;
-@synthesize progressView;
-@synthesize innerView;
 @synthesize currentImage_TAP;
 @synthesize analyzeScreen;
 

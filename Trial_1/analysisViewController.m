@@ -161,6 +161,7 @@ int pressedButton = -1;
     
     // We should have error messages if that Icon isn't allowed on that location
     
+    
     NSLog(@"Coordinate found X Value: %i", addCoord.getX);
     NSLog(@"Coordinate found y Value: %i", addCoord.getY);
     
