@@ -29,6 +29,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *dropDown;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic,strong) NSString *savedColorPalette_PP;
+@property (strong, nonatomic) NSMutableArray*highLowVals_PP;
+
+- (NSString*) getColorPaletteLabel;
+- (NSMutableArray*) getHighLowVals;
 
 @property (nonatomic,strong) NSMutableArray * PermeablePaverSamples;
 - (IBAction)removeAll:(id)sender;

@@ -105,12 +105,25 @@ UIImage* rainBarrelIcon2 = nil;
                                                                        target:self
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
+    
+     _highLowVals_RB = [[NSMutableArray alloc]init];
 
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController
- didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"wecalledthisnewmethod");
+#pragma -mark sending data
+- (NSString*) getColorPaletteLabel{
+    return self.dropDown.currentTitle;
+}
+
+- (NSMutableArray*) getHighLowVals{
+    [_highLowVals_RB removeAllObjects];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowHue_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highHue_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowSaturation_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highSaturation_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowVal_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highVal_RB]];
+    return _highLowVals_RB;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -299,6 +312,8 @@ UIImage* rainBarrelIcon2 = nil;
         }
     }
     
+    [self setHighandlowVal_RBues];
+    
     if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
         [self changeColorSetToIndex: 0];
 }
@@ -371,6 +386,7 @@ UIImage* rainBarrelIcon2 = nil;
         [self updateScrollView:_currentImage_RB];
     }
     
+    [self setHighandlowVal_RBues];
     [self changeColorSetToIndex: clickedSegment_RB];
 }
 
@@ -414,7 +430,7 @@ UIImage* rainBarrelIcon2 = nil;
     [self changeHSVVals];
     
     threshedImage_RB = [CVWrapper thresh:plainImage_RB colorCase: 1];
-    //_scrollView.zoomScale = plainImage_RB.scale;
+    //_RBcrollView.zoomScale = plainImage_RB.scale;
     [self updateScrollView:threshedImage_RB];
 }
 
@@ -515,9 +531,9 @@ UIImage* rainBarrelIcon2 = nil;
  * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
  */
 - (void) setHighandlowVal_RBues{
-    int H_Sample;
-    int S_Sample;
-    int V_Sample;
+    int H_RBample;
+    int S_RBample;
+    int V_RBample;
     
     for( UIColor * color in RainBarrelSamples) {
         const CGFloat* components = CGColorGetComponents(color.CGColor);
@@ -526,15 +542,15 @@ UIImage* rainBarrelIcon2 = nil;
         int green = components[1]*255.0;
         int blue = components[2]*255.0;
         
-        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
+        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_RBample S:&S_RBample V:&V_RBample];
         
-        highHue_RB = ( highHue_RB < H_Sample ) ? H_Sample : highHue_RB ;
-        highSaturation_RB = ( highSaturation_RB < S_Sample ) ? S_Sample : highSaturation_RB ;
-        highVal_RB = ( highVal_RB < V_Sample ) ? V_Sample : highVal_RB ;
+        highHue_RB = ( highHue_RB < H_RBample ) ? H_RBample : highHue_RB ;
+        highSaturation_RB = ( highSaturation_RB < S_RBample ) ? S_RBample : highSaturation_RB ;
+        highVal_RB = ( highVal_RB < V_RBample ) ? V_RBample : highVal_RB ;
         
-        lowHue_RB = ( lowHue_RB > H_Sample ) ? H_Sample : lowHue_RB ;
-        lowSaturation_RB = ( lowSaturation_RB > S_Sample ) ? S_Sample : lowSaturation_RB ;
-        lowVal_RB = ( lowVal_RB > V_Sample ) ? V_Sample : lowVal_RB;
+        lowHue_RB = ( lowHue_RB > H_RBample ) ? H_RBample : lowHue_RB ;
+        lowSaturation_RB = ( lowSaturation_RB > S_RBample ) ? S_RBample : lowSaturation_RB ;
+        lowVal_RB = ( lowVal_RB > V_RBample ) ? V_RBample : lowVal_RB;
         
     }
 }

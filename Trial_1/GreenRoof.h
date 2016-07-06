@@ -27,6 +27,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *dropDown;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic,strong) NSString *savedColorPalette_GR;
+@property (strong, nonatomic) NSMutableArray*highLowVals_GR;
+
+- (NSString*) getColorPaletteLabel;
+- (NSMutableArray*) getHighLowVals;
+
+
 - (IBAction)removeAll:(id)sender;
 - (IBAction)backButton:(id)sender;
 - (IBAction)dropDownButton:(id)sender;

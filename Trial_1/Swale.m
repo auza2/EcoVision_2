@@ -10,6 +10,7 @@
 #import "CVWrapper.h"
 #import "Coordinate.h"
 #import "savedLocations.h"
+#import "saveColors.h"
 #import "analysisViewController.h"
 #import <math.h>
 #import <stdlib.h>
@@ -106,6 +107,11 @@ UIImage* swaleIcon2 = nil;
                                                                        target:self
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
+    
+    // To send data to save screen
+    self.tabBarController.delegate = self;
+    _highLowVals_S = [[NSMutableArray alloc]init];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,6 +165,22 @@ UIImage* swaleIcon2 = nil;
     self.tableView.layer.borderWidth = 2.0;
     
 }
+#pragma -mark Sending high and low values to save screen
+
+- (NSString*) getColorPaletteLabel{
+    return self.dropDown.currentTitle;
+}
+
+- (NSMutableArray*) getHighLowVals{
+    [_highLowVals_S removeAllObjects];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",lowHue_S]];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",highHue_S]];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",lowSaturation_S]];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",highSaturation_S]];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",lowVal_S]];
+    [_highLowVals_S addObject:[NSString stringWithFormat:@"%d",highVal_S]];
+    return _highLowVals_S;
+}
 
 #pragma -mark Back Button
 
@@ -175,6 +197,7 @@ UIImage* swaleIcon2 = nil;
 }
 
 - (IBAction)backButton:(id)sender {
+    // Make pop up asking if you want to do that because it will delete all of your work
     [self buttonizeButtonTap: self];
 }
 
@@ -289,6 +312,8 @@ UIImage* swaleIcon2 = nil;
         }
     }
     
+    [self setHighandlowVal_Sues];
+    
     if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
         [self changeColorSetToIndex: 0];
 }
@@ -363,6 +388,8 @@ UIImage* swaleIcon2 = nil;
 
     
     [self changeColorSetToIndex: clickedSegment_S];
+    
+    [self setHighandlowVal_Sues];
 }
 
 #pragma mark - Threshold Switch
@@ -527,30 +554,8 @@ UIImage* swaleIcon2 = nil;
         lowSaturation_S = ( lowSaturation_S > S_Sample ) ? S_Sample : lowSaturation_S ;
         lowVal_S = ( lowVal_S > V_Sample ) ? V_Sample : lowVal_S;
         
+        
     }
-}
-
-- (void) setNoDefault{
-    lowHue_S = 225;
-    highHue_S = 0;
-    
-    lowSaturation_S = 225;
-    highSaturation_S = 0;
-    
-    lowVal_S = 225;
-    highVal_S = 0;
-}
-
-- (void) setDefaultHSV{
-    
-    lowHue_S = 10;
-    highHue_S = 80;
-    
-    lowSaturation_S = 50;
-    highSaturation_S = 200;
-    
-    lowVal_S = 50;
-    highVal_S = 255;
 }
 
 #pragma Change HSV Values based on Location
@@ -631,6 +636,7 @@ UIImage* swaleIcon2 = nil;
     else
         self.tableView.hidden = TRUE;
 }
+
 
 
 

@@ -32,6 +32,12 @@
 - (IBAction)dropDownButton:(id)sender;
 - (IBAction)backButton:(id)sender;
 
+@property (nonatomic,strong) NSString *savedColorPalette_RB;
+@property (strong, nonatomic) NSMutableArray*highLowVals_RB;
+
+- (NSString*) getColorPaletteLabel;
+- (NSMutableArray*) getHighLowVals;
+
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
 @end

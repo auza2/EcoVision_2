@@ -107,6 +107,7 @@ UIImage* permeablePaverIcon2 = nil;
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 
+     _highLowVals_PP = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -269,7 +270,21 @@ UIImage* permeablePaverIcon2 = nil;
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return img_PP;
 }
+#pragma -mark sending data
+- (NSString*) getColorPaletteLabel{
+    return self.dropDown.currentTitle;
+}
 
+- (NSMutableArray*) getHighLowVals{
+    [_highLowVals_PP removeAllObjects];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",lowHue_PP]];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",highHue_PP]];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",lowSaturation_PP]];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",highSaturation_PP]];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",lowVal_PP]];
+    [_highLowVals_PP addObject:[NSString stringWithFormat:@"%d",highVal_PP]];
+    return _highLowVals_PP;
+}
 
 #pragma -mark Handle Taps
 
@@ -289,6 +304,8 @@ UIImage* permeablePaverIcon2 = nil;
             break;
         }
     }
+    
+    [self setHighandlowVal_PPues];
     
     if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
         [self changeColorSetToIndex: 0];
@@ -360,7 +377,7 @@ UIImage* permeablePaverIcon2 = nil;
         [viewIconSwitch setOn:false];
         [self updateScrollView:_currentImage_PP];
     }
-    
+    [self setHighandlowVal_PPues];
     [self changeColorSetToIndex: clickedSegment_PP];
 }
 

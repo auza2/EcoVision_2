@@ -11,6 +11,7 @@
 #import "GreenRoof.h"
 #import "PermeablePaver.h"
 #import "RainBarrel.h"
+#import "saveColors.h"
 #import "CVWrapper.h"
 #import "Coordinate.h"
 
@@ -291,6 +292,9 @@ int pressedButton = -1;
         
         RainBarrel *rainBarrel = navController.viewControllers[3];
         rainBarrel.currentImage_RB = plainImage2;
+        
+        saveColors *saveColors = navController.viewControllers[4];
+        saveColors.title = @"Save Colors";
         
      }
     

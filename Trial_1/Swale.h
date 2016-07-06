@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Swale : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface Swale : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITabBarControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
@@ -32,8 +32,12 @@
 - (IBAction)dropDownButton:(id)sender;
 - (IBAction)backButton:(id)sender;
 
-@property (nonatomic,strong) NSMutableArray * SwaleSamples;
+@property (nonatomic,strong) NSMutableArray *SwaleSamples;
+@property (nonatomic,strong) NSString *savedColorPalette_S;
+@property (strong, nonatomic) NSMutableArray*highLowVals_S;
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer;
+- (NSString*) getColorPaletteLabel;
+- (NSMutableArray*) getHighLowVals;
 
 @end

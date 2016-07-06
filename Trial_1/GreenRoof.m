@@ -106,6 +106,7 @@ UIImage* greenRoofIcon2 = nil;
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
 
+    _highLowVals_GR = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -177,6 +178,22 @@ UIImage* greenRoofIcon2 = nil;
 - (IBAction)backButton:(id)sender {
     [self buttonizeButtonTap: self];
 }
+#pragma -mark sending data
+- (NSString*) getColorPaletteLabel{
+    return self.dropDown.currentTitle;
+}
+
+- (NSMutableArray*) getHighLowVals{
+    [_highLowVals_GR removeAllObjects];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",lowHue_GR]];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",highHue_GR]];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",lowSaturation_GR]];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",highSaturation_GR]];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",lowVal_GR]];
+    [_highLowVals_GR addObject:[NSString stringWithFormat:@"%d",highVal_GR]];
+    return _highLowVals_GR;
+}
+
 
 #pragma -mark View Icons Switch
 - (void)stateChangedViewIcon:(UISwitch *)switchState
@@ -289,6 +306,8 @@ UIImage* greenRoofIcon2 = nil;
         }
     }
     
+    [self setHighandlowVal_GRues];
+    
     if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
         [self changeColorSetToIndex: 0];
 }
@@ -360,7 +379,7 @@ UIImage* greenRoofIcon2 = nil;
         [self updateScrollView:_currentImage_GR];
     }
 
-    
+    [self setHighandlowVal_GRues];
     [self changeColorSetToIndex: clickedSegment_GR];
 }
 
