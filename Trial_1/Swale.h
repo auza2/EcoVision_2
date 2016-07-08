@@ -39,5 +39,7 @@
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer;
 - (NSString*) getColorPaletteLabel;
 - (NSMutableArray*) getHighLowVals;
+- (void) changeFromFile;
+- (void) changeColorSetToIndex: (int)index;
 
 @end

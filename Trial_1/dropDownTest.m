@@ -155,7 +155,25 @@
 
 - (IBAction)writeTest:(id)sender {
     // Make an array
-    int test[] = {10, 80, 50, 200, 50, 255, 80, 175, 140, 255, 100, 255, 90, 110, 40, 100, 120, 225, 0, 15, 30, 220, 50, 210, 15, 90, 35, 200, 35, 130};   // Corner Markers
+    
+    // Deafult
+    
+    
+    int test[] = {10, 80, 50, 200, 50, 255,
+                80, 175, 140, 255, 100, 255,
+                90, 110, 40, 100, 120, 225,
+                0, 15, 30, 220, 50, 210,
+                15,90, 35, 200, 35, 130};   // Corner Markers
+     
+    
+    /*
+    int test[] = {255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0};
+    */
+    // Corner Marker
     
     NSString *str = @"";
     
@@ -170,6 +188,7 @@
     
     // str should be the string that we get when we read HSVValue.txt
     // We can also always get the high and low values from the individual view controllers
+    //NSString * fromUser = @"Default";
     NSString * fromUser = @"Default";
     NSString * trimmedFromUser = [fromUser stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceCharacterSet]];

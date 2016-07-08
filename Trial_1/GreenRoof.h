@@ -32,12 +32,14 @@
 
 - (NSString*) getColorPaletteLabel;
 - (NSMutableArray*) getHighLowVals;
+- (void) changeFromFile;
 
 
 - (IBAction)removeAll:(id)sender;
 - (IBAction)backButton:(id)sender;
 - (IBAction)dropDownButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
+- (void) changeColorSetToIndex: (int)index;
 
 
 - (void) changeHSVVals;

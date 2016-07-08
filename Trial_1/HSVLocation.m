@@ -27,6 +27,14 @@
     return name;
 }
 
+-(NSString*) getValuesAsString{
+    NSString * allValues = @"";
+    for( NSString * value in HSVValues){
+        allValues = [allValues stringByAppendingFormat:@" %@", value];
+    }
+    return allValues;
+}
+
 /*
  ** colorCases: 0 = green
  **             1 = red

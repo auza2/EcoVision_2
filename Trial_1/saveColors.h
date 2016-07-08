@@ -34,6 +34,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *colorPalette_PP;
 @property (weak, nonatomic) IBOutlet UILabel *colorPalette_GR;
 
+// Save Button
+- (IBAction)saveAs:(id)sender;
+
 // Image Views
 
 @property (weak, nonatomic) IBOutlet UIImageView *low_S;

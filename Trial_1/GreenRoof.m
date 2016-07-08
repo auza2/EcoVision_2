@@ -642,7 +642,9 @@ UIImage* greenRoofIcon2 = nil;
     
     self.tableView.hidden =  TRUE;
 }
-
+- (void) changeFromFile{
+    [savedLocationsFromFile_GR changeFromFile];
+}
 
 - (IBAction)dropDownButton:(id)sender {
     if( self.tableView.hidden == TRUE )

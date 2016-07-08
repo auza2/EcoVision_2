@@ -34,6 +34,8 @@
 
 - (NSString*) getColorPaletteLabel;
 - (NSMutableArray*) getHighLowVals;
+- (void) changeColorSetToIndex: (int)index;
+- (void) changeFromFile;
 
 @property (nonatomic,strong) NSMutableArray * PermeablePaverSamples;
 - (IBAction)removeAll:(id)sender;

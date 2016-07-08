@@ -19,4 +19,7 @@
 - (int) count;
 - (NSString*) nameOfObjectAtIndex:(int)index;
 - (NSMutableArray*) getHSVForSavedLocationAtIndex:(NSInteger)index Icon:(NSInteger)caseNum;
+- (int) saveEntryWithName: (NSString*) name Values:(NSMutableArray*) values;
+- (void) writeToFile;
+- (void) changeFromFile;
 @end

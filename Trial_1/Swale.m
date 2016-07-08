@@ -198,9 +198,24 @@ UIImage* swaleIcon2 = nil;
 
 - (IBAction)backButton:(id)sender {
     // Make pop up asking if you want to do that because it will delete all of your work
-    [self buttonizeButtonTap: self];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Are you sure? Going back means you will lose all palettes that were not saved." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    [alert show];
+    
 }
-
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        NSLog(@"user pressed Button Indexed 0");
+        // Any action can be performed here
+    }
+    else
+    {
+        NSLog(@"user pressed Button Indexed 1");
+        [self buttonizeButtonTap: self];
+        // Any action can be performed here
+    }
+}
 #pragma -mark View Icons Switch
 - (void)stateChangedViewIcon:(UISwitch *)switchState
 {
@@ -587,7 +602,6 @@ UIImage* swaleIcon2 = nil;
     // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
     
     cell.textLabel.text = [savedLocationsFromFile_S nameOfObjectAtIndex:indexPath.row];
-    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
     
     return cell;
 }
@@ -627,6 +641,10 @@ UIImage* swaleIcon2 = nil;
     [self changeHSVVals];
     
     self.tableView.hidden =  TRUE;
+}
+
+- (void) changeFromFile{
+    [savedLocationsFromFile_S changeFromFile];
 }
 
 

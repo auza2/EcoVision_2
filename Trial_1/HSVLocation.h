@@ -15,6 +15,7 @@
 -(instancetype) initWithName:(NSString*)Name Values:(NSMutableArray*)Values;
 
 -(NSString*) getName;
+-(NSString*) getValuesAsString;
 
 -(NSMutableArray*) getSwaleValues;
 -(NSMutableArray*) getRainBarrelValues;

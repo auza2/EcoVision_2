@@ -37,6 +37,8 @@
 
 - (NSString*) getColorPaletteLabel;
 - (NSMutableArray*) getHighLowVals;
+- (void) changeColorSetToIndex: (int)index;
+- (void) changeFromFile;
 
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 

@@ -641,6 +641,9 @@ UIImage* permeablePaverIcon2 = nil;
     
 }
 
+- (void) changeFromFile{
+    [savedLocationsFromFile_PP changeFromFile];
+}
 
 - (IBAction)dropDownButton:(id)sender {
     if( self.tableView.hidden == TRUE )

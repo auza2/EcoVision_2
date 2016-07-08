@@ -617,7 +617,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyf-1A-BEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2771" y="-333"/>
+            <point key="canvasLocation" x="2767" y="-271"/>
         </scene>
         <!--TakeAPicturePopUp-->
         <scene sceneID="itf-I3-0j5">
@@ -1322,6 +1322,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLI-Gz-2lm">
                                 <rect key="frame" x="468" y="627" width="89" height="30"/>
                                 <state key="normal" title="Save As"/>
+                                <connections>
+                                    <action selector="saveAs:" destination="Ge5-Jx-lgk" eventType="touchUpInside" id="atY-0O-olB"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swale" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psh-wi-PHO">
                                 <rect key="frame" x="61" y="191" width="140" height="21"/>
@@ -1824,7 +1827,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LH2-Wt-8VO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10151" y="1388"/>
+            <point key="canvasLocation" x="10085" y="1225"/>
         </scene>
         <!--Item-->
         <scene sceneID="DJG-OM-SUg">

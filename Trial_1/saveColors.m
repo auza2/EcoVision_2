@@ -9,10 +9,12 @@
 #import "saveColors.h"
 #import "Swale.h"
 #import "HSVLocation.h"
+#import "savedLocations.h"
 #import "CVWrapper.h"
 
 
 @implementation saveColors
+savedLocations* savedLocationsFromFile_SC;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,6 +23,8 @@
     _PermeablePaver = [self.tabBarController.childViewControllers objectAtIndex:1];
     _GreenRoof = [self.tabBarController.childViewControllers objectAtIndex:2];
     _RainBarrel = [self.tabBarController.childViewControllers objectAtIndex:3];
+    
+     savedLocationsFromFile_SC = [[savedLocations alloc] init];
 
 }
 
@@ -31,6 +35,7 @@
     [self updateRainBarrelLabels];
     [self updatePermeablePaverLabels];
     [self updateGreenRoofLabels];
+    
 }
 
 -(void) updateSwaleLabels{
@@ -47,13 +52,13 @@
     _HS_S.text = [_swaleColors objectAtIndex:3];
     _HB_S.text = [_swaleColors objectAtIndex:5];
     
-    _low_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_S.text intValue]*1/225
-                                               saturation:(float)[_LS_S.text intValue]*1/225
-                                               brightness:(float)[_LB_S.text intValue]*1/225
+    _low_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_S.text intValue]*1/255
+                                               saturation:(float)[_LS_S.text intValue]*1/255
+                                               brightness:(float)[_LB_S.text intValue]*1/255
                                                     alpha:1];
-    _high_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_S.text intValue]*1/225
-                                                saturation:(float)[_HS_S.text intValue]*1/225
-                                                brightness:(float)[_HB_S.text intValue]*1/225
+    _high_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_S.text intValue]*1/255
+                                                saturation:(float)[_HS_S.text intValue]*1/255
+                                                brightness:(float)[_HB_S.text intValue]*1/255
                                                      alpha:1];
 }
 
@@ -71,13 +76,13 @@
     _HS_RB.text = [_rainBarrelColors objectAtIndex:3];
     _HB_RB.text = [_rainBarrelColors objectAtIndex:5];
     
-    _low_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_RB.text intValue]*1/225
-                                               saturation:(float)[_LS_RB.text intValue]*1/225
-                                               brightness:(float)[_LB_RB.text intValue]*1/225
+    _low_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_RB.text intValue]*1/255
+                                               saturation:(float)[_LS_RB.text intValue]*1/255
+                                               brightness:(float)[_LB_RB.text intValue]*1/255
                                                     alpha:1];
-    _high_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_RB.text intValue]*1/225
-                                                saturation:(float)[_HS_RB.text intValue]*1/225
-                                                brightness:(float)[_HB_RB.text intValue]*1/225
+    _high_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_RB.text intValue]*1/255
+                                                saturation:(float)[_HS_RB.text intValue]*1/255
+                                                brightness:(float)[_HB_RB.text intValue]*1/255
                                                      alpha:1];
 
 }
@@ -96,15 +101,15 @@
     _HS_PP.text = [_permeablePaverColors objectAtIndex:3];
     _HB_PP.text = [_permeablePaverColors objectAtIndex:5];
     
-    NSLog(@"Permeable Paver Low hue %f", (float)[_LS_PP.text intValue]*1/225);
+    NSLog(@"Permeable Paver Low hue %f", (float)[_LS_PP.text intValue]*1/255);
     
-    _low_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_PP.text intValue]*1/225
-                                                saturation:(float)[_LS_PP.text intValue]*1/225
-                                                brightness:(float)[_LB_PP.text intValue]*1/225
+    _low_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_PP.text intValue]*1/255
+                                                saturation:(float)[_LS_PP.text intValue]*1/255
+                                                brightness:(float)[_LB_PP.text intValue]*1/255
                                                      alpha:1];
-    _high_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_PP.text intValue]*1/225
-                                                 saturation:(float)[_HS_PP.text intValue]*1/225
-                                                 brightness:(float)[_HB_PP.text intValue]*1/225
+    _high_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_PP.text intValue]*1/255
+                                                 saturation:(float)[_HS_PP.text intValue]*1/255
+                                                 brightness:(float)[_HB_PP.text intValue]*1/255
                                                       alpha:1];
     
 }
@@ -123,15 +128,72 @@
     _HS_GR.text = [_greenRoofColors objectAtIndex:3];
     _HB_GR.text = [_greenRoofColors objectAtIndex:5];
     
-    _low_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_GR.text intValue]*1/225
-                                                saturation:(float)[_LS_GR.text intValue]*1/225
-                                                brightness:(float)[_LB_GR.text intValue]*1/225
+    NSLog(@"%f,%f",(float)[_LH_GR.text intValue]*1/255,(float)[_HH_GR.text intValue]*1/255);
+    
+    _low_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_GR.text intValue]*1/255
+                                                saturation:(float)[_LS_GR.text intValue]*1/255
+                                                brightness:(float)[_LB_GR.text intValue]*1/255
                                                      alpha:1];
-    _high_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_GR.text intValue]*1/225
-                                                 saturation:(float)[_HS_GR.text intValue]*1/225
-                                                 brightness:(float)[_HB_GR.text intValue]*1/225
+    _high_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_GR.text intValue]*1/255
+                                                 saturation:(float)[_HS_GR.text intValue]*1/255
+                                                 brightness:(float)[_HB_GR.text intValue]*1/255
                                                       alpha:1];
     
 }
 
+- (IBAction)saveAs:(id)sender {
+    NSString * info = [NSString stringWithFormat: @"We suggest naming this color set based on the location/condition of the room it was taken.\n e.g. 'Lab - Flourescent Lighting'"];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Saving Color Set" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.placeholder = @"Insert name here";
+    [alert show];
+}
+
+
+// Gets called after we enter from the alert view
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0)
+    {
+        // User Clicked Cancel
+    }
+    else
+    {
+        NSLog(@"user pressed Button Indexed 1");
+        
+        NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+        
+        NSMutableArray * saveValues = [[NSMutableArray alloc] init];
+        
+        [saveValues addObjectsFromArray:[_Swale getHighLowVals]];
+        [saveValues addObjectsFromArray:[_RainBarrel getHighLowVals]];
+        [saveValues addObjectsFromArray:[_GreenRoof getHighLowVals]];
+        [saveValues addObjectsFromArray:[_PermeablePaver getHighLowVals]];
+        
+        NSMutableArray * greenCornerValues = [[NSMutableArray alloc] init ];
+        [greenCornerValues addObject: @"15"];
+        [greenCornerValues addObject: @"90"];
+        [greenCornerValues addObject: @"35"];
+        [greenCornerValues addObject: @"200"];
+        [greenCornerValues addObject: @"35"];
+        [greenCornerValues addObject: @"130"];
+        
+        [saveValues addObjectsFromArray: greenCornerValues];
+        
+        int index = [savedLocationsFromFile_SC saveEntryWithName:[[alertView textFieldAtIndex:0] text] Values:saveValues];
+        
+        // Adds the new or modified HSVLocation for the drop down
+        [savedLocationsFromFile_SC changeFromFile];
+        [_Swale changeFromFile];
+        [_Swale changeColorSetToIndex: index];
+        [_RainBarrel changeFromFile];
+        [_RainBarrel changeColorSetToIndex: index];
+        [_GreenRoof changeFromFile];
+        [_GreenRoof changeColorSetToIndex: index];
+        [_PermeablePaver changeFromFile];
+        [_PermeablePaver changeColorSetToIndex: index];
+        // Any action can be performed here
+    }
+    
+}
 @end

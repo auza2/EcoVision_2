@@ -555,28 +555,7 @@ UIImage* rainBarrelIcon2 = nil;
     }
 }
 
-- (void) setNoDefault{
-    lowHue_RB = 225;
-    highHue_RB = 0;
-    
-    lowSaturation_RB = 225;
-    highSaturation_RB = 0;
-    
-    lowVal_RB = 225;
-    highVal_RB = 0;
-}
 
-- (void) setDefaultHSV{
-    
-    lowHue_RB = 10;
-    highHue_RB = 80;
-    
-    lowSaturation_RB = 50;
-    highSaturation_RB = 200;
-    
-    lowVal_RB = 50;
-    highVal_RB = 255;
-}
 
 #pragma Change HSV Values based on Location
 
@@ -655,6 +634,9 @@ UIImage* rainBarrelIcon2 = nil;
     [self changeHSVVals];
     
     self.tableView.hidden =  TRUE;
+}
+- (void) changeFromFile{
+    [savedLocationsFromFile_RB changeFromFile];
 }
 
 
