@@ -160,6 +160,24 @@ int pressedButton = -1;
     Coordinate * addCoord;
     addCoord = [[Coordinate alloc] initWithXCoord:(point.x / squareWidth) YCoord: 25 -(point.y / squareHeight)];
     
+    
+    // Fixing Bug that can add more than one thing to a certain Coordinate
+    for( Coordinate * coord in swaleCoordinates){
+        if( [coord isEqualToOther:addCoord] )
+            return;
+    }
+    for( Coordinate * coord in greenRoofCoordinates){
+        if( [coord isEqualToOther:addCoord] )
+            return;
+    }
+    for( Coordinate * coord in rainBarrelCoordinates){
+        if( [coord isEqualToOther:addCoord] )
+            return;
+    }
+    for( Coordinate * coord in permeablePaverCoordinates){
+        if( [coord isEqualToOther:addCoord] )
+            return;
+    }
     // We should have error messages if that Icon isn't allowed on that location
     
     

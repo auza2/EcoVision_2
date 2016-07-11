@@ -19,5 +19,6 @@
 
 @property (assign, nonatomic) NSInteger x;
 @property (assign, nonatomic) NSInteger y;
+- (BOOL) isEqualToOther:(Coordinate*)otherCoord;
 
 @end

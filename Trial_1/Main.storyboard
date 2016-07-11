@@ -1307,10 +1307,10 @@
             </objects>
             <point key="canvasLocation" x="7516" y="1225"/>
         </scene>
-        <!--Item-->
+        <!--Save Colors-->
         <scene sceneID="ECv-3t-LaM">
             <objects>
-                <viewController id="Ge5-Jx-lgk" customClass="saveColors" sceneMemberID="viewController">
+                <viewController title="Save Colors" id="Ge5-Jx-lgk" customClass="saveColors" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yef-bU-TgD"/>
                         <viewControllerLayoutGuide type="bottom" id="mYW-In-I88"/>
@@ -1827,7 +1827,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LH2-Wt-8VO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10085" y="1225"/>
+            <point key="canvasLocation" x="9851" y="1225"/>
         </scene>
         <!--Item-->
         <scene sceneID="DJG-OM-SUg">
@@ -1926,8 +1926,8 @@
         <image name="icon-camera-128 copy-1" width="157" height="157"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lWp-2h-f0H"/>
+        <segue reference="zlO-lh-NYw"/>
         <segue reference="ZBs-YI-45i"/>
-        <segue reference="qUN-Gs-Ois"/>
+        <segue reference="ibA-14-zqu"/>
     </inferredMetricsTieBreakers>
 </document>

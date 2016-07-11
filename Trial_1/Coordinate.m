@@ -33,5 +33,9 @@
     return y;
 }
 
+- (BOOL) isEqualToOther:(Coordinate*)otherCoord{
+    return x == [otherCoord getX] && y == [otherCoord getY];
+}
+
 
 @end
