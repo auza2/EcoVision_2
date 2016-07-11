@@ -369,7 +369,9 @@ UIImage* swaleIcon2 = nil;
     [self.scrollView.layer renderInContext:context];
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
-    
+    NSLog(@"Red %d --- %f",pixel[0], pixel[0]/255.0 );
+    NSLog(@"Green %d --- %f",pixel[1], pixel[1]/255.0 );
+    NSLog(@"Blue %d --- %f",pixel[2], pixel[2]/255.0 );
     UIColor *color = [UIColor colorWithRed:pixel[0]/255.0 green:pixel[1]/255.0 blue:pixel[2]/255.0 alpha:pixel[3]/255.0];
     
     return color;

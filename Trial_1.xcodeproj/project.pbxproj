@@ -40,7 +40,6 @@
 		7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DC34F551CEA95900069C04F /* IMG_0001.jpg */; };
 		7DC3E6B71CF9073500D0FCC0 /* GreenRoof.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */; };
 		7DE7EEB81D00C1AF00724596 /* Coordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7EEB71D00C1AF00724596 /* Coordinate.m */; };
-		7DE7EEBA1D03880C00724596 /* watermark.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DE7EEB91D03880C00724596 /* watermark.png */; };
 		7DFCA6151CE52BF8003262CC /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFCA6141CE52BF8003262CC /* loginViewController.m */; };
 		7DFCA6181CE53D85003262CC /* takeAPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFCA6171CE53D85003262CC /* takeAPictureViewController.m */; };
 /* End PBXBuildFile section */
@@ -118,7 +117,6 @@
 		7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenRoof.m; sourceTree = "<group>"; };
 		7DE7EEB61D00C1AF00724596 /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
 		7DE7EEB71D00C1AF00724596 /* Coordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coordinate.m; sourceTree = "<group>"; };
-		7DE7EEB91D03880C00724596 /* watermark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watermark.png; path = ../../watermark.png; sourceTree = "<group>"; };
 		7DFCA6131CE52BF8003262CC /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
 		7DFCA6141CE52BF8003262CC /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
 		7DFCA6161CE53D85003262CC /* takeAPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = takeAPictureViewController.h; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 		7D7D81F41CC53FF6004D8BC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7DE7EEB91D03880C00724596 /* watermark.png */,
 				7D2622C61CEF825B008E0F39 /* IMG_0040.JPG */,
 				7D7D81F51CC53FF6004D8BC2 /* main.m */,
 				7D47450B1CED352500CDA2A7 /* IMG_0030.jpg */,
@@ -379,7 +376,6 @@
 				7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */,
 				7D47450C1CED352500CDA2A7 /* IMG_0030.jpg in Resources */,
 				7D7835261CE1BBC0003CB313 /* Main.storyboard in Resources */,
-				7DE7EEBA1D03880C00724596 /* watermark.png in Resources */,
 				7D2622C71CEF825B008E0F39 /* IMG_0040.JPG in Resources */,
 				7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */,
 				7D7D82041CC53FF6004D8BC2 /* Assets.xcassets in Resources */,

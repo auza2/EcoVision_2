@@ -102,6 +102,19 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
     *V = pixel[2];
 }
 
++ (void) getRGBValuesFromH:(int)hValue S:(int)sValue V:(int)vValue R:(double*)r G:(double*)g B:(double*)b{
+    //cvtColor( , ,CV_HSV2RGB);
+    Mat matted(8,8,CV_8UC3, cv::Scalar(hValue,sValue,vValue));
+    
+    Mat RGBMat;
+    cvtColor(matted, RGBMat, CV_HSV2RGB);
+    
+    Vec3b pixel = RGBMat.at<Vec3b>(1,1);
+    *b = pixel[0];
+    *g = pixel[1];
+    *r = pixel[2];
+}
+
 + (int) detectContours:(UIImage *)src corners:(int[]) cornersGlobal
 {
     

@@ -15,6 +15,13 @@
 
 @implementation saveColors
 savedLocations* savedLocationsFromFile_SC;
+double R_low;
+double G_low;
+double B_low;
+double R_high;
+double G_high;
+double B_high;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,9 +46,6 @@ savedLocations* savedLocationsFromFile_SC;
 }
 
 -(void) updateSwaleLabels{
-    
-
-    
     _colorPalette_S.text = [_Swale getColorPaletteLabel];
     _swaleColors = [_Swale getHighLowVals];
     
@@ -52,13 +56,29 @@ savedLocations* savedLocationsFromFile_SC;
     _HS_S.text = [_swaleColors objectAtIndex:3];
     _HB_S.text = [_swaleColors objectAtIndex:5];
     
-    _low_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_S.text intValue]*1/255
-                                               saturation:(float)[_LS_S.text intValue]*1/255
-                                               brightness:(float)[_LB_S.text intValue]*1/255
+    
+    [CVWrapper getRGBValuesFromH:[_LH_S.text intValue]
+                               S:[_LS_S.text intValue]
+                               V:[_LB_S.text intValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:[_HH_S.text intValue]
+                               S:[_HS_S.text intValue]
+                               V:[_HB_S.text intValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    _low_S.backgroundColor = [[UIColor alloc] initWithRed:R_low/255.0
+                                                    green:G_low/255.0
+                                                     blue:B_low/255.0
                                                     alpha:1];
-    _high_S.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_S.text intValue]*1/255
-                                                saturation:(float)[_HS_S.text intValue]*1/255
-                                                brightness:(float)[_HB_S.text intValue]*1/255
+    
+    _high_S.backgroundColor = [[UIColor alloc] initWithRed:R_high/255.0
+                                                     green:G_high/255.0
+                                                      blue:B_high/255.0
                                                      alpha:1];
 }
 
@@ -76,13 +96,30 @@ savedLocations* savedLocationsFromFile_SC;
     _HS_RB.text = [_rainBarrelColors objectAtIndex:3];
     _HB_RB.text = [_rainBarrelColors objectAtIndex:5];
     
-    _low_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_RB.text intValue]*1/255
-                                               saturation:(float)[_LS_RB.text intValue]*1/255
-                                               brightness:(float)[_LB_RB.text intValue]*1/255
+    [CVWrapper getRGBValuesFromH:[_LH_RB.text intValue]
+                               S:[_LS_RB.text intValue]
+                               V:[_LB_RB.text intValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:[_HH_RB.text intValue]
+                               S:[_HS_RB.text intValue]
+                               V:[_HB_RB.text intValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    
+    
+    _low_RB.backgroundColor = [[UIColor alloc] initWithRed:R_low/255.0
+                                                    green:G_low/255.0
+                                                     blue:B_low/255.0
                                                     alpha:1];
-    _high_RB.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_RB.text intValue]*1/255
-                                                saturation:(float)[_HS_RB.text intValue]*1/255
-                                                brightness:(float)[_HB_RB.text intValue]*1/255
+    
+    _high_RB.backgroundColor = [[UIColor alloc] initWithRed:R_high/255.0
+                                                     green:G_high/255.0
+                                                      blue:B_high/255.0
                                                      alpha:1];
 
 }
@@ -101,17 +138,29 @@ savedLocations* savedLocationsFromFile_SC;
     _HS_PP.text = [_permeablePaverColors objectAtIndex:3];
     _HB_PP.text = [_permeablePaverColors objectAtIndex:5];
     
-    NSLog(@"Permeable Paver Low hue %f", (float)[_LS_PP.text intValue]*1/255);
+    [CVWrapper getRGBValuesFromH:[_LH_PP.text intValue]
+                               S:[_LS_PP.text intValue]
+                               V:[_LB_PP.text intValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
     
-    _low_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_PP.text intValue]*1/255
-                                                saturation:(float)[_LS_PP.text intValue]*1/255
-                                                brightness:(float)[_LB_PP.text intValue]*1/255
+    [CVWrapper getRGBValuesFromH:[_HH_PP.text intValue]
+                               S:[_HS_PP.text intValue]
+                               V:[_HB_PP.text intValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    _low_PP.backgroundColor = [[UIColor alloc] initWithRed:R_low/255.0
+                                                    green:G_low/255.0
+                                                     blue:B_low/255.0
+                                                    alpha:1];
+    
+    _high_PP.backgroundColor = [[UIColor alloc] initWithRed:R_high/255.0
+                                                     green:G_high/255.0
+                                                      blue:B_high/255.0
                                                      alpha:1];
-    _high_PP.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_PP.text intValue]*1/255
-                                                 saturation:(float)[_HS_PP.text intValue]*1/255
-                                                 brightness:(float)[_HB_PP.text intValue]*1/255
-                                                      alpha:1];
-    
 }
 
 -(void) updateGreenRoofLabels{
@@ -128,15 +177,28 @@ savedLocations* savedLocationsFromFile_SC;
     _HS_GR.text = [_greenRoofColors objectAtIndex:3];
     _HB_GR.text = [_greenRoofColors objectAtIndex:5];
     
-    NSLog(@"%f,%f",(float)[_LH_GR.text intValue]*1/255,(float)[_HH_GR.text intValue]*1/255);
+    [CVWrapper getRGBValuesFromH:[_LH_GR.text intValue]
+                               S:[_LS_GR.text intValue]
+                               V:[_LB_GR.text intValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
     
-    _low_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_LH_GR.text intValue]*1/255
-                                                saturation:(float)[_LS_GR.text intValue]*1/255
-                                                brightness:(float)[_LB_GR.text intValue]*1/255
+    [CVWrapper getRGBValuesFromH:[_HH_GR.text intValue]
+                               S:[_HS_GR.text intValue]
+                               V:[_HB_GR.text intValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    _low_GR.backgroundColor = [[UIColor alloc] initWithRed:R_low/255.0
+                                                     green:G_low/255.0
+                                                      blue:B_low/255.0
                                                      alpha:1];
-    _high_GR.backgroundColor = [[UIColor alloc] initWithHue:(float)[_HH_GR.text intValue]*1/255
-                                                 saturation:(float)[_HS_GR.text intValue]*1/255
-                                                 brightness:(float)[_HB_GR.text intValue]*1/255
+    
+    _high_GR.backgroundColor = [[UIColor alloc] initWithRed:R_high/255.0
+                                                      green:G_high/255.0
+                                                       blue:B_high/255.0
                                                       alpha:1];
     
 }
