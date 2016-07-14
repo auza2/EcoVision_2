@@ -36,6 +36,7 @@
 		7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D7D82051CC53FF6004D8BC2 /* LaunchScreen.storyboard */; };
 		7D7D82121CC53FF6004D8BC2 /* Trial_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D82111CC53FF6004D8BC2 /* Trial_1Tests.m */; };
 		7D7D821D1CC53FF6004D8BC2 /* Trial_1UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */; };
+		7DAEEEC51D34611F0020F1BB /* GreenCorners.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAEEEC41D34611F0020F1BB /* GreenCorners.m */; };
 		7DAFB4EC1CFDE28F00AC4204 /* RainBarrel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */; };
 		7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DC34F551CEA95900069C04F /* IMG_0001.jpg */; };
 		7DC3E6B71CF9073500D0FCC0 /* GreenRoof.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC3E6B61CF9073500D0FCC0 /* GreenRoof.m */; };
@@ -110,6 +111,8 @@
 		7D7D82181CC53FF6004D8BC2 /* Trial_1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Trial_1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Trial_1UITests.m; sourceTree = "<group>"; };
 		7D7D821E1CC53FF6004D8BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DAEEEC31D34611F0020F1BB /* GreenCorners.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GreenCorners.h; sourceTree = "<group>"; };
+		7DAEEEC41D34611F0020F1BB /* GreenCorners.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenCorners.m; sourceTree = "<group>"; };
 		7DAFB4EA1CFDE28F00AC4204 /* RainBarrel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainBarrel.h; sourceTree = "<group>"; };
 		7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainBarrel.m; sourceTree = "<group>"; };
 		7DC34F551CEA95900069C04F /* IMG_0001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0001.jpg; sourceTree = "<group>"; };
@@ -216,6 +219,8 @@
 				7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */,
 				7D58FCD01CFD0D8D006E5A38 /* PermeablePaver.h */,
 				7D58FCD11CFD0D8D006E5A38 /* PermeablePaver.m */,
+				7DAEEEC31D34611F0020F1BB /* GreenCorners.h */,
+				7DAEEEC41D34611F0020F1BB /* GreenCorners.m */,
 				7D73F7851D2B1D1700A70B41 /* saveColors.h */,
 				7D73F7861D2B1D1700A70B41 /* saveColors.m */,
 				7D1323F31CE5616100440F4F /* CVWrapper.h */,
@@ -421,6 +426,7 @@
 				7D7D81F91CC53FF6004D8BC2 /* AppDelegate.m in Sources */,
 				7D1323F51CE5616100440F4F /* CVWrapper.mm in Sources */,
 				7DE7EEB81D00C1AF00724596 /* Coordinate.m in Sources */,
+				7DAEEEC51D34611F0020F1BB /* GreenCorners.m in Sources */,
 				7D7D81F61CC53FF6004D8BC2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

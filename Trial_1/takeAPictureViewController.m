@@ -71,6 +71,7 @@ char results[5000]; // changed to do testing
         analysisViewController.currentImage_A = currentImage_TAP;
         analysisViewController.groupNumber = self.groupNumber;
         analysisViewController.IPAddress = self.IPAddress;
+        analysisViewController.userImage_A = userImage;
     }
 }
 
@@ -80,11 +81,18 @@ char results[5000]; // changed to do testing
 -(void)buttonizeButtonTap:(id)sender{
     [self performSegueWithIdentifier:@"toAnalyze" sender:sender];
 }
+-(void)buttonizeButtonTap2:(id)sender{
+    [self performSegueWithIdentifier:@"toLogin" sender:sender];
+}
 
 #pragma mark - IBActions
 
 - (IBAction)toAnalyze:(id)sender {
     [self buttonizeButtonTap:self];
+}
+
+- (IBAction)toLogin:(id)sender {
+    [self buttonizeButtonTap2:self];
 }
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
@@ -143,8 +151,6 @@ char results[5000]; // changed to do testing
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
-
-
 
 #pragma mark - Change the Screen
 /*
@@ -240,7 +246,6 @@ char results[5000]; // changed to do testing
     [CVWrapper setHSV_Values:hsvValues];
     
 }
-
 - (void) processMap{
     int t = 0, c = 0, w = 0;
     

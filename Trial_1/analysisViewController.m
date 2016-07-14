@@ -12,6 +12,7 @@
 #import "PermeablePaver.h"
 #import "RainBarrel.h"
 #import "saveColors.h"
+#import "GreenCorners.h"
 #import "CVWrapper.h"
 #import "Coordinate.h"
 
@@ -145,6 +146,8 @@ int pressedButton = -1;
     doubleTap_A.numberOfTapsRequired = 2;
     doubleTap_A.delegate = self;
     [_scrollView addGestureRecognizer:doubleTap_A];
+    
+    [self setHSVValues];
 
 }
 
@@ -311,7 +314,12 @@ int pressedButton = -1;
         RainBarrel *rainBarrel = navController.viewControllers[3];
         rainBarrel.currentImage_RB = plainImage2;
         
-        saveColors *saveColors = navController.viewControllers[4];
+       
+        GreenCorners * greenCorners =navController.viewControllers[4];
+        greenCorners.title = @"Green Corners";
+        greenCorners.originalImage = _userImage_A;
+        
+        saveColors *saveColors = navController.viewControllers[5];
         saveColors.title = @"Save Colors";
         
      }
@@ -361,7 +369,13 @@ int pressedButton = -1;
 - (IBAction)toCalibrate:(id)sender {
     [self buttonizeButtonTap:self];
 }
-
+- (void) setHSVValues {
+    
+    int hsvDefault[] = {10, 80, 50, 200, 50, 255, 80, 175, 140, 255, 100, 255, 90, 110, 40, 100, 120, 225, 0, 15, 30, 220, 50, 210, 15, 90, 35, 200, 35, 130};
+    
+    [CVWrapper setHSV_Values:hsvDefault];
+    
+}
 
 - (IBAction)addGi:(id)sender {
     UIButton * clickedButton = (UIButton*)sender;

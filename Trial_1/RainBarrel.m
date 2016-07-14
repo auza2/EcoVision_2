@@ -635,8 +635,11 @@ UIImage* rainBarrelIcon2 = nil;
     
     self.tableView.hidden =  TRUE;
 }
+
+// Called after we save to change the tableview
 - (void) changeFromFile{
-    [savedLocationsFromFile_RB changeFromFile];
+    savedLocationsFromFile_RB = [savedLocationsFromFile_RB changeFromFile];
+    [self.tableView reloadData];
 }
 
 

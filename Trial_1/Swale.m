@@ -95,11 +95,7 @@ UIImage* swaleIcon2 = nil;
     
     swaleIcon2 = [UIImage imageNamed:@"Swale_Icon.png"];
     
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    savedLocationsFromFile_S = [[savedLocations alloc] init];
+
     
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
@@ -111,6 +107,11 @@ UIImage* swaleIcon2 = nil;
     // To send data to save screen
     self.tabBarController.delegate = self;
     _highLowVals_S = [[NSMutableArray alloc]init];
+    
+    // For Drop Down
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    savedLocationsFromFile_S = [[savedLocations alloc] init];
 
 }
 
@@ -163,6 +164,12 @@ UIImage* swaleIcon2 = nil;
     
     tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
     self.tableView.layer.borderWidth = 2.0;
+    
+    // For Drop Down
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    savedLocationsFromFile_S = [[savedLocations alloc] init];
     
 }
 #pragma -mark Sending high and low values to save screen
@@ -470,6 +477,7 @@ UIImage* swaleIcon2 = nil;
  * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
+    /*
     int hsvValues[30];
     [CVWrapper getHSV_Values:hsvValues];
     
@@ -503,7 +511,13 @@ UIImage* swaleIcon2 = nil;
         // loss of precision is fine since all numbers stored in arr will have only zeroes after the decimal
         hsvValues[i] = [[arr objectAtIndex:i]integerValue];
     }
+    */
     
+    int hsvValues[] = {255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0};
     [CVWrapper setHSV_Values:hsvValues];
 }
 
@@ -645,8 +659,10 @@ UIImage* swaleIcon2 = nil;
     self.tableView.hidden =  TRUE;
 }
 
+// Called after we save to change the tableview 
 - (void) changeFromFile{
-    [savedLocationsFromFile_S changeFromFile];
+    savedLocationsFromFile_S = [savedLocationsFromFile_S changeFromFile];
+    [self.tableView reloadData];
 }
 
 

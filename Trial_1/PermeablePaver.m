@@ -442,6 +442,7 @@ UIImage* permeablePaverIcon2 = nil;
  * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
+    /*
     int hsvValues[30];
     [CVWrapper getHSV_Values:hsvValues];
     
@@ -475,7 +476,13 @@ UIImage* permeablePaverIcon2 = nil;
         // loss of precision is fine since all numbers stored in arr will have only zeroes after the decimal
         hsvValues[i] = [[arr objectAtIndex:i]integerValue];
     }
+    */
     
+    int hsvValues[] = {255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0,
+        255, 0, 255, 0, 255, 0};
     [CVWrapper setHSV_Values:hsvValues];
 }
 
@@ -641,8 +648,10 @@ UIImage* permeablePaverIcon2 = nil;
     
 }
 
+// Called after we save to change the tableview
 - (void) changeFromFile{
-    [savedLocationsFromFile_PP changeFromFile];
+    savedLocationsFromFile_PP = [savedLocationsFromFile_PP changeFromFile];
+    [self.tableView reloadData];
 }
 
 - (IBAction)dropDownButton:(id)sender {

@@ -21,6 +21,8 @@ double B_low;
 double R_high;
 double G_high;
 double B_high;
+Boolean noChoiceMade;
+NSString * nameOfEntry;
 
 
 - (void)viewDidLoad {
@@ -30,6 +32,7 @@ double B_high;
     _PermeablePaver = [self.tabBarController.childViewControllers objectAtIndex:1];
     _GreenRoof = [self.tabBarController.childViewControllers objectAtIndex:2];
     _RainBarrel = [self.tabBarController.childViewControllers objectAtIndex:3];
+    _GreenCorners = [self.tabBarController.childViewControllers objectAtIndex:4];
     
      savedLocationsFromFile_SC = [[savedLocations alloc] init];
 
@@ -38,10 +41,12 @@ double B_high;
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    noChoiceMade = false;
     [self updateSwaleLabels];
     [self updateRainBarrelLabels];
     [self updatePermeablePaverLabels];
     [self updateGreenRoofLabels];
+    [self updateGreenCornerLabels];
     
 }
 
@@ -80,6 +85,10 @@ double B_high;
                                                      green:G_high/255.0
                                                       blue:B_high/255.0
                                                      alpha:1];
+    
+    if( _swaleColors == nil || [_colorPalette_S.text isEqualToString:@"Choose Saved Color Palette"]){
+        noChoiceMade = true;
+    }
 }
 
 -(void) updateRainBarrelLabels{
@@ -121,6 +130,10 @@ double B_high;
                                                      green:G_high/255.0
                                                       blue:B_high/255.0
                                                      alpha:1];
+    
+    if( _rainBarrelColors == nil  || [_colorPalette_RB.text isEqualToString:@"Choose Saved Color Palette"]){
+        noChoiceMade = true;
+    }
 
 }
 
@@ -161,6 +174,9 @@ double B_high;
                                                      green:G_high/255.0
                                                       blue:B_high/255.0
                                                      alpha:1];
+    if( _permeablePaverColors ==  nil || [_colorPalette_PP.text isEqualToString:@"Choose Saved Color Palette"]){
+        noChoiceMade = true;
+    }
 }
 
 -(void) updateGreenRoofLabels{
@@ -200,62 +216,124 @@ double B_high;
                                                       green:G_high/255.0
                                                        blue:B_high/255.0
                                                       alpha:1];
+    if( _greenRoofColors == nil || [_colorPalette_GR.text isEqualToString:@"Choose Saved Color Palette"]){
+        noChoiceMade = true;
+    }
+    
+}
+
+-(void) updateGreenCornerLabels{
+    //NSLog(@"%@", [_GreenRoof getColorPaletteLabel]);
+    //NSLog(@"%@", [_GreenRoof getHighLowVals]);
+    
+    _colorPalette_GC.text = [_GreenCorners getColorPaletteLabel];
+    _greenCornerColors = [_GreenCorners getHighLowVals];
+    
+    _LH_GC.text = [_greenCornerColors objectAtIndex:0];
+    _LS_GC.text = [_greenCornerColors objectAtIndex:2];
+    _LB_GC.text = [_greenCornerColors objectAtIndex:4];
+    _HH_GC.text = [_greenCornerColors objectAtIndex:1];
+    _HS_GC.text = [_greenCornerColors objectAtIndex:3];
+    _HB_GC.text = [_greenCornerColors objectAtIndex:5];
+    
+    [CVWrapper getRGBValuesFromH:[_LH_GC.text intValue]
+                               S:[_LS_GC.text intValue]
+                               V:[_LB_GC.text intValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:[_HH_GC.text intValue]
+                               S:[_HS_GC.text intValue]
+                               V:[_HB_GC.text intValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    _low_GC.backgroundColor = [[UIColor alloc] initWithRed:R_low/255.0
+                                                     green:G_low/255.0
+                                                      blue:B_low/255.0
+                                                     alpha:1];
+    
+    _high_GC.backgroundColor = [[UIColor alloc] initWithRed:R_high/255.0
+                                                      green:G_high/255.0
+                                                       blue:B_high/255.0
+                                                      alpha:1];
+    if( _greenCornerColors ==  nil || [_colorPalette_GC.text isEqualToString:@"Choose Saved Color Palette"] ){
+        noChoiceMade = true;
+    }
     
 }
 
 - (IBAction)saveAs:(id)sender {
+    if( noChoiceMade == true){
+        NSString * info = [NSString stringWithFormat: @"Choose a Saved Color Palette for all Icons before saving"];
+        UIAlertView * alertNull = [[UIAlertView alloc] initWithTitle:@"Error!" message: info delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertNull show];
+        return;
+    }
+    
     NSString * info = [NSString stringWithFormat: @"We suggest naming this color set based on the location/condition of the room it was taken.\n e.g. 'Lab - Flourescent Lighting'"];
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Saving Color Set" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alert.tag = 0;
     UITextField * alertTextField = [alert textFieldAtIndex:0];
     alertTextField.placeholder = @"Insert name here";
     [alert show];
 }
 
+-(void) writeToFile: (NSString*) name{
+    NSMutableArray * saveValues = [[NSMutableArray alloc] init];
+    
+    [saveValues addObjectsFromArray:[_Swale getHighLowVals]];
+    [saveValues addObjectsFromArray:[_RainBarrel getHighLowVals]];
+    [saveValues addObjectsFromArray:[_GreenRoof getHighLowVals]];
+    [saveValues addObjectsFromArray:[_PermeablePaver getHighLowVals]];
+    [saveValues addObjectsFromArray:[_GreenCorners getHighLowVals]];
+    
+    int index = [savedLocationsFromFile_SC saveEntryWithName:name Values:saveValues];
+    
+    // Adds the new or modified HSVLocation for the drop down
+    [savedLocationsFromFile_SC changeFromFile];
+    [_Swale changeFromFile];
+    [_Swale changeColorSetToIndex: index];
+    [_RainBarrel changeFromFile];
+    [_RainBarrel changeColorSetToIndex: index];
+    [_GreenRoof changeFromFile];
+    [_GreenRoof changeColorSetToIndex: index];
+    [_PermeablePaver changeFromFile];
+    [_PermeablePaver changeColorSetToIndex: index];
+    [_GreenCorners changeFromFile];
+    [_GreenCorners changeColorSetToIndex: index];
+    // Any action can be performed here
+}
+
 
 // Gets called after we enter from the alert view
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0)
+    if (buttonIndex == 0 )
     {
         // User Clicked Cancel
     }
-    else
+    else if( [alertView tag] == 0)
     {
         NSLog(@"user pressed Button Indexed 1");
         
         NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+        nameOfEntry = [[alertView textFieldAtIndex:0] text];
         
-        NSMutableArray * saveValues = [[NSMutableArray alloc] init];
-        
-        [saveValues addObjectsFromArray:[_Swale getHighLowVals]];
-        [saveValues addObjectsFromArray:[_RainBarrel getHighLowVals]];
-        [saveValues addObjectsFromArray:[_GreenRoof getHighLowVals]];
-        [saveValues addObjectsFromArray:[_PermeablePaver getHighLowVals]];
-        
-        NSMutableArray * greenCornerValues = [[NSMutableArray alloc] init ];
-        [greenCornerValues addObject: @"15"];
-        [greenCornerValues addObject: @"90"];
-        [greenCornerValues addObject: @"35"];
-        [greenCornerValues addObject: @"200"];
-        [greenCornerValues addObject: @"35"];
-        [greenCornerValues addObject: @"130"];
-        
-        [saveValues addObjectsFromArray: greenCornerValues];
-        
-        int index = [savedLocationsFromFile_SC saveEntryWithName:[[alertView textFieldAtIndex:0] text] Values:saveValues];
-        
-        // Adds the new or modified HSVLocation for the drop down
-        [savedLocationsFromFile_SC changeFromFile];
-        [_Swale changeFromFile];
-        [_Swale changeColorSetToIndex: index];
-        [_RainBarrel changeFromFile];
-        [_RainBarrel changeColorSetToIndex: index];
-        [_GreenRoof changeFromFile];
-        [_GreenRoof changeColorSetToIndex: index];
-        [_PermeablePaver changeFromFile];
-        [_PermeablePaver changeColorSetToIndex: index];
-        // Any action can be performed here
+        // Checking if user is overwriting
+        if([savedLocationsFromFile_SC isOverwriting:nameOfEntry]){
+            NSString * info = [NSString stringWithFormat: @"There is already a Color Pallette called '%@' would you like to over write it?", [[alertView textFieldAtIndex:0]text]];
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Over Writing Color Palette" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+            alert.tag = 1;
+            [alert show];
+            return;
+        }else
+            [self writeToFile:nameOfEntry];
+    }else{
+        // if the user chooses to overwrite
+        [self writeToFile:[[alertView textFieldAtIndex:0]text]];
     }
-    
 }
-@end
+    @end

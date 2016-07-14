@@ -21,5 +21,6 @@
 - (NSMutableArray*) getHSVForSavedLocationAtIndex:(NSInteger)index Icon:(NSInteger)caseNum;
 - (int) saveEntryWithName: (NSString*) name Values:(NSMutableArray*) values;
 - (void) writeToFile;
-- (void) changeFromFile;
+- (savedLocations*) changeFromFile;
+- (Boolean) isOverwriting: (NSString*) name;
 @end

@@ -22,6 +22,8 @@
 
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)toAnalyze:(id)sender;
+- (IBAction)toLogin:(id)sender;
+
 
 // Given Methods
 - (void)viewDidLoad;

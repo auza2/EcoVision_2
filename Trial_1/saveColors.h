@@ -11,6 +11,7 @@
 #import "RainBarrel.h"
 #import "GreenRoof.h"
 #import "PermeablePaver.h"
+#import "GreenCorners.h"
 
 @interface saveColors : UIViewController <UIImagePickerControllerDelegate>
 
@@ -18,11 +19,14 @@
 @property (weak, nonatomic) NSMutableArray*rainBarrelColors;
 @property (weak, nonatomic) NSMutableArray*permeablePaverColors;
 @property (weak, nonatomic) NSMutableArray*greenRoofColors;
+@property (weak, nonatomic) NSMutableArray*greenCornerColors;
 
 @property (strong, nonatomic) Swale * Swale;
 @property (strong, nonatomic) RainBarrel * RainBarrel;
 @property (strong, nonatomic) GreenRoof * GreenRoof;
 @property (strong, nonatomic) PermeablePaver * PermeablePaver;
+@property (strong, nonatomic) GreenCorners * GreenCorners;
+
 
 @property (weak, nonatomic) NSString * swaleLabel;
 @property (weak, nonatomic) NSString * rainBarrelLabel;
@@ -33,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *colorPalette_RB;
 @property (weak, nonatomic) IBOutlet UILabel *colorPalette_PP;
 @property (weak, nonatomic) IBOutlet UILabel *colorPalette_GR;
+@property (weak, nonatomic) IBOutlet UILabel *colorPalette_GC;
 
 // Save Button
 - (IBAction)saveAs:(id)sender;
@@ -50,6 +55,9 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *high_GR;
 @property (weak, nonatomic) IBOutlet UIImageView *low_GR;
+
+@property (weak, nonatomic) IBOutlet UIImageView *high_GC;
+@property (weak, nonatomic) IBOutlet UIImageView *low_GC;
 
 // Labels
 
@@ -89,6 +97,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *LS_GR;
 @property (weak, nonatomic) IBOutlet UILabel *LB_GR;
 
+
+// Green Roof
+@property (weak, nonatomic) IBOutlet UILabel *HH_GC; // High Hue Green Roof
+@property (weak, nonatomic) IBOutlet UILabel *HS_GC;
+@property (weak, nonatomic) IBOutlet UILabel *HB_GC;
+
+@property (weak, nonatomic) IBOutlet UILabel *LH_GC;
+@property (weak, nonatomic) IBOutlet UILabel *LS_GC;
+@property (weak, nonatomic) IBOutlet UILabel *LB_GC;
 
 
 

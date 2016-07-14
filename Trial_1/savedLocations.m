@@ -73,7 +73,7 @@
     return self;
 }
 
-- (void) changeFromFile{
+- (savedLocations*) changeFromFile{
     // Where we actually intialize the array of HSVLocations from the file
     [allSavedLocations removeAllObjects];
     
@@ -117,9 +117,20 @@
             [allSavedLocations addObject:HSV];
         }
     }
-
+    return self;
 }
 
+- (Boolean) isOverwriting: (NSString*) name{
+    HSVLocation * newEntry = [[HSVLocation alloc] initWithName:name Values:nil];
+    
+    for( int i = 0 ; i < [allSavedLocations count]; i++){
+        if([[self nameOfObjectAtIndex:i] isEqualToString:name] ){
+            // They are overwriting
+            return true;
+        }
+    }
+    return false;
+}
 
 
 // Create save to file

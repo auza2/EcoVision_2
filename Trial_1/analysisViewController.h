@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic,strong) UIImage * currentImage_A;
+@property (nonatomic,strong) UIImage * userImage_A;
 
 - (IBAction)toCalibrate:(id)sender;
 
