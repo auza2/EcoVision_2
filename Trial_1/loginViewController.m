@@ -32,9 +32,7 @@
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
     
     self.serverIP.keyboardType = UIKeyboardTypeNumberPad;
-    self.serverIP.placeholder = @"Found on Router";
     self.groupNumber.keyboardType =UIKeyboardTypeNumberPad;
-    self.groupNumber.placeholder = @"Ask your proctor";
 }
 
 /*

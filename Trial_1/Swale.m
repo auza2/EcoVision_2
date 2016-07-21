@@ -95,8 +95,6 @@ UIImage* swaleIcon2 = nil;
     
     swaleIcon2 = [UIImage imageNamed:@"Swale_Icon.png"];
     
-
-    
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
                                                                         style:UIBarButtonItemStyleDone

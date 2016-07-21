@@ -42,6 +42,7 @@ char results[5000]; // changed to do testing
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setHSVValues];
+    [analyzeScreen setEnabled:FALSE];
     testImg = [UIImage imageNamed:@"IMG_0030.jpg"];
     
 }

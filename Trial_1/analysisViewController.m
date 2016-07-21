@@ -20,7 +20,6 @@
 UITapGestureRecognizer * singleTap_A; // tap that recognizes color extraction
 UITapGestureRecognizer * doubleTap_A; // tap that recognizes removal of sample
 
-
 UIImage* plainImage2 = nil;
 
 UIImage* watermarkImage = nil;
@@ -37,6 +36,7 @@ NSMutableArray* arrayOfCoordinateArrays;
 NSMutableArray* addButtons;
 
 int pressedButton = -1;
+NSMutableArray * map;
 
 @synthesize swaleSwitch;
 @synthesize greenRoofSwitch;
@@ -54,22 +54,7 @@ int pressedButton = -1;
 @synthesize addGreenRoofButton;
 @synthesize addPermeablePaverButton;
 
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    // Set up the picture on Scroll View
-    plainImage2 = currentImage_A;
-    [self updateScrollView:plainImage2];
-    watermarkImage = [UIImage imageNamed:@"watermark.png"];
-    
-    // Getting Icon Images
-    swaleIcon = [UIImage imageNamed:@"Swale_Icon.png"];
-    rainBarrelIcon = [UIImage imageNamed:@"RainBarrel_Icon.png"];
-    greenRoofIcon = [UIImage imageNamed:@"GreenRoof_Icon.png"];
-    permeablePaverIcon = [UIImage imageNamed:@"PermeablePaver_Icon.png"];
-    
+- (void) viewDidLoad{
     // Get Coordinates
     swaleCoordinates = [CVWrapper getSwaleCoordinates];
     rainBarrelCoordinates = [CVWrapper getRainBarrelCoordinates];
@@ -83,6 +68,25 @@ int pressedButton = -1;
     [arrayOfCoordinateArrays addObject: rainBarrelCoordinates];
     [arrayOfCoordinateArrays addObject: permeablePaverCoordinates];
     [arrayOfCoordinateArrays addObject: greenRoofCoordinates];
+
+    [self initArray];
+}
+
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Set up the picture on Scroll View
+    plainImage2 = currentImage_A;
+    [self updateScrollView:plainImage2];
+    
+    // Getting Icon Images
+    swaleIcon = [UIImage imageNamed:@"Swale_Icon.png"];
+    rainBarrelIcon = [UIImage imageNamed:@"RainBarrel_Icon.png"];
+    greenRoofIcon = [UIImage imageNamed:@"GreenRoof_Icon.png"];
+    permeablePaverIcon = [UIImage imageNamed:@"PermeablePaver_Icon.png"];
+    
     
     NSLog(@"Width: %f", currentImage_A.size.width);
     NSLog(@"Height: %f", currentImage_A.size.height);
@@ -151,6 +155,49 @@ int pressedButton = -1;
 
 }
 
+#pragma -mark Map Text file
+
+- (void) initArray{
+    // get a reference to our file
+    NSString *myPath = [[NSBundle mainBundle]pathForResource:@"DuPageMap" ofType:@"txt"];
+    
+    // read the contents into a string
+    NSString *myFile = [[NSString alloc]initWithContentsOfFile:myPath encoding:NSUTF8StringEncoding error:nil];
+    
+    // display our file
+    NSLog(@"Our file contains this: %@", myFile);
+    myFile = [myFile stringByReplacingOccurrencesOfString:@"[" withString:@"" ];
+    myFile = [myFile stringByReplacingOccurrencesOfString:@"]" withString:@"" ];
+    myFile = [myFile stringByReplacingOccurrencesOfString:@"\"" withString:@"" ];
+    myFile = [myFile stringByReplacingOccurrencesOfString:@"\r" withString:@"" ]; // carriage return
+
+    myFile = [myFile stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSLog(@"Our file contains this: \n%@", myFile);
+    
+    NSArray * arrayOfRows = [myFile componentsSeparatedByString:@"\n"];
+    int height = [arrayOfRows count];
+    //NSLog(@"We have %d rows", height);
+    NSArray * oneRow = [[arrayOfRows objectAtIndex:0] componentsSeparatedByString:@"\t"];
+    int width = [oneRow count];
+    //NSLog(@"We have %d columns", width);
+    
+    /*
+     * --- Map Guide ---
+     * Num | char |   Name     | GI that can be added
+     *  0    "r"    Road         None
+     *  1    "p"    Permeable    Swale
+     *  2    "b"    Building     Green Roof, Rain Barrel
+     *  3    "i"    Impermeable  Swale, Permeable Paver
+     */
+    map = [[NSMutableArray alloc] init];
+    for( int y = height-1; y >= 0 ;y--){
+        NSArray * rowTemp = [[arrayOfRows objectAtIndex:y] componentsSeparatedByString:@"\t"];
+        [map addObject:rowTemp];
+    }
+    
+}
+
 #pragma mark - Tap Handlers
 
 - (void) handleSingleTapFrom: (UITapGestureRecognizer *)recognizer
@@ -187,26 +234,68 @@ int pressedButton = -1;
     NSLog(@"Coordinate found X Value: %i", addCoord.getX);
     NSLog(@"Coordinate found y Value: %i", addCoord.getY);
     
+    NSString * locationType = [[map objectAtIndex:addCoord.getY] objectAtIndex:addCoord.getX];
+    
+    if([ locationType isEqualToString:@"r"]  ){
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"No Icons can be added on Roads (Grey) " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = 2;
+        [alert show];
+        return;
+    }
+    
+    Boolean didAdd = false;
     switch(pressedButton){
         case -1:
             // No add button was pressed
             // Add pop-up error message
             break;
         case 0:
-            [swaleCoordinates addObject:addCoord];
+            if( [ locationType isEqualToString:@"p"] || [ locationType isEqualToString:@"i"] ){
+                [swaleCoordinates addObject:addCoord];
+                didAdd = true;
+            }
+            else{
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Swales can only be added to Green Areas (Green) or Paved Non-Streets (Blue Green)" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
+            }
             break;
         case 1:
-            [rainBarrelCoordinates addObject:addCoord];
+            if( [ locationType isEqualToString:@"b"] ){
+                [rainBarrelCoordinates addObject:addCoord];
+                didAdd = true;
+            }
+            else{
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Rain Barrels can only be added to Buildings (Brown) " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
+            }
             break;
         case 2:
-            [greenRoofCoordinates addObject:addCoord];
+            if( [ locationType isEqualToString:@"b"] ){
+                [greenRoofCoordinates addObject:addCoord];
+                didAdd = true;
+            }
+            else{
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Green Roofs can only be added to Buildings (Brown)" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
+            }
             break;
         case 3:
-            [permeablePaverCoordinates addObject:addCoord];
+            if( ![ locationType isEqualToString:@"i"] ){
+                [permeablePaverCoordinates addObject:addCoord];
+                didAdd = true;
+            }
+            else{
+                UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Permeable Pavers can only be added to Paved Non-Streets (Blue Green)" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
+            }
             break;
     }
 
-    if( pressedButton != -1 )
+    if( pressedButton != -1 && didAdd == true)
         [self updateViewedIcons];
 }
 
@@ -405,18 +494,24 @@ int pressedButton = -1;
 - (IBAction)send:(id)sender {
     // Make Pop Up with all the stuff
     NSString * info = [NSString stringWithFormat: @"Server IP: %@\nGroup Number: %@\nPlease Enter Trial Number Below:", _IPAddress, _groupNumber ];
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message: info delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alert.tag = 0;
     UITextField * alertTextField = [alert textFieldAtIndex:0];
     alertTextField.keyboardType = UIKeyboardTypeNumberPad;
-    alertTextField.placeholder = @"We suggest: 8213";
+    alertTextField.placeholder = @"We suggest: 2";
     [alert show];
-    
-    [self sendData];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+    if( [alertView tag] == 0 && buttonIndex == 1){
+        [self sendData];
+        NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+        
+        // TODO
+        //      Check if entered trail number has already been used in the server
+        //          if so, another alert view to ask if they want to overwrite
+    }
 }
 
 -(void)sendData{
@@ -446,17 +541,39 @@ int pressedButton = -1;
     // get rid of trailing 'space' character in results string
     int i = 0;
     while(results[i] != '\0') {
-        //NSLog(@"%c", results[i]);
         if(results[i+1] == '\0')
             results[i] = '\0';
         i++;
     }
     
-    for(int y = 0 ; y < i ; y++)
-        NSLog(@"%c", results[y]);
     
+    
+    // Making the result
+    
+    NSString * resultNEW=@"";
+    for( Coordinate * coord in swaleCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"0 %d %d ", [coord getX], [coord getY]];
+    }
+    for( Coordinate * coord in rainBarrelCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"1 %d %d ", [coord getX], [coord getY]];
+    }
+    for( Coordinate * coord in greenRoofCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"2 %d %d ", [coord getX], [coord getY]];
+    }
+    for( Coordinate * coord in permeablePaverCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"3 %d %d ", [coord getX], [coord getY]];
+    }
+    NSLog(@"Result from arrays: %@", resultNEW);
+    
+
+    NSString * resultOriginal=@"";
+    for(int y = 0 ; y < i ; y++)
+        resultOriginal = [resultOriginal stringByAppendingFormat:@"%c",results[y]];
+    
+    NSLog(@"the results in char form: %@", resultOriginal);
     // Takes the shortened char[] into a string
     NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
+    NSLog(@"the results in char form into a string: %@", resultOriginal);
     
     // Assigns fileContents to the said string ( even though we already have it in temp)
     NSString *fileContents;
@@ -465,22 +582,34 @@ int pressedButton = -1;
     // Takes the 'fileContents' ( shortened char result string ) and puts '%' if unrecognized character
     NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     // prints it
-    NSLog(@"%@\n", escapedFileContents);
-    
+    NSLog(@"ESCAPED FILE CONTENTS -- CV %@", escapedFileContents);
+    NSString *escapedFileContents2 = [resultNEW stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+     NSLog(@"ESCAPED FILE CONTENTS -- CHANGED %@", escapedFileContents2);
     
     
     NSString *content;
     //while content doesn't have anything assigned to it
     //while( !content ){
-        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents];
+        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents2];
         NSError *errorMessage;
         content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
         NSLog(@"%@\n", errorMessage);
-    //}
+    if( errorMessage != NULL){ // Error Happened
+        [self failedToSend];
+    }
     
+}
+
+- ( void ) failedToSend{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message:@"Unable to Send Data to Server, try again. Check if server is on" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    alert.tag = 1;
+    [alert show];
 }
 
 -(void)buttonizeButtonTap2:(id)sender{
     [self performSegueWithIdentifier:@"toBack" sender:sender];
 }
+
+#pragma -mark Initializing Rules
+
 @end
