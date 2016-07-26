@@ -32,6 +32,8 @@
 - (IBAction)addGi:(id)sender;
 - (IBAction)retakePicture:(id)sender;
 - (IBAction)send:(id)sender;
+- (IBAction)overwriteTest:(id)sender;
+- (IBAction)readTrialNumbers:(id)sender;
 
 - (void) test;
 - (void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage;

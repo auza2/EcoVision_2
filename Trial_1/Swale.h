@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
 @property (nonatomic,strong) UIImage * currentImage_S;
+@property (nonatomic,strong) UIImage * originalImage_S;
 
 @property (weak, nonatomic) IBOutlet UIImageView *sample1;
 @property (weak, nonatomic) IBOutlet UIImageView *sample2;

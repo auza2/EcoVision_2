@@ -39,5 +39,6 @@
 
 @property (nonatomic,strong) NSMutableArray * GreenCornerSamples;
 @property (nonatomic,strong) UIImage * originalImage;
+@property (nonatomic,strong) UIImage * processedImage;
 
 @end

@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic,strong) UIImage * currentImage_GR;
+@property (nonatomic,strong) UIImage * originalImage_GR;
 
 @property (weak, nonatomic) IBOutlet UIImageView *sample1;
 @property (weak, nonatomic) IBOutlet UIImageView *sample2;

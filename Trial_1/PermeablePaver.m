@@ -177,7 +177,24 @@ UIImage* permeablePaverIcon2 = nil;
 }
 
 - (IBAction)backButton:(id)sender {
-    [self buttonizeButtonTap: self];
+    // Make pop up asking if you want to do that because it will delete all of your work
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Are you sure? Going back means you will lose all palettes that were not saved." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK",nil];
+    [alert show];
+    
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        NSLog(@"user pressed Button Indexed 0");
+        // Any action can be performed here
+    }
+    else
+    {
+        NSLog(@"user pressed Button Indexed 1");
+        [self buttonizeButtonTap: self];
+        // Any action can be performed here
+    }
 }
 
 #pragma -mark View Icons Switch

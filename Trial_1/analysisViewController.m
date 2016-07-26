@@ -37,6 +37,7 @@ NSMutableArray* addButtons;
 
 int pressedButton = -1;
 NSMutableArray * map;
+NSString* trialID;
 
 @synthesize swaleSwitch;
 @synthesize greenRoofSwitch;
@@ -53,6 +54,7 @@ NSMutableArray * map;
 @synthesize addRainBarrelButton;
 @synthesize addGreenRoofButton;
 @synthesize addPermeablePaverButton;
+@synthesize IPAddress;
 
 - (void) viewDidLoad{
     // Get Coordinates
@@ -70,6 +72,7 @@ NSMutableArray * map;
     [arrayOfCoordinateArrays addObject: greenRoofCoordinates];
 
     [self initArray];
+    trialID = @"";
 }
 
 
@@ -283,7 +286,7 @@ NSMutableArray * map;
             }
             break;
         case 3:
-            if( ![ locationType isEqualToString:@"i"] ){
+            if( [ locationType isEqualToString:@"i"] ){
                 [permeablePaverCoordinates addObject:addCoord];
                 didAdd = true;
             }
@@ -392,23 +395,29 @@ NSMutableArray * map;
         
         Swale *swale = navController.viewControllers[0];
         swale.currentImage_S = plainImage2;
+        swale.originalImage_S = _userImage_A;
         
         PermeablePaver * permeablepaver = navController.viewControllers[1];
         permeablepaver.currentImage_PP = plainImage2;
+        permeablepaver.originalImage_PP = _userImage_A;
         permeablepaver.title = @"Permeable Paver";
         
         GreenRoof *greenRoof = navController.viewControllers[2];
         greenRoof.currentImage_GR  = plainImage2;
+        greenRoof.originalImage_GR  = _userImage_A;
         
         RainBarrel *rainBarrel = navController.viewControllers[3];
         rainBarrel.currentImage_RB = plainImage2;
+        rainBarrel.originalImage_RB = _userImage_A;
         
        
         GreenCorners * greenCorners =navController.viewControllers[4];
         greenCorners.title = @"Green Corners";
         greenCorners.originalImage = _userImage_A;
+        greenCorners.processedImage = plainImage2;
         
         saveColors *saveColors = navController.viewControllers[5];
+        saveColors.colorPalette_S.text = @"No Palette Chosen";
         saveColors.title = @"Save Colors";
         
      }
@@ -465,7 +474,6 @@ NSMutableArray * map;
     [CVWrapper setHSV_Values:hsvDefault];
     
 }
-
 - (IBAction)addGi:(id)sender {
     UIButton * clickedButton = (UIButton*)sender;
     
@@ -483,7 +491,42 @@ NSMutableArray * map;
     
     NSLog(@"Pressed button is %i", pressedButton);
 }
+- (IBAction)overwriteTest:(id)sender {
+    NSURL *server;
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    
+    NSString *content;
+    NSString * testmap = @"0101020202120102012010201";
+    NSString *escapedFileContents = [testmap stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    trialID = @"0";
+    NSString *stringText = [NSString stringWithFormat:@"overwriteTrial.php?studyID=%@&trialID=%@&map=%@", _groupNumber, trialID, escapedFileContents ];
+    NSError *errorMessage;
+    content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+    NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+    NSLog(@"CONTENT -- %@\n", content);
+    if( errorMessage != NULL){ // Error Happened
+        [self failedToSend];
+    }
+    // YASSS
+}
 
+- (IBAction)readTrialNumbers:(id)sender {
+    NSURL *server;
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    
+    NSString *content;
+    NSString *stringText = [NSString stringWithFormat:@"getNextTrial.php?studyID=%@", _groupNumber];
+    NSError *errorMessage;
+    content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+    NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+    content = [content stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray * trialNumbers = [content componentsSeparatedByString:@"\n"];
+    
+    if( [[trialNumbers objectAtIndex:0]isEqualToString:@""])
+        NSLog(@"This is the first of this group number");
+    for( NSString * s in trialNumbers)
+        NSLog(@"Trial number %@", s);
+}
 
 #pragma -mark Back Button
 - (IBAction)retakePicture:(id)sender {
@@ -493,7 +536,7 @@ NSMutableArray * map;
 #pragma -mark Sending Data
 - (IBAction)send:(id)sender {
     // Make Pop Up with all the stuff
-    NSString * info = [NSString stringWithFormat: @"Server IP: %@\nGroup Number: %@\nPlease Enter Trial Number Below:", _IPAddress, _groupNumber ];
+    NSString * info = [NSString stringWithFormat: @"Server IP: %@\nGroup Number: %@\nPlease Enter Trial Number Below:", IPAddress, _groupNumber ];
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = 0;
@@ -505,6 +548,7 @@ NSMutableArray * map;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if( [alertView tag] == 0 && buttonIndex == 1){
+        trialID = [[alertView textFieldAtIndex:0] text];
         [self sendData];
         NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
         
@@ -515,22 +559,16 @@ NSMutableArray * map;
 }
 
 -(void)sendData{
-    int studyID = _groupNumber; // CHANGE
-    int trialID = 1000; // CHANGE
-    NSString *IPAddress = @"";
-    IPAddress = @"10.0.1.2"; // CHANGE --> _IPAddress
-    
+    NSLog(@"%@",IPAddress);
     NSURL *server;
-    // SOMETHING WRONG WITHT THE SERVER URL
-    
-    //server = [NSURL URLWithString:[NSString stringWithFormat:@"jdbc:mysql://localhost:3306/citeam", IPAddress]]; -- FAIL
     server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
-    //server = [NSURL URLWithString:[NSString stringWithFormat:@"http://localhost/~Jamie/phpmyadmin"]]; -- FAIL
+    
     
     // OH Results becomes different since we changed it... make dummy one
+    /*
     char results[5000];
-    [CVWrapper analysis:currentImage_A studyNumber: studyID trialNumber:trialID results: &results];
-    
+    [CVWrapper analysis:currentImage_A studyNumber: [_groupNumber integerValue] trialNumber:[trialID integerValue] results: &results];
+    */
     /*
      results[0] = '0';
      results[1] = ' ';
@@ -539,14 +577,14 @@ NSMutableArray * map;
      */
     
     // get rid of trailing 'space' character in results string
+    /*
     int i = 0;
     while(results[i] != '\0') {
         if(results[i+1] == '\0')
             results[i] = '\0';
         i++;
     }
-    
-    
+    */
     
     // Making the result
     
@@ -566,23 +604,25 @@ NSMutableArray * map;
     NSLog(@"Result from arrays: %@", resultNEW);
     
 
+    /*
     NSString * resultOriginal=@"";
     for(int y = 0 ; y < i ; y++)
         resultOriginal = [resultOriginal stringByAppendingFormat:@"%c",results[y]];
     
     NSLog(@"the results in char form: %@", resultOriginal);
+     */
     // Takes the shortened char[] into a string
-    NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
-    NSLog(@"the results in char form into a string: %@", resultOriginal);
+    //NSString *temp = [NSString stringWithCString:results encoding:NSASCIIStringEncoding];
+    //NSLog(@"the results in char form into a string: %@", resultOriginal);
     
     // Assigns fileContents to the said string ( even though we already have it in temp)
-    NSString *fileContents;
-    fileContents = temp;
+    //NSString *fileContents;
+    //fileContents = temp;
     
     // Takes the 'fileContents' ( shortened char result string ) and puts '%' if unrecognized character
-    NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    //NSString *escapedFileContents = [fileContents stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     // prints it
-    NSLog(@"ESCAPED FILE CONTENTS -- CV %@", escapedFileContents);
+    //NSLog(@"ESCAPED FILE CONTENTS -- CV %@", escapedFileContents);
     NSString *escapedFileContents2 = [resultNEW stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
      NSLog(@"ESCAPED FILE CONTENTS -- CHANGED %@", escapedFileContents2);
     
@@ -590,10 +630,11 @@ NSMutableArray * map;
     NSString *content;
     //while content doesn't have anything assigned to it
     //while( !content ){
-        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%d&trialID=%d&map=%@", studyID, trialID, escapedFileContents2];
+        NSString *stringText = [NSString stringWithFormat:@"mapInput.php?studyID=%@&trialID=%@&map=%@", _groupNumber, trialID, escapedFileContents2];
         NSError *errorMessage;
         content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
-        NSLog(@"%@\n", errorMessage);
+        NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+        NSLog(@"CONTENT -- %@\n", content);
     if( errorMessage != NULL){ // Error Happened
         [self failedToSend];
     }
