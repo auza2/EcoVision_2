@@ -21,6 +21,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="frog-1" translatesAutoresizingMaskIntoConstraints="NO" id="q46-Sl-VO0">
                                 <rect key="frame" x="-143" y="0.0" width="1310" height="768"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ellipse" translatesAutoresizingMaskIntoConstraints="NO" id="f9l-V3-X7A">
+                                <rect key="frame" x="-87" y="6" width="1199" height="755"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQs-qh-OwL">
                                 <rect key="frame" x="373" y="262" width="278" height="71"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -88,9 +91,6 @@
                                     </textField>
                                 </subviews>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ellipse" translatesAutoresizingMaskIntoConstraints="NO" id="f9l-V3-X7A">
-                                <rect key="frame" x="-87" y="6" width="1199" height="755"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -315,30 +315,10 @@
                                             </connections>
                                         </button>
                                     </barButtonItem>
-                                    <barButtonItem width="213" style="plain" systemItem="fixedSpace" id="1rc-y7-zkd"/>
-                                    <barButtonItem style="plain" id="UVN-JO-sH1">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="z5k-lW-lC0">
-                                            <rect key="frame" x="394" y="7" width="146" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Overwrite File"/>
-                                            <connections>
-                                                <action selector="overwriteTest:" destination="hlP-2N-2fI" eventType="touchUpInside" id="gld-xM-WvD"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" id="rDX-xy-vnn">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Hjf-fh-Pd2">
-                                            <rect key="frame" x="550" y="7" width="146" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Read Trial Numbers"/>
-                                            <connections>
-                                                <action selector="readTrialNumbers:" destination="hlP-2N-2fI" eventType="touchUpInside" id="Sdf-Wv-YMq"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
+                                    <barButtonItem width="286" style="plain" systemItem="fixedSpace" id="1rc-y7-zkd"/>
                                     <barButtonItem style="plain" id="TTv-jW-Ua1">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Pa4-57-gJu">
-                                            <rect key="frame" x="706" y="7" width="89" height="30"/>
+                                            <rect key="frame" x="467" y="7" width="89" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="Send">
@@ -350,9 +330,10 @@
                                             </connections>
                                         </button>
                                     </barButtonItem>
+                                    <barButtonItem width="288" style="plain" systemItem="fixedSpace" id="fUe-vf-yK1"/>
                                     <barButtonItem style="plain" id="5JO-I6-ydk">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fs4-wD-5Ib">
-                                            <rect key="frame" x="805" y="7" width="62" height="30"/>
+                                            <rect key="frame" x="854" y="7" width="155" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Calibrate"/>
                                             <connections>
@@ -1748,7 +1729,7 @@
                                 <rect key="frame" x="43" y="386" width="43" height="98"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XJx-We-19G">
-                                <rect key="frame" x="43" y="357" width="31" height="21"/>
+                                <rect key="frame" x="43" y="357" width="106" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1857,7 +1838,7 @@
                                 <rect key="frame" x="285" y="384" width="43" height="98"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FsM-nB-hkQ">
-                                <rect key="frame" x="285" y="355" width="31" height="21"/>
+                                <rect key="frame" x="285" y="355" width="119" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1965,7 +1946,7 @@
                                 <rect key="frame" x="791" y="386" width="43" height="98"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXX-CG-5j4">
-                                <rect key="frame" x="791" y="357" width="31" height="21"/>
+                                <rect key="frame" x="791" y="357" width="148" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2058,7 +2039,7 @@
                                 <rect key="frame" x="546" y="384" width="43" height="98"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kuB-9y-52v">
-                                <rect key="frame" x="546" y="355" width="31" height="21"/>
+                                <rect key="frame" x="546" y="355" width="121" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2186,12 +2167,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fRZ-w2-Y02">
                                 <rect key="frame" x="662" y="540" width="43" height="98"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="coX-bf-Rpj">
-                                <rect key="frame" x="662" y="511" width="31" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9Y-fR-IKx">
                                 <rect key="frame" x="713" y="549" width="32" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -2231,12 +2206,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="* No values have been chosen yet, go to tab to fill in values" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-9p-eHm">
-                                <rect key="frame" x="326" y="689" width="741" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLI-Gz-2lm">
                                 <rect key="frame" x="458" y="660" width="89" height="30"/>
                                 <state key="normal" title="Save As"/>
@@ -2244,6 +2213,18 @@
                                     <action selector="saveAs:" destination="Ge5-Jx-lgk" eventType="touchUpInside" id="atY-0O-olB"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="* If values are empty, go to each tab and select a color palette" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-9p-eHm">
+                                <rect key="frame" x="326" y="689" width="741" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Low" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="coX-bf-Rpj">
+                                <rect key="frame" x="662" y="511" width="102" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2406,8 +2387,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9te-Hb-Ncc"/>
-        <segue reference="2VZ-p5-MTx"/>
-        <segue reference="k7B-Pu-9kp"/>
+        <segue reference="ZBs-YI-45i"/>
         <segue reference="Ebj-Wv-g6S"/>
+        <segue reference="2VZ-p5-MTx"/>
     </inferredMetricsTieBreakers>
 </document>

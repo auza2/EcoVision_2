@@ -38,6 +38,7 @@ NSMutableArray* addButtons;
 int pressedButton = -1;
 NSMutableArray * map;
 NSString* trialID;
+NSArray* trialNumbers;
 
 @synthesize swaleSwitch;
 @synthesize greenRoofSwitch;
@@ -491,6 +492,8 @@ NSString* trialID;
     
     NSLog(@"Pressed button is %i", pressedButton);
 }
+
+// Remove below method
 - (IBAction)overwriteTest:(id)sender {
     NSURL *server;
     server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
@@ -507,9 +510,10 @@ NSString* trialID;
     if( errorMessage != NULL){ // Error Happened
         [self failedToSend];
     }
-    // YASSS
+
 }
 
+//remove below method
 - (IBAction)readTrialNumbers:(id)sender {
     NSURL *server;
     server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
@@ -519,6 +523,7 @@ NSString* trialID;
     NSError *errorMessage;
     content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
     NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+
     content = [content stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray * trialNumbers = [content componentsSeparatedByString:@"\n"];
     
@@ -528,6 +533,79 @@ NSString* trialID;
         NSLog(@"Trial number %@", s);
 }
 
+- ( void )getTrialNumbers{
+    NSURL *server;
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    
+    NSString *content;
+    NSString *stringText = [NSString stringWithFormat:@"getNextTrial.php?studyID=%@", _groupNumber];
+    NSError *errorMessage;
+    content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+    NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+    
+    if( errorMessage != NULL){ // Error Happened
+        [self failedToSend];
+    }else{
+        content = [content stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        trialNumbers = [content componentsSeparatedByString:@"\n"];
+    }
+}
+
+-( void) overwrite: (NSString*)trialToOverwritre{
+    NSURL *server;
+    server = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"http://" ,IPAddress]];
+    
+    
+    NSString * resultNEW=@"";
+    for( Coordinate * coord in swaleCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"0 %d %d ", [coord getX], [coord getY]];
+    }
+    
+    for( Coordinate * coord in rainBarrelCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"1 %d %d ", [coord getX], [coord getY]];
+    }
+    for( Coordinate * coord in greenRoofCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"2 %d %d ", [coord getX], [coord getY]];
+    }
+    for( Coordinate * coord in permeablePaverCoordinates){
+        resultNEW = [resultNEW stringByAppendingFormat:@"3 %d %d ", [coord getX], [coord getY]];
+    }
+
+    NSString *escapedFileContents2 = [resultNEW stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSLog(@"ESCAPED FILE CONTENTS -- CHANGED %@", escapedFileContents2);
+
+    
+    NSString *content;
+    //while content doesn't have anything assigned to it
+    //while( !content ){
+
+    NSString *stringText = [NSString stringWithFormat:@"overwriteTrial.php?studyID=%@&trialID=%@&map=%@", _groupNumber, trialID, escapedFileContents2];
+    NSError *errorMessage;
+    content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+    NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+    NSLog(@"CONTENT -- %@\n", content);
+    if( errorMessage != NULL){ // Error Happened
+        [self failedToSend];
+    }else{
+        [self succeededToSend];
+    }
+    
+    
+    
+    /*
+    
+    NSString *escapedFileContents = [resultNEW stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *stringText = [NSString stringWithFormat:@"overwriteTrial.php?studyID=%@&trialID=%@&map=%@", _groupNumber, trialID, escapedFileContents ];
+    NSError *errorMessage;
+    content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server]                                              encoding:NSUTF8StringEncoding error:&errorMessage];
+    NSLog(@"ERROR MESSAGE -- %@\n", errorMessage);
+    NSLog(@"CONTENT -- %@\n", content);
+    if( errorMessage != NULL){ // Error Happened
+        [self failedToSend];
+    }
+     */
+}
+
 #pragma -mark Back Button
 - (IBAction)retakePicture:(id)sender {
     [self buttonizeButtonTap2:self];
@@ -535,6 +613,23 @@ NSString* trialID;
 
 #pragma -mark Sending Data
 - (IBAction)send:(id)sender {
+    // Make sure IP address is able to connect and get the NSArray of the trial numbers of that Group Number / Study ID
+    [self getTrialNumbers];
+    
+    if([trialNumbers isEqual:nil]) //unaable to send
+        return;
+    
+    NSString* suggestedTrailNumber = @"";
+    if( [[trialNumbers objectAtIndex:0]isEqualToString:@""]){ // This is the first trial of this Group Number /  Study ID
+        suggestedTrailNumber = @"0";
+    }else{
+        for(NSString* num in trialNumbers)
+            NSLog(@"%@",num);
+        
+        suggestedTrailNumber = [suggestedTrailNumber stringByAppendingFormat:@"%ld",(long)[[trialNumbers objectAtIndex:0] integerValue]+1];
+        // Check this before the demo it should return 1 more than the
+    }
+
     // Make Pop Up with all the stuff
     NSString * info = [NSString stringWithFormat: @"Server IP: %@\nGroup Number: %@\nPlease Enter Trial Number Below:", IPAddress, _groupNumber ];
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message: info delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
@@ -542,19 +637,41 @@ NSString* trialID;
     alert.tag = 0;
     UITextField * alertTextField = [alert textFieldAtIndex:0];
     alertTextField.keyboardType = UIKeyboardTypeNumberPad;
-    alertTextField.placeholder = @"We suggest: 2";
+    NSString * placeholder = @"We suggest trail number: ";
+    alertTextField.placeholder = [placeholder stringByAppendingString:suggestedTrailNumber];
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if( [alertView tag] == 0 && buttonIndex == 1){
         trialID = [[alertView textFieldAtIndex:0] text];
-        [self sendData];
-        NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+        
+        Boolean overwrite = false;
+        for( NSString * trialId in trialNumbers){
+            if( [trialId isEqualToString:trialID]){ // They want to overwrite
+                overwrite = true;
+            }
+        }
+        
+        if( overwrite ){
+            NSString* overwriteMessage = [@"" stringByAppendingFormat:@"There is aleady a trial %@ in the server, would you like to overwrite it?" , trialID];
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Overwriting Trial" message:overwriteMessage delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
+            alert.tag = 2;
+            [alert show];
+        }else{
+            trialID = [[alertView textFieldAtIndex:0] text];
+            [self sendData];
+            NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
+        }
+        
         
         // TODO
         //      Check if entered trail number has already been used in the server
         //          if so, another alert view to ask if they want to overwrite
+    }
+    
+    if([alertView tag] == 2 && buttonIndex == 1) {
+        [self overwrite:trialID];
     }
 }
 
@@ -637,6 +754,8 @@ NSString* trialID;
         NSLog(@"CONTENT -- %@\n", content);
     if( errorMessage != NULL){ // Error Happened
         [self failedToSend];
+    }else{
+        [self succeededToSend];
     }
     
 }
@@ -644,6 +763,11 @@ NSString* trialID;
 - ( void ) failedToSend{
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sending Icon Coordinates" message:@"Unable to Send Data to Server, try again. Check if server is on" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
     alert.tag = 1;
+    [alert show];
+}
+- ( void ) succeededToSend{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Sucessfully Sent Icons" message:@"New record was created successfully" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    alert.tag = 3;
     [alert show];
 }
 

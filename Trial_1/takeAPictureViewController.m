@@ -97,15 +97,17 @@ char results[5000]; // changed to do testing
 }
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
-    /*
+    
      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     */
+     
     
     //*******To Test Image*******//
+    
+    /*
     
     // Bypass Camera and go straight to the method that updates the scrollView
     userImage = [UIImage imageNamed:@"IMG_0030.jpg"];
@@ -114,6 +116,8 @@ char results[5000]; // changed to do testing
     [self processMap];
     [self analyze];
     [analyzeScreen setEnabled:TRUE];
+     
+     */
 }
 
 #pragma mark - Picture
