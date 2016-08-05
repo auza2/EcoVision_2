@@ -102,11 +102,12 @@
                         <outlet property="groupNumber" destination="rX0-A2-6g3" id="2wr-jE-4yA"/>
                         <outlet property="serverIP" destination="X16-AL-1O2" id="czo-Oh-ive"/>
                         <segue destination="NPb-yw-Qe1" kind="show" identifier="Associate" id="k7B-Pu-9kp"/>
+                        <segue destination="u7s-FO-gz0" kind="show" identifier="toTips" id="CWw-2f-Z3e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1348" y="-333"/>
+            <point key="canvasLocation" x="929" y="-359"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Tmv-eH-Y0l">
@@ -366,6 +367,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2x-P7-uqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4354" y="-301"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="a7R-QJ-rhm">
+            <objects>
+                <viewController id="AUu-rQ-BbJ" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="A5K-TX-oSO"/>
+                        <viewControllerLayoutGuide type="bottom" id="wmh-jS-fhh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W0y-hP-BB1">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fix Your Icons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sCm-E5-PvS">
+                                <rect key="frame" x="36" y="48" width="293" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S1i-SX-Tdk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3693" y="667"/>
         </scene>
         <!--Rain Barrel-->
         <scene sceneID="6Jy-bs-YEH">
@@ -638,7 +667,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyf-1A-BEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2675" y="-333"/>
+            <point key="canvasLocation" x="3063" y="-309"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="HBM-26-3P0">
@@ -652,14 +681,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zba-jL-WIn">
-                                <rect key="frame" x="-38" y="183" width="1119" height="328"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JBx-Fq-vOH">
-                                <rect key="frame" x="141" y="52" width="182" height="50"/>
+                                <rect key="frame" x="141" y="51" width="313" height="51"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Tips">
+                                    <fragment content="Take a Picture">
                                         <attributes>
                                             <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <font key="NSFont" size="37" name="Avenir-Light"/>
@@ -678,94 +703,88 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Pr7-TR-k2n">
+                                <rect key="frame" x="58" y="131" width="946" height="49.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">We need to take a picture of the planning grid to process your solution. You will be able to take a picture on the next page. To ensure a better quality picture:</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Take the picture from overhead" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jid-tn-4ZE">
+                                <rect key="frame" x="116" y="172" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Make sure the whole grid is in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-1x-NdU">
+                                <rect key="frame" x="116" y="236" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Take the picture in a well lit room" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="S2n-HG-KaP">
+                                <rect key="frame" x="116" y="266" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Fit the Green Square edge boxes in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Lwd-8a-Qnu">
+                                <rect key="frame" x="116" y="300" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Remove any arbitrary objects near the grid." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9B6-cv-x6n">
+                                <rect key="frame" x="116" y="205" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zba-jL-WIn">
+                                <rect key="frame" x="0.0" y="344" width="1119" height="369"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ao-b1-w9C">
+                                        <rect key="frame" x="21" y="13" width="127" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image-1" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zOc-Qd-GMp">
+                                        <rect key="frame" x="605" y="43" width="349" height="241"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Original picture taken from camera" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nSl-Rd-PN0">
+                                        <rect key="frame" x="136" y="299" width="237" height="52"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Successfully processed grid picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ry3-ia-edV">
+                                        <rect key="frame" x="662" y="292" width="246" height="52"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qrG-AE-DRo">
-                                <rect key="frame" x="303" y="366" width="0.0" height="0.0"/>
+                                <rect key="frame" x="341" y="527" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image-2" translatesAutoresizingMaskIntoConstraints="NO" id="lN0-sb-vqL">
-                                <rect key="frame" x="44" y="232" width="344" height="241"/>
+                                <rect key="frame" x="82" y="393" width="344" height="241"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ao-b1-w9C">
-                                <rect key="frame" x="44" y="203" width="127" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Pr7-TR-k2n">
-                                <rect key="frame" x="58" y="131" width="946" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">In this screen, you will be taking a picture of the grid in order to process the icons. Below is an example of a processed picture and the criteria we use to determine wether or not it is a succesfully processed.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BQx-v3-YaA">
-                                <rect key="frame" x="396" y="334" width="19" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Check_mark" translatesAutoresizingMaskIntoConstraints="NO" id="6NF-F6-HbY">
-                                <rect key="frame" x="786" y="290" width="33" height="26"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="The lines of the grid are perpindicular to each other" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BMT-EO-q2z">
-                                <rect key="frame" x="821" y="280" width="183" height="75"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image-1" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zOc-Qd-GMp">
-                                <rect key="frame" x="429" y="232" width="349" height="241"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Check_mark" translatesAutoresizingMaskIntoConstraints="NO" id="tJz-oG-Gg9">
-                                <rect key="frame" x="786" y="388" width="33" height="26"/>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="When zoomed out, the whole grid is in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qvG-TI-jn5">
-                                <rect key="frame" x="821" y="378" width="183" height="75"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Check list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hua-FH-nPr">
-                                <rect key="frame" x="786" y="251" width="76" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="1. Take the picture from overhead" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jid-tn-4ZE">
-                                <rect key="frame" x="82" y="548" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="2. Remove any arbitrary objects near the grid." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9B6-cv-x6n">
-                                <rect key="frame" x="82" y="581" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="3. Make sure the whole grid is in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-1x-NdU">
-                                <rect key="frame" x="82" y="612" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="4. Take the picture in a well lit room" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="S2n-HG-KaP">
-                                <rect key="frame" x="82" y="642" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trouble shooting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chO-C7-a6p">
-                                <rect key="frame" x="50" y="525" width="129" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="To review these reminders on the next page, please click on the information icon at the top." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5c-TZ-yez">
+                                <rect key="frame" x="20" y="733" width="903" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xcc-89-STI">
-                                <rect key="frame" x="472" y="709" width="81" height="30"/>
-                                <state key="normal" title="Back"/>
+                                <rect key="frame" x="923" y="733" width="81" height="30"/>
+                                <state key="normal" title="Next"/>
                                 <connections>
                                     <segue destination="NPb-yw-Qe1" kind="showDetail" id="6PT-uP-2pU"/>
                                 </connections>
@@ -778,12 +797,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Shc-ih-Igo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2700" y="-1252"/>
+            <point key="canvasLocation" x="2312" y="-1188"/>
         </scene>
         <!--TakeAPicturePopUp-->
         <scene sceneID="itf-I3-0j5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lb7-NA-NXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="TakeAPicturePopUp" id="T48-4K-gKE" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1lR-fl-tB9"/>
@@ -807,6 +825,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lb7-NA-NXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2700" y="396"/>
         </scene>
@@ -2372,7 +2391,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Check_mark" width="250" height="250"/>
         <image name="GreenCorner_Icon" width="533" height="533"/>
         <image name="GreenRoof_Icon" width="504" height="504"/>
         <image name="Image-1" width="2046" height="1498"/>
@@ -2386,8 +2404,8 @@
         <image name="icon-camera-128 copy" width="157" height="157"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9te-Hb-Ncc"/>
-        <segue reference="ZBs-YI-45i"/>
+        <segue reference="lWp-2h-f0H"/>
+        <segue reference="6PT-uP-2pU"/>
         <segue reference="Ebj-Wv-g6S"/>
         <segue reference="2VZ-p5-MTx"/>
     </inferredMetricsTieBreakers>

@@ -50,6 +50,7 @@
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
     if ([[segue identifier] isEqualToString:@"Associate"])
     {
         NSLog(@" Login: Group Number = %@ || IP = %@", serverIP.text, groupNumber.text);
@@ -57,7 +58,10 @@
         takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
         takeAPictureViewController.groupNumber = groupNumber.text;
         takeAPictureViewController.IPAddress = serverIP.text;
+        [self.navigationController popViewControllerAnimated:YES];
     }
+    
+
 }
 
 

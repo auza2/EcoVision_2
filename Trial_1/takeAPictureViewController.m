@@ -25,6 +25,7 @@ UIImage *testImg;  //test image to be warped/analyzed if no picture is taken
 UIImage *warpedGlobal;
 UIImage *warpedGlobalMean;
 UIAlertView * progress;
+UIImagePickerController *picker;
 
 NSURL *server;
 NSString *fileContents;
@@ -45,6 +46,14 @@ char results[5000]; // changed to do testing
     [analyzeScreen setEnabled:FALSE];
     testImg = [UIImage imageNamed:@"IMG_0030.jpg"];
     
+    picker = [[UIImagePickerController alloc] init];
+    
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    if(threshedGlobal!=NULL){
+        [self updateScrollView:warpedGlobal];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,27 +106,29 @@ char results[5000]; // changed to do testing
 }
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
-    
-     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+
+    /*
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     
+     */
     
     //*******To Test Image*******//
     
-    /*
+    
     
     // Bypass Camera and go straight to the method that updates the scrollView
+    
     userImage = [UIImage imageNamed:@"IMG_0030.jpg"];
     //[CVWrapper setCurrentImage:userImage];
     //[self updateScrollView:userImage];
-    [self processMap];
+    [self processMap]; // 144 bytes
     [self analyze];
     [analyzeScreen setEnabled:TRUE];
+ 
      
-     */
+    
 }
 
 #pragma mark - Picture
@@ -139,15 +150,15 @@ char results[5000]; // changed to do testing
         //userImage = [UIImage imageWithCGImage:mean_image.CGImage];
         
         [CVWrapper setCurrentImage:userImage];
-        [self updateScrollView:userImage];
+                
+        // Process then Analyze the picture
+        [self processMap];
+        [self analyze];
+        [analyzeScreen setEnabled:TRUE];
     }
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
-    // Process then Analyze the picture
-    [self processMap];
-    [self analyze];
-    [analyzeScreen setEnabled:TRUE];
+
 }
 
 /*
@@ -345,7 +356,7 @@ char results[5000]; // changed to do testing
         [CVWrapper setCurrentImage:destination];
         UIImage * test = [CVWrapper getCurrentImage];
         
-        [self updateScrollView:destination];
+        //[self updateScrollView:destination];
         return 1;
     }
     

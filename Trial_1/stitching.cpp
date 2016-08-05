@@ -146,8 +146,8 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
     CvSeq * contours;
     CvSeq * result;
     CvMemStorage * storage = cvCreateMemStorage(0);
-    IplImage * temp = cvCloneImage(img);
-    IplImage * oriTemp = cvCloneImage(original);
+    IplImage * temp = cvCloneImage(img); //
+    IplImage * oriTemp = cvCloneImage(original); // possible memory leak [6 MB]
     
 
     
@@ -158,6 +158,8 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
         resetResults(results);
     }
 
+
+    
     cvFindContours(temp, storage, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
     while(contours)
     {
@@ -183,11 +185,12 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
             int w = abs(maxX-minX);
             int h = abs(maxY-minY);
             if( w > 10 & h > 10){
+                // START
                 cvResetImageROI(img);
-                char *windowName = new char[20];
-                sprintf(windowName, "Detected Object %d - %d ", colorCase, count);
+
                 
                 cvResetImageROI(oriTemp);
+                // END 32 byte leak
                 
                 count++;
                 cvSetImageROI(oriTemp, cvRect(minX, minY, w, h));
@@ -202,13 +205,15 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                 bool coordRepeat = 0;
                 
                 // check for repeats of coordinates to prevent logging the same piece twice
+                /* CHECKING FOR MEMORY LEAKS
                 int i;
                 for(i = 0; i < coordCount; i++) {
                     if(coords[i].x == x && coords[i].y == y) {
                         coordRepeat = 1;
                     }
                 }
-
+                */
+                
                 /* Moved this down
                 coords[coordCount].x = x;
                 coords[coordCount].y = y;
@@ -216,11 +221,11 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                  */
                 
                 if(coordRepeat == 0) {
-                    
+                    /*CHECKING FOR MEMORY LEAKS
                     coords[coordCount].x = x;
                     coords[coordCount].y = y;
                     coordCount++;
-                    
+                    */
                     numPieces++;
                     if(calibrate == 1){
                         //cvDestroyWindow(windowName);
@@ -243,7 +248,7 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                     
                     char str[] = "%d %d %d ";
                     char temp[10000];
-                    sprintf(temp, str, colorCase, x, 24-y);
+                    sprintf(temp, str, colorCase, x, 24-y); //leak?
                     
                     
                     int i = 0;
@@ -262,9 +267,13 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
             }
             
         }
+        
         contours = contours -> h_next;
+        
+        
+        
     }
-    
+    // end here
     cvReleaseImage(&temp);
     cvReleaseMemStorage(&storage);
     return numPieces;
@@ -313,13 +322,15 @@ void resetCoords() {
 
 IplImage* thresh(IplImage* img,int colorCase){
     
+    // Memory leaks in this method
+    
     //Convert the image into an HSV image
     IplImage * imgHSV = cvCreateImage(cvGetSize(img), 8, 3);
-    cvCvtColor(img, imgHSV, CV_BGR2HSV);
+    cvCvtColor(img, imgHSV, CV_BGR2HSV); // possible memory leak [6 MB ]
     
     
     //New image that will hold the thresholded image
-    IplImage * imgThreshed = cvCreateImage(cvGetSize(img), 8, 1);
+    IplImage * imgThreshed = cvCreateImage(cvGetSize(img), 8, 1); //POSSIBLE MEMORY LEAK?
     
     
     //*******************************Projector On***************************************//

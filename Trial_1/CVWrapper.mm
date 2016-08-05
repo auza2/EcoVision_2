@@ -444,7 +444,8 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
             cvShowImage(windowName, imgThresh);
         }
         //cvResizeWindow(windowName , imgGreenThresh->width/2, imgGreenThresh->height/2);
-        int result = DetectAndDrawQuads(imgThresh, ipl_src, 0, i, writeToFile, calibrate, results); 
+        int result = DetectAndDrawQuads(imgThresh, ipl_src, 0, i, writeToFile, calibrate, results);
+        // We keep adding more memory after this line
         
         switch(i){
             case 0:
@@ -464,6 +465,7 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
                 printf("Processed blue pieces: %d\n", bluePieces);
                 break;
         }
+        cvReleaseImage(&imgThresh); // there was a memory leak
     }
     
     [self initCoordinates]; // Initializes all NSMutableArrays of Coordinates
