@@ -160,7 +160,7 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
 
 
     
-    cvFindContours(temp, storage, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
+    cvFindContours(temp, storage, &contours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0)); // 80 byte memory leak
     while(contours)
     {
         
@@ -185,12 +185,12 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
             int w = abs(maxX-minX);
             int h = abs(maxY-minY);
             if( w > 10 & h > 10){
-                // START
+           
                 cvResetImageROI(img);
 
                 
                 cvResetImageROI(oriTemp);
-                // END 32 byte leak
+               
                 
                 count++;
                 cvSetImageROI(oriTemp, cvRect(minX, minY, w, h));
@@ -205,14 +205,16 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                 bool coordRepeat = 0;
                 
                 // check for repeats of coordinates to prevent logging the same piece twice
-                /* CHECKING FOR MEMORY LEAKS
+                /*CHECKING FOR MEMORY LEAKS*/
+                /*
                 int i;
                 for(i = 0; i < coordCount; i++) {
                     if(coords[i].x == x && coords[i].y == y) {
                         coordRepeat = 1;
                     }
                 }
-                */
+                 */
+                /*CHECKING FOR MEMORY LEAKS*/
                 
                 /* Moved this down
                 coords[coordCount].x = x;
@@ -221,11 +223,15 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                  */
                 
                 if(coordRepeat == 0) {
-                    /*CHECKING FOR MEMORY LEAKS
+                    
+                    /*CHECKING FOR MEMORY LEAKS*/
+                    /*
                     coords[coordCount].x = x;
                     coords[coordCount].y = y;
                     coordCount++;
-                    */
+                     */
+                    /*CHECKING FOR MEMORY LEAKS*/
+                    
                     numPieces++;
                     if(calibrate == 1){
                         //cvDestroyWindow(windowName);
@@ -275,6 +281,7 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
     }
     // end here
     cvReleaseImage(&temp);
+    cvReleaseImage(&oriTemp);
     cvReleaseMemStorage(&storage);
     return numPieces;
 }

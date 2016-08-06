@@ -23,6 +23,7 @@
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)toAnalyze:(id)sender;
 - (IBAction)toLogin:(id)sender;
+- (IBAction)beginProcessing:(id)sender;
 
 
 // Given Methods
@@ -37,6 +38,7 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView;
 
 // Used to process the picture to be analyzed
+- (void)beginProcessingMap;
 - (void)processMap;
 - (int)threshy;
 - (int)contoury;

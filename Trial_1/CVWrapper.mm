@@ -324,6 +324,11 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
     }
     
     printf("width: %d\n", width);
+    
+    /*
+    cvReleaseImage(&ipl_src); // Memory leak fix
+    cvReleaseImage(&ipl_dst); // Memory leak fix
+    */
     return width;
 }
 
@@ -334,8 +339,7 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
     [coordinatesOfGreenRoofs removeAllObjects];
     [coordinatesOfRainBarrels removeAllObjects];
     [coordinatesOfPermeablePavers removeAllObjects];
-    
-    NSMutableArray* coordinatesOfPieces = [NSMutableArray array];
+
     
     // Call in stitching.cpp a method
     int * coordinatesAsIntArray;
@@ -512,29 +516,29 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
 
 + (UIImage*) thresh:(UIImage*) src colorCase:(int)colorCase
 {
+    
     // UIImage to cv::Mat
     cv::Mat matted = [src CVMat3];
     
-    
+
     // cv::Mat to IplImage
     IplImage copy = matted;
     IplImage* ret = &copy;
- 
-    
+     
     // call thresh function in stitching.cpp
     ret = thresh(ret, colorCase);
     
     // IplImage to cv::Mat
     matted = cvarrToMat(ret);
-
+     
+    
     // cv::Mat to UIImage
     UIImage* thr = [UIImage imageWithCVMat:matted];
     
+    cvReleaseImage(&ret); // Memory leak fix
     
     //return UIImage
     return thr;
-    
-    
 }
 
 

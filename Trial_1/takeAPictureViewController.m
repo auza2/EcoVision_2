@@ -51,9 +51,7 @@ char results[5000]; // changed to do testing
 }
 
 - (void) viewDidAppear:(BOOL)animated{
-    if(threshedGlobal!=NULL){
-        [self updateScrollView:warpedGlobal];
-    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,30 +102,31 @@ char results[5000]; // changed to do testing
 - (IBAction)toLogin:(id)sender {
     [self buttonizeButtonTap2:self];
 }
+
+
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
 
-    /*
+    
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     */
+     
     
     //*******To Test Image*******//
     
     
     
     // Bypass Camera and go straight to the method that updates the scrollView
-    
+    /*
     userImage = [UIImage imageNamed:@"IMG_0030.jpg"];
     //[CVWrapper setCurrentImage:userImage];
     //[self updateScrollView:userImage];
     [self processMap]; // 144 bytes
     [self analyze];
     [analyzeScreen setEnabled:TRUE];
- 
-     
+    */
     
 }
 
@@ -136,6 +135,9 @@ char results[5000]; // changed to do testing
  * Required to be a delegate for UIImagePickerController. This method gets called once the user finishes taking a picture.
  */
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    
+    
     userImage = info[UIImagePickerControllerOriginalImage];
     
     //[CVWrapper setCurrentImage:userImage];
@@ -150,16 +152,33 @@ char results[5000]; // changed to do testing
         //userImage = [UIImage imageWithCGImage:mean_image.CGImage];
         
         [CVWrapper setCurrentImage:userImage];
-                
-        // Process then Analyze the picture
-        [self processMap];
-        [self analyze];
-        [analyzeScreen setEnabled:TRUE];
+        [self updateScrollView:userImage];
     }
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
 
 }
+
+- (IBAction)beginProcessing:(id)sender {
+    [CVWrapper setCurrentImage:userImage];
+    
+    // Process then Analyze the picture
+    [self processMap];
+    [self analyze];
+    [analyzeScreen setEnabled:TRUE];
+}
+
+- ( void ) beginProcessingMap{
+    
+    [CVWrapper setCurrentImage:userImage];
+    
+    // Process then Analyze the picture
+    [self processMap];
+    [self analyze];
+    [analyzeScreen setEnabled:TRUE];
+    
+}
+
 
 /*
  * Required to be a delegate for UIImagePickerController. This method gets called if the user cancels taking the picture.
@@ -295,7 +314,9 @@ char results[5000]; // changed to do testing
      **             4 = dark green (corner markers)
      */
     
+    
     threshedGlobal = [CVWrapper thresh:userImage colorCase: 4];
+    
     
     return (threshedGlobal == nil) ? 0 : 1;
 }
@@ -356,7 +377,7 @@ char results[5000]; // changed to do testing
         [CVWrapper setCurrentImage:destination];
         UIImage * test = [CVWrapper getCurrentImage];
         
-        //[self updateScrollView:destination];
+        [self updateScrollView:destination];
         return 1;
     }
     
