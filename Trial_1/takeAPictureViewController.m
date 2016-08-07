@@ -74,6 +74,7 @@ char results[5000]; // changed to do testing
         //takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
         //analysisViewController *analysisViewController = [segue destinationViewController];
         //UIImage * test = [CVWrapper getCurrentImage]; // Doesn't work
+        [self analyze];
         currentImage_TAP = warpedGlobal;
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = currentImage_TAP;
@@ -107,27 +108,24 @@ char results[5000]; // changed to do testing
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
 
-    
+    /*
      picker.delegate = self;
      picker.allowsEditing = NO;
      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
      [self presentViewController:picker animated:YES completion:NULL];
-     
-    
+    [analyzeScreen setEnabled:TRUE];
+     */
     //*******To Test Image*******//
     
-    
+   
     
     // Bypass Camera and go straight to the method that updates the scrollView
-    /*
-    userImage = [UIImage imageNamed:@"IMG_0030.jpg"];
-    //[CVWrapper setCurrentImage:userImage];
-    //[self updateScrollView:userImage];
-    [self processMap]; // 144 bytes
-    [self analyze];
-    [analyzeScreen setEnabled:TRUE];
-    */
     
+    userImage = [UIImage imageNamed:@"IMG_0058.jpg"];
+    [CVWrapper setCurrentImage:userImage];
+    [self updateScrollView:userImage];
+    [analyzeScreen setEnabled:TRUE];
+
 }
 
 #pragma mark - Picture
@@ -135,9 +133,6 @@ char results[5000]; // changed to do testing
  * Required to be a delegate for UIImagePickerController. This method gets called once the user finishes taking a picture.
  */
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-    
-    
     userImage = info[UIImagePickerControllerOriginalImage];
     
     //[CVWrapper setCurrentImage:userImage];
@@ -160,12 +155,12 @@ char results[5000]; // changed to do testing
 }
 
 - (IBAction)beginProcessing:(id)sender {
-    [CVWrapper setCurrentImage:userImage];
+    //[CVWrapper setCurrentImage:userImage];
     
     // Process then Analyze the picture
     [self processMap];
-    [self analyze];
-    [analyzeScreen setEnabled:TRUE];
+    //[self analyze]; - withoutcoords
+    //[analyzeScreen setEnabled:TRUE]; // withoutcoords
 }
 
 - ( void ) beginProcessingMap{
@@ -174,7 +169,7 @@ char results[5000]; // changed to do testing
     
     // Process then Analyze the picture
     [self processMap];
-    [self analyze];
+    //[self analyze];
     [analyzeScreen setEnabled:TRUE];
     
 }
@@ -375,7 +370,6 @@ char results[5000]; // changed to do testing
         warpedGlobalMean = [CVWrapper ApplyMedianFilter:destination];
         
         [CVWrapper setCurrentImage:destination];
-        UIImage * test = [CVWrapper getCurrentImage];
         
         [self updateScrollView:destination];
         return 1;

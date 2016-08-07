@@ -206,14 +206,14 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                 
                 // check for repeats of coordinates to prevent logging the same piece twice
                 /*CHECKING FOR MEMORY LEAKS*/
-                /*
+                
                 int i;
                 for(i = 0; i < coordCount; i++) {
                     if(coords[i].x == x && coords[i].y == y) {
                         coordRepeat = 1;
                     }
                 }
-                 */
+                 
                 /*CHECKING FOR MEMORY LEAKS*/
                 
                 /* Moved this down
@@ -225,11 +225,11 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                 if(coordRepeat == 0) {
                     
                     /*CHECKING FOR MEMORY LEAKS*/
-                    /*
+                    
                     coords[coordCount].x = x;
                     coords[coordCount].y = y;
                     coordCount++;
-                     */
+                     
                     /*CHECKING FOR MEMORY LEAKS*/
                     
                     numPieces++;
@@ -300,6 +300,7 @@ void resetResults(char results[]) {
 int* getCoords(){
     // Shave coords down to the minimal amount held in coord count :)
     // return coords
+    
     int * coordinatesAsArray = new int[coordCount*2];
     for( int i = 0; i < coordCount ; i++){
         coordinatesAsArray[i*2]= coords[i].x;
@@ -310,7 +311,9 @@ int* getCoords(){
         printf("X = %i, Y = %i \n",coordinatesAsArray[i],coordinatesAsArray[i+1] );
     }
     printf("End Printing from stitching.cpp\n");
-    return coordinatesAsArray;
+    return coordinatesAsArray; // -- withoutcoords
+     
+    return NULL;
 }
 
 int getCoordCount(){
@@ -325,6 +328,7 @@ void resetCoords() {
     }
     coordCount = 0;
 }
+ 
 
 
 IplImage* thresh(IplImage* img,int colorCase){

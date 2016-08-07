@@ -208,7 +208,7 @@ NSArray* trialNumbers;
 {
     printf("I am single tapping...\n");
     
-    CGPoint point =[singleTap_A locationInView:self.scrollView];
+    CGPoint point =[singleTap_A locationInView:self.imageView];
     
     // Covert Point to Coordinate Object
     Coordinate * addCoord;
@@ -307,7 +307,7 @@ NSArray* trialNumbers;
 {
     printf("I double tapped\n");
     
-    CGPoint point =[doubleTap_A locationInView:self.scrollView];
+    CGPoint point =[doubleTap_A locationInView:self.imageView];
     
     // Covert Point to Coordinate Object
     Coordinate * removeCoord;
@@ -438,6 +438,9 @@ NSArray* trialNumbers;
 - (void) updateScrollView:(UIImage *) img {
     
     UIImageView *newView = [[UIImageView alloc] initWithImage:img];
+
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint offset = CGPointMake(self.scrollView.contentOffset.x,self.scrollView.contentOffset.y);
     
     // if there is an image in scrollView it will remove it
     [self.imageView removeFromSuperview];
@@ -455,8 +458,10 @@ NSArray* trialNumbers;
     self.scrollView.minimumZoomScale = 0.5;
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
-    //self.scrollView.contentOffset = CGPointMake(-(self.scrollView.bounds.size.width-self.imageView.bounds.size.width)/2, -(self.scrollView.bounds.size.height-self.imageView.bounds.size.height)/2);
     [self.scrollView addSubview:newView];
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
+
     //Set image on the scrollview
 }
 

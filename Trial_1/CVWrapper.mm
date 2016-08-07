@@ -472,9 +472,9 @@ NSMutableArray* coordinatesOfGreenRoofs = [NSMutableArray array];
         cvReleaseImage(&imgThresh); // there was a memory leak
     }
     
-    [self initCoordinates]; // Initializes all NSMutableArrays of Coordinates
+     [self initCoordinates]; // Initializes all NSMutableArrays of Coordinates -- withoutcoords
     
-    resetCoords();
+    resetCoords(); // -- without coords
     printf("After reset Coords\n");
 
     if (greenPieces > 0 || redPieces > 0 || brownPieces > 0 || bluePieces > 0) return 1;

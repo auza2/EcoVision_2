@@ -36,6 +36,14 @@
 		7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D7D82051CC53FF6004D8BC2 /* LaunchScreen.storyboard */; };
 		7D7D82121CC53FF6004D8BC2 /* Trial_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D82111CC53FF6004D8BC2 /* Trial_1Tests.m */; };
 		7D7D821D1CC53FF6004D8BC2 /* Trial_1UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */; };
+		7DAE7FFA1D57C7750071D63D /* IMG_0032.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF21D57C7750071D63D /* IMG_0032.JPG */; };
+		7DAE7FFB1D57C7750071D63D /* IMG_0037.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF31D57C7750071D63D /* IMG_0037.JPG */; };
+		7DAE7FFC1D57C7750071D63D /* IMG_0040.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF41D57C7750071D63D /* IMG_0040.JPG */; };
+		7DAE7FFD1D57C7750071D63D /* IMG_0054.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF51D57C7750071D63D /* IMG_0054.jpg */; };
+		7DAE7FFE1D57C7750071D63D /* IMG_0055.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF61D57C7750071D63D /* IMG_0055.jpg */; };
+		7DAE7FFF1D57C7750071D63D /* IMG_0056.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF71D57C7750071D63D /* IMG_0056.jpg */; };
+		7DAE80001D57C7750071D63D /* IMG_0057.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF81D57C7750071D63D /* IMG_0057.jpg */; };
+		7DAE80011D57C7750071D63D /* IMG_0058.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7DAE7FF91D57C7750071D63D /* IMG_0058.jpg */; };
 		7DAEEEC51D34611F0020F1BB /* GreenCorners.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAEEEC41D34611F0020F1BB /* GreenCorners.m */; };
 		7DAFB4EC1CFDE28F00AC4204 /* RainBarrel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DAFB4EB1CFDE28F00AC4204 /* RainBarrel.m */; };
 		7DB021AB1D415BD4008F0019 /* DuPageMap.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7DB021AA1D415BD4008F0019 /* DuPageMap.txt */; };
@@ -112,6 +120,14 @@
 		7D7D82181CC53FF6004D8BC2 /* Trial_1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Trial_1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D7D821C1CC53FF6004D8BC2 /* Trial_1UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Trial_1UITests.m; sourceTree = "<group>"; };
 		7D7D821E1CC53FF6004D8BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7DAE7FF21D57C7750071D63D /* IMG_0032.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0032.JPG; sourceTree = "<group>"; };
+		7DAE7FF31D57C7750071D63D /* IMG_0037.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0037.JPG; sourceTree = "<group>"; };
+		7DAE7FF41D57C7750071D63D /* IMG_0040.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0040.JPG; sourceTree = "<group>"; };
+		7DAE7FF51D57C7750071D63D /* IMG_0054.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0054.jpg; sourceTree = "<group>"; };
+		7DAE7FF61D57C7750071D63D /* IMG_0055.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0055.jpg; sourceTree = "<group>"; };
+		7DAE7FF71D57C7750071D63D /* IMG_0056.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0056.jpg; sourceTree = "<group>"; };
+		7DAE7FF81D57C7750071D63D /* IMG_0057.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0057.jpg; sourceTree = "<group>"; };
+		7DAE7FF91D57C7750071D63D /* IMG_0058.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0058.jpg; sourceTree = "<group>"; };
 		7DAEEEC31D34611F0020F1BB /* GreenCorners.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GreenCorners.h; sourceTree = "<group>"; };
 		7DAEEEC41D34611F0020F1BB /* GreenCorners.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenCorners.m; sourceTree = "<group>"; };
 		7DAFB4EA1CFDE28F00AC4204 /* RainBarrel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainBarrel.h; sourceTree = "<group>"; };
@@ -249,6 +265,7 @@
 		7D7D81F41CC53FF6004D8BC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7DAE7FF11D57C7750071D63D /* Test Images */,
 				7D2622C61CEF825B008E0F39 /* IMG_0040.JPG */,
 				7DB021AA1D415BD4008F0019 /* DuPageMap.txt */,
 				7D7D81F51CC53FF6004D8BC2 /* main.m */,
@@ -275,6 +292,22 @@
 				7D7D821E1CC53FF6004D8BC2 /* Info.plist */,
 			);
 			path = Trial_1UITests;
+			sourceTree = "<group>";
+		};
+		7DAE7FF11D57C7750071D63D /* Test Images */ = {
+			isa = PBXGroup;
+			children = (
+				7DAE7FF21D57C7750071D63D /* IMG_0032.JPG */,
+				7DAE7FF31D57C7750071D63D /* IMG_0037.JPG */,
+				7DAE7FF41D57C7750071D63D /* IMG_0040.JPG */,
+				7DAE7FF51D57C7750071D63D /* IMG_0054.jpg */,
+				7DAE7FF61D57C7750071D63D /* IMG_0055.jpg */,
+				7DAE7FF71D57C7750071D63D /* IMG_0056.jpg */,
+				7DAE7FF81D57C7750071D63D /* IMG_0057.jpg */,
+				7DAE7FF91D57C7750071D63D /* IMG_0058.jpg */,
+			);
+			name = "Test Images";
+			path = "../../Test Images";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,10 +414,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DAE7FFB1D57C7750071D63D /* IMG_0037.JPG in Resources */,
+				7DAE80011D57C7750071D63D /* IMG_0058.jpg in Resources */,
+				7DAE7FFE1D57C7750071D63D /* IMG_0055.jpg in Resources */,
+				7DAE7FFD1D57C7750071D63D /* IMG_0054.jpg in Resources */,
 				7DC34F561CEA95900069C04F /* IMG_0001.jpg in Resources */,
+				7DAE7FFF1D57C7750071D63D /* IMG_0056.jpg in Resources */,
+				7DAE80001D57C7750071D63D /* IMG_0057.jpg in Resources */,
 				7D47450C1CED352500CDA2A7 /* IMG_0030.jpg in Resources */,
+				7DAE7FFC1D57C7750071D63D /* IMG_0040.JPG in Resources */,
 				7D7835261CE1BBC0003CB313 /* Main.storyboard in Resources */,
 				7DB021AB1D415BD4008F0019 /* DuPageMap.txt in Resources */,
+				7DAE7FFA1D57C7750071D63D /* IMG_0032.JPG in Resources */,
 				7D2622C71CEF825B008E0F39 /* IMG_0040.JPG in Resources */,
 				7D7D82071CC53FF6004D8BC2 /* LaunchScreen.storyboard in Resources */,
 				7D7D82041CC53FF6004D8BC2 /* Assets.xcassets in Resources */,
