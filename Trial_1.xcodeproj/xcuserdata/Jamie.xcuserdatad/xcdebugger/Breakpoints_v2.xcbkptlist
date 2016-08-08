@@ -121,6 +121,23 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< withoutcoords
+=======
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "489963606.473354"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+>>>>>>> local
             filePath = "Trial_1/Swale.m"
             timestampString = "490028098.985129"
             startingColumnNumber = "9223372036854775807"
@@ -301,10 +318,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "733"
             endingLineNumber = "733"
             landmarkName = "-sendData"
             landmarkType = "5">
+=======
+            startingLineNumber = "728"
+            endingLineNumber = "728">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -317,10 +339,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "749"
             endingLineNumber = "749"
             landmarkName = "-sendData"
             landmarkType = "5">
+=======
+            startingLineNumber = "744"
+            endingLineNumber = "744">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -333,10 +360,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "726"
             endingLineNumber = "726"
             landmarkName = "-sendData"
             landmarkType = "5">
+=======
+            startingLineNumber = "721"
+            endingLineNumber = "721">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -349,10 +381,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "621"
             endingLineNumber = "621"
             landmarkName = "-send:"
             landmarkType = "5">
+=======
+            startingLineNumber = "616"
+            endingLineNumber = "616">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -366,9 +403,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "-initArray"
-            landmarkType = "5">
+            endingLineNumber = "165">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -382,9 +417,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            endingLineNumber = "75">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -398,9 +431,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "-initArray"
-            landmarkType = "5">
+            endingLineNumber = "183">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -414,9 +445,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "-initArray"
-            landmarkType = "5">
+            endingLineNumber = "194">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -445,10 +474,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "758"
             endingLineNumber = "758"
             landmarkName = "-sendData"
             landmarkType = "5">
+=======
+            startingLineNumber = "753"
+            endingLineNumber = "753">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -461,10 +495,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "684"
             endingLineNumber = "684"
             landmarkName = "-sendData"
             landmarkType = "5">
+=======
+            startingLineNumber = "679"
+            endingLineNumber = "679">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -477,10 +516,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "509"
             endingLineNumber = "509"
             landmarkName = "-overwriteTest:"
             landmarkType = "5">
+=======
+            startingLineNumber = "504"
+            endingLineNumber = "504">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -493,10 +537,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "512"
             endingLineNumber = "512"
             landmarkName = "-overwriteTest:"
             landmarkType = "5">
+=======
+            startingLineNumber = "507"
+            endingLineNumber = "507">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -525,10 +574,15 @@
             timestampString = "492306789.177866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "633"
             endingLineNumber = "633"
             landmarkName = "-send:"
             landmarkType = "5">
+=======
+            startingLineNumber = "628"
+            endingLineNumber = "628">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -541,10 +595,15 @@
             timestampString = "492290985.662215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "422"
             endingLineNumber = "422"
             landmarkName = "thresh(IplImage* img,int colorCase)"
             landmarkType = "7">
+=======
+            startingLineNumber = "418"
+            endingLineNumber = "418">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -557,10 +616,15 @@
             timestampString = "492301520.102735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "286"
             endingLineNumber = "286"
             landmarkName = "-processMap"
             landmarkType = "5">
+=======
+            startingLineNumber = "291"
+            endingLineNumber = "291">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -573,10 +637,15 @@
             timestampString = "492301520.102735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "290"
             endingLineNumber = "290"
             landmarkName = "-processMap"
             landmarkType = "5">
+=======
+            startingLineNumber = "295"
+            endingLineNumber = "295">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -585,14 +654,97 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< withoutcoords
+=======
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "492128590.006384"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "521"
+            endingLineNumber = "521">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "492128590.006384"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "388"
+            endingLineNumber = "388">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[CVWrapper initCoordinates]"
+                  moduleName = "Trial_1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Jamie/Desktop/EcoVision_2/Trial_1/CVWrapper.mm"
+                  timestampString = "492126615.98459"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "384"
+                  endingLineNumber = "384"
+                  offsetFromSymbolStart = "408">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[CVWrapper initCoordinates]"
+                  moduleName = "Trial_1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Jamie/Desktop/EcoVision_2/Trial_1/CVWrapper.mm"
+                  timestampString = "492126615.984931"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "384"
+                  endingLineNumber = "384"
+                  offsetFromSymbolStart = "1184">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[CVWrapper initCoordinates]"
+                  moduleName = "Trial_1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Jamie/Desktop/EcoVision_2/Trial_1/CVWrapper.mm"
+                  timestampString = "492126615.985141"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "384"
+                  endingLineNumber = "384"
+                  offsetFromSymbolStart = "1200">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+>>>>>>> local
             filePath = "Trial_1/takeAPictureViewController.m"
             timestampString = "492301520.102735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "282"
             endingLineNumber = "282"
             landmarkName = "-processMap"
             landmarkType = "5">
+=======
+            startingLineNumber = "287"
+            endingLineNumber = "287">
+>>>>>>> local
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -605,11 +757,88 @@
             timestampString = "492301520.102735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< withoutcoords
             startingLineNumber = "362"
             endingLineNumber = "362"
             landmarkName = "-warpy"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+=======
+            startingLineNumber = "367"
+            endingLineNumber = "367">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/takeAPictureViewController.m"
+            timestampString = "492135838.060724"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "492129788.415017"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "475"
+            endingLineNumber = "475">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "492130369.883012"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "450"
+            endingLineNumber = "450">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/CVWrapper.mm"
+            timestampString = "492130370.715303"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "452"
+            endingLineNumber = "452">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Trial_1/stitching.cpp"
+            timestampString = "492132990.049126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "286"
+            endingLineNumber = "286">
+         </BreakpointContent>
+      </BreakpointProxy>
+>>>>>>> local
    </Breakpoints>
 </Bucket>
