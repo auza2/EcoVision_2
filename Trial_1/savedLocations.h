@@ -23,4 +23,5 @@
 - (void) writeToFile;
 - (savedLocations*) changeFromFile;
 - (Boolean) isOverwriting: (NSString*) name;
+- (NSMutableArray*) getAllHSVForSavedLocationAtIndex:(NSInteger)index;
 @end

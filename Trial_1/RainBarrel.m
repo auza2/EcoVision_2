@@ -186,6 +186,7 @@ UIImage* rainBarrelIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_RB;
+         analysisViewController.userImage_A = _originalImage_RB;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -269,6 +270,9 @@ UIImage* rainBarrelIcon2 = nil;
  * Update the scroll view
  */
 - (void) updateScrollView:(UIImage *) newImg {
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint offset = CGPointMake(self.scrollView.contentOffset.x,self.scrollView.contentOffset.y);
+    
     //MAKE SURE THAT IMAGE VIEW IS REMOVED IF IT EXISTS ON SCROLLVIEW!!
     if (img_RB != nil)
     {
@@ -277,8 +281,6 @@ UIImage* rainBarrelIcon2 = nil;
     }
     
     img_RB = [[UIImageView alloc] initWithImage:newImg];
-    
-    
     
     //handle pinching in/ pinching out to zoom
     img_RB.userInteractionEnabled = YES;
@@ -294,10 +296,10 @@ UIImage* rainBarrelIcon2 = nil;
     self.scrollView.showsVerticalScrollIndicator = true;
     self.scrollView.showsHorizontalScrollIndicator = true;
     
-    
-    
     //Set image on the scrollview
     [self.scrollView addSubview:img_RB];
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{

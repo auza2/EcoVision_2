@@ -125,30 +125,6 @@
                                                error:NULL];
         NSLog(@"AFTER RESETTING HSV FILE: READING...%@", content);
         [file closeFile];
-        /*
-        NSLog(@"We found the file");
-        NSString* content = [NSString stringWithContentsOfFile:fileName
-                                                      encoding:NSUTF8StringEncoding
-                                                         error:NULL];
-        NSLog(@"Reading from text file %@", content);
-        NSLog(@"BEFORE ADDING");
-
-        NSString *str = @"";
-        
-        for(int i = 0; i < 30; i++) { /// 30 CHARACTERS
-            str = [str stringByAppendingFormat:@" " ];
-        }
-        
-        NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
-        
-        [file writeData:[str dataUsingEncoding:NSUTF8StringEncoding]];
-        NSLog(@"AFTER ADDING");
-        content = [NSString stringWithContentsOfFile:fileName
-                                            encoding:NSUTF8StringEncoding
-                                               error:NULL];
-         NSLog(@"Reading from text file %@", content);
-        [file closeFile];
-         */
     }
 
 }

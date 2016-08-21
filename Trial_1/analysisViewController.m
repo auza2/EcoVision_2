@@ -7,6 +7,8 @@
 //
 
 #import "analysisViewController.h"
+#import "takeAPictureViewController.h"
+#import "savedLocations.h"
 #import "Swale.h"
 #import "GreenRoof.h"
 #import "PermeablePaver.h"
@@ -34,28 +36,26 @@ NSMutableArray* permeablePaverCoordinates;
 NSMutableArray* greenRoofCoordinates;
 NSMutableArray* arrayOfCoordinateArrays;
 NSMutableArray* addButtons;
+NSMutableArray * profileSetting;
+savedLocations* savedLocationsFromFile_A;
 
 int pressedButton = -1;
 NSMutableArray * map;
 NSString* trialID;
 NSArray* trialNumbers;
 
-@synthesize swaleSwitch;
-@synthesize greenRoofSwitch;
-@synthesize permeablePaverSwitch;
-@synthesize rainBarrelSwitch;
-
 @synthesize currentImage_A;
 
 @synthesize squareWidth;
 @synthesize squareHeight;
-@synthesize switches; // doesnt need to be a property
 
 @synthesize addSwaleButton;
 @synthesize addRainBarrelButton;
 @synthesize addGreenRoofButton;
 @synthesize addPermeablePaverButton;
 @synthesize IPAddress;
+
+@synthesize clickedSegment_A;
 
 - (void) viewDidLoad{
     // Get Coordinates
@@ -74,6 +74,13 @@ NSArray* trialNumbers;
 
     [self initArray];
     trialID = @"";
+    
+    // For Drop Down
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    savedLocationsFromFile_A = [[savedLocations alloc] init];
+    
+    profileSetting = [[NSMutableArray alloc] init];
 }
 
 
@@ -95,40 +102,9 @@ NSArray* trialNumbers;
     NSLog(@"Width: %f", currentImage_A.size.width);
     NSLog(@"Height: %f", currentImage_A.size.height);
     
-    // Initializing the switches
-    switches = [[NSMutableArray alloc] init];
-    
-    [switches addObject: swaleSwitch];
-    [switches addObject: rainBarrelSwitch];
-    [switches addObject: permeablePaverSwitch];
-    [switches addObject: greenRoofSwitch];
-    
-    
-    for( UISwitch * s in switches){
-        [s addTarget:self
-                        action:@selector(stateChanged:) forControlEvents:UIControlEventValueChanged];
-    }
-    
     squareWidth = currentImage_A.size.width/23;
     squareHeight = currentImage_A.size.height/25;
-    
-    
-    // Testing Gradient
-    /*
-    CAGradientLayer *btnGradient = [CAGradientLayer layer];
-    btnGradient.frame = watermarkButton.bounds;
-    btnGradient.colors = [NSArray arrayWithObjects:
-                          (id)[[UIColor colorWithRed:102.0f / 255.0f green:102.0f / 255.0f blue:102.0f / 255.0f alpha:1.0f] CGColor],
-                          (id)[[UIColor colorWithRed:51.0f / 255.0f green:51.0f / 255.0f blue:51.0f / 255.0f alpha:1.0f] CGColor],
-                          nil];
-    [watermarkButton.layer insertSublayer:btnGradient atIndex:0];
-    
-    CALayer *btnLayer = [watermarkButton layer];
-    [btnLayer setMasksToBounds:YES];
-    [btnLayer setCornerRadius:5.0f];
-     */
-    
-    // Testing Pressed
+
     
     // Add Buttons
     addButtons = [[NSMutableArray alloc] init];
@@ -156,7 +132,9 @@ NSArray* trialNumbers;
     [_scrollView addGestureRecognizer:doubleTap_A];
     
     [self setHSVValues];
-
+    
+    [self updateViewedIcons];
+    [self.dropDown setTitle: [savedLocationsFromFile_A nameOfObjectAtIndex:clickedSegment_A]  forState:UIControlStateNormal];
 }
 
 #pragma -mark Map Text file
@@ -333,38 +311,19 @@ NSArray* trialNumbers;
 }
 
 
-#pragma mark - Switches
-/*
- * This is the method that gets called when we toggle the switch.
- */
-- (void)stateChanged:(UISwitch *)switchState
-{
-    [self updateViewedIcons];
-}
+#pragma mark - updateviewedicons
+
 
 -(void) updateViewedIcons{
     UIGraphicsBeginImageContext(currentImage_A.size);
     [currentImage_A drawInRect:CGRectMake(0, 0, currentImage_A.size.width, currentImage_A.size.height)];
      NSLog(@"Updating what's shown");
-    
-    for( UISwitch * s in switches){
-        if( s.on == true ){
-            switch( s.tag ){
-                case 0:
-                    [self drawIconsInArray:swaleCoordinates image:swaleIcon];
-                    break;
-                case 1:
-                    [self drawIconsInArray:rainBarrelCoordinates image:rainBarrelIcon];
-                    break;
-                case 2:
-                    [self drawIconsInArray:greenRoofCoordinates image:greenRoofIcon];
-                    break;
-                case 3:
-                    [self drawIconsInArray:permeablePaverCoordinates image:permeablePaverIcon];
-                    break;
-            }
-        }
-    }
+
+    [self drawIconsInArray:swaleCoordinates image:swaleIcon];
+    [self drawIconsInArray:rainBarrelCoordinates image:rainBarrelIcon];
+    [self drawIconsInArray:greenRoofCoordinates image:greenRoofIcon];
+    [self drawIconsInArray:permeablePaverCoordinates image:permeablePaverIcon];
+ 
     
     UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -397,6 +356,19 @@ NSArray* trialNumbers;
         Swale *swale = navController.viewControllers[0];
         swale.currentImage_S = plainImage2;
         swale.originalImage_S = _userImage_A;
+
+        if( swale.clickedSegment_S != clickedSegment_A){
+            swale.seguedFromTileDetection = true;
+            swale.clickedSegment_S = clickedSegment_A;
+        }
+        
+        
+        /*
+         sample1.backgroundColor = brightest_S.backgroundColor;
+         sample2.backgroundColor = darkest_S.backgroundColor;
+         [SwaleSamples addObject:brightest_S.backgroundColor];
+         [SwaleSamples addObject:darkest_S.backgroundColor];
+         */
         
         PermeablePaver * permeablepaver = navController.viewControllers[1];
         permeablepaver.currentImage_PP = plainImage2;
@@ -418,10 +390,18 @@ NSArray* trialNumbers;
         greenCorners.processedImage = plainImage2;
         
         saveColors *saveColors = navController.viewControllers[5];
-        saveColors.colorPalette_S.text = @"No Palette Chosen";
         saveColors.title = @"Save Colors";
         
      }
+    
+    if( [[segue identifier] isEqualToString:@"toBack"]){
+        takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
+        takeAPictureViewController.warpedGlobal = currentImage_A;
+        takeAPictureViewController.groupNumber= _groupNumber;
+        takeAPictureViewController.IPAddress = IPAddress;
+        takeAPictureViewController.currentImage_TAP = _userImage_A;
+    }
+
     
 }
 
@@ -778,6 +758,140 @@ NSArray* trialNumbers;
 
 -(void)buttonizeButtonTap2:(id)sender{
     [self performSegueWithIdentifier:@"toBack" sender:sender];
+}
+
+#pragma -mark Drop Down Menu
+// Number of thins shown in the drop down
+
+- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
+    return [savedLocationsFromFile_A count];
+}
+
+/*
+ * Returns the table cell at the specified index path.
+ *
+ * Return Value
+ * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
+ */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    // cell.textLabel.text = @"";
+    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
+    
+    cell.textLabel.text = [savedLocationsFromFile_A nameOfObjectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+/*
+ * Tells the delegate that the specified row is now selected.
+ */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    clickedSegment_A = index;
+    [self changeColorSetToIndex:indexPath.row];
+    
+    [self analyze];
+    [self changeCoordsFromDropDown];
+    [self updateViewedIcons];
+
+}
+
+- (void) changeColorSetToIndex: (int)index{
+    clickedSegment_A = index;
+    
+    [self.dropDown setTitle: [savedLocationsFromFile_A nameOfObjectAtIndex:index]  forState:UIControlStateNormal];
+
+    profileSetting  = [savedLocationsFromFile_A getAllHSVForSavedLocationAtIndex:index]; //-- looking for bugs
+    
+    [self changeAllHSVVals];
+    
+    self.tableView.hidden =  TRUE;
+}
+
+/*
+ * Changes the HSV Values in CVWrapper
+ * Does this change the txt file?
+ */
+- (void) changeAllHSVVals {
+    
+    int caseNum = 0;
+    int vals[30] = {0};
+
+    for( int i = 0 ; i < 30; i++){
+        vals[i] = [[profileSetting objectAtIndex:i] integerValue];
+    }
+    
+    [CVWrapper setHSV_Values:vals];
+}
+
+- (void) changeFromFile{
+    savedLocationsFromFile_A = [savedLocationsFromFile_A changeFromFile];
+    [self.tableView reloadData];
+}
+
+
+- (IBAction)dropDownButton:(id)sender {
+    if( self.tableView.hidden == TRUE )
+        self.tableView.hidden =  FALSE;
+    else
+        self.tableView.hidden = TRUE;
+}
+#pragma analyze
+
+- (void) analyze{
+    // for testing
+    int worked;
+    char results[5000];
+    worked = [CVWrapper analysis:currentImage_A studyNumber: 0 trialNumber:0 results: results];
+    // After they analyze they reset the coords
+    
+    if(worked) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"We found your pieces!" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+        [alert show];
+        
+        
+        // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold something
+        
+        /*
+         UIImage* threshedImage = [CVWrapper thresh:warpedGlobal colorCase: [CVWrapper getSegmentIndex]];
+         [self updateScrollView:threshedImage];
+         */
+        
+        // ok why didn't this show...
+        // DONT COMMENT OUT
+        //[self sendData];
+        
+        
+        return;
+    }
+    else {
+        [self throwErrorAlert:@"No markers were found!"];
+    }
+    
+}
+
+- (void) changeCoordsFromDropDown{
+    
+    swaleCoordinates = [CVWrapper getSwaleCoordinates];
+    rainBarrelCoordinates = [CVWrapper getRainBarrelCoordinates];
+    permeablePaverCoordinates = [CVWrapper getPermeablePaverCoordinates];
+    greenRoofCoordinates = [CVWrapper getGreenRoofCoordinates];
+
+}
+
+- (void) throwErrorAlert:(NSString*) alertString {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:alertString delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
+    [alert show];
+    //self.scrollView.backgroundColor = [UIColor whiteColor]; // hides scrollView ( we don't really need this cause we don't have one in this Scene
 }
 
 #pragma -mark Initializing Rules

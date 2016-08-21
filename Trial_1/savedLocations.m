@@ -39,7 +39,7 @@
             [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
             
             // Add Default HSV values to file
-            NSString* defaultHSV = @"< New Color Palette >:255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0\n Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
+            NSString* defaultHSV = @"Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
             
             NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
             [file writeData:[defaultHSV dataUsingEncoding:NSUTF8StringEncoding]];
@@ -88,7 +88,8 @@
         [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
         
         // Add Default HSV values to file
-        NSString* defaultHSV = @"< New Color Palette >:255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0\n Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
+        // < New Color Palette >:255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0\n 
+        NSString* defaultHSV = @"Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
         
         NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
         [file writeData:[defaultHSV dataUsingEncoding:NSUTF8StringEncoding]];
@@ -189,6 +190,12 @@
 - (NSMutableArray*) getHSVForSavedLocationAtIndex:(NSInteger)index Icon:(NSInteger)caseNum{
     NSMutableArray* result = [[NSMutableArray alloc]init];
     result = [[allSavedLocations objectAtIndex: index ] getValuesFromIcon:caseNum];
+    return result;
+}
+
+- (NSMutableArray*) getAllHSVForSavedLocationAtIndex:(NSInteger)index {
+    NSMutableArray* result = [[NSMutableArray alloc]init];
+    result = [[allSavedLocations objectAtIndex: index ] getAllValues];
     return result;
 }
 

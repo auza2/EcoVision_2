@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic,strong) UIImage * currentImage_TAP;
+@property (nonatomic,strong) UIImage * warpedGlobal;
+@property (nonatomic,strong) UIImage * userImage_TAP;
+
 
 @property NSString * groupNumber;
 @property NSString *IPAddress;

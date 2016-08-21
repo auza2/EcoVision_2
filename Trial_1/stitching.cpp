@@ -254,7 +254,7 @@ int DetectAndDrawQuads(IplImage * img, IplImage * original, int frameNumber, int
                     
                     char str[] = "%d %d %d ";
                     char temp[10000];
-                    sprintf(temp, str, colorCase, x, 24-y); //leak?
+                    //sprintf(temp, str, colorCase, x, 24-y); //leak?
                     
                     
                     int i = 0;

@@ -193,6 +193,9 @@ long int clickedSegment_GC;
  * Update the scroll view
  */
 - (void) updateScrollView:(UIImage *) newImg {
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint offset = CGPointMake(self.scrollView.contentOffset.x,self.scrollView.contentOffset.y);
+    
     //MAKE SURE THAT IMAGE VIEW IS REMOVED IF IT EXISTS ON SCROLLVIEW!!
     if (img_GC != nil)
     {
@@ -222,6 +225,8 @@ long int clickedSegment_GC;
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_GC];
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{

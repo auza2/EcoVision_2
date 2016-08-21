@@ -31,22 +31,20 @@ NSMutableArray* swaleCoordinatesCalibrated;
 int highHue_S, highSaturation_S, highVal_S;
 int lowHue_S, lowSaturation_S, lowVal_S;
 int hasNoDefaultValues;
-savedLocations* savedLocationsFromFile_S;
 
+@synthesize savedLocationsFromFile_S;
 @synthesize sample1;
 @synthesize sample2;
 @synthesize sample3;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize sample7;
-@synthesize sample8;
-@synthesize sample9;
+@synthesize brightest_S;
+@synthesize darkest_S;
 @synthesize viewIconSwitch;
-@synthesize tableView;
 
-
-long int clickedSegment_S;
+@synthesize clickedSegment_S;
+@synthesize seguedFromTileDetection;
 
 UIImage* swaleIcon2 = nil;
 
@@ -62,36 +60,14 @@ UIImage* swaleIcon2 = nil;
     // Set Default HSV Values
     [self setHSVValues];
     
-    if( SwaleSamples.count == 0) {
-        SwaleSamples = [NSMutableArray array];
-        sampleImages_S = [NSMutableArray array];
-        
-        [sampleImages_S addObject:sample1];
-        [sampleImages_S addObject:sample2];
-        [sampleImages_S addObject:sample3];
-        [sampleImages_S addObject:sample4];
-        [sampleImages_S addObject:sample5];
-        [sampleImages_S addObject:sample6];
-        [sampleImages_S addObject:sample7];
-        [sampleImages_S addObject:sample8];
-        [sampleImages_S addObject:sample9];
-        
-        // Necessary to find where to put the sampled color
-        sample1.backgroundColor = UIColor.whiteColor;
-        sample2.backgroundColor = UIColor.whiteColor;
-        sample3.backgroundColor = UIColor.whiteColor;
-        sample4.backgroundColor = UIColor.whiteColor;
-        sample5.backgroundColor = UIColor.whiteColor;
-        sample6.backgroundColor = UIColor.whiteColor;
-        sample7.backgroundColor = UIColor.whiteColor;
-        sample8.backgroundColor = UIColor.whiteColor;
-        sample9.backgroundColor = UIColor.whiteColor;
-    }
+    savedLocationsFromFile_S = [[savedLocations alloc] init];
 
+
+    
     
     // Switch to see icons
     [viewIconSwitch addTarget:self
-          action:@selector(stateChangedViewIcon:) forControlEvents:UIControlEventValueChanged];
+                       action:@selector(stateChangedViewIcon:) forControlEvents:UIControlEventValueChanged];
     
     swaleIcon2 = [UIImage imageNamed:@"Swale_Icon.png"];
     
@@ -106,11 +82,35 @@ UIImage* swaleIcon2 = nil;
     self.tabBarController.delegate = self;
     _highLowVals_S = [[NSMutableArray alloc]init];
     
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    savedLocationsFromFile_S = [[savedLocations alloc] init];
 
+  
+    SwaleSamples = [NSMutableArray array];
+    sampleImages_S = [NSMutableArray array];
+        
+    [self changeColorSetToIndex:clickedSegment_S]; // changes the 6 vals
+    [self updateBrightAndDark]; // gets lightest and darkest
+        
+    [sampleImages_S addObject:sample1];
+    [sampleImages_S addObject:sample2];
+    [sampleImages_S addObject:sample3];
+    [sampleImages_S addObject:sample4];
+    [sampleImages_S addObject:sample5];
+    [sampleImages_S addObject:sample6];
+        
+        
+        // Necessary to find where to put the sampled color
+    sample1.backgroundColor = _brightestColor_S;
+    sample2.backgroundColor = _darkestColor_S;
+    sample3.backgroundColor = UIColor.whiteColor;
+    sample4.backgroundColor = UIColor.whiteColor;
+    sample5.backgroundColor = UIColor.whiteColor;
+    sample6.backgroundColor = UIColor.whiteColor;
+        
+    [SwaleSamples addObject:_brightestColor_S];
+    [SwaleSamples addObject:_darkestColor_S];
+    
+
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,16 +128,16 @@ UIImage* swaleIcon2 = nil;
     
     // Initializing the Tap Gestures
     singleTap_S = [[UITapGestureRecognizer alloc]
-                    initWithTarget:self
-                    action:@selector(handleSingleTapFrom:)];
+                   initWithTarget:self
+                   action:@selector(handleSingleTapFrom:)];
     singleTap_S.numberOfTapsRequired = 1;
     [_scrollView addGestureRecognizer:singleTap_S];
     singleTap_S.delegate = self;
     
     
     doubleTap_S = [[UITapGestureRecognizer alloc]
-                    initWithTarget:self
-                    action:@selector(handleDoubleTapFrom:)];
+                   initWithTarget:self
+                   action:@selector(handleDoubleTapFrom:)];
     doubleTap_S.numberOfTapsRequired = 2;
     doubleTap_S.delegate = self;
     
@@ -148,8 +148,8 @@ UIImage* swaleIcon2 = nil;
     // Adding a Double Tap Gesture for all the Sample Views for the Ability to remove
     for( UIImageView * sampleView in sampleImages_S ){
         UITapGestureRecognizer * doubleTap_STEST = [[UITapGestureRecognizer alloc]
-                                                     initWithTarget:self
-                                                     action:@selector(handleDoubleTapFrom:)];
+                                                    initWithTarget:self
+                                                    action:@selector(handleDoubleTapFrom:)];
         doubleTap_STEST.numberOfTapsRequired = 2;
         doubleTap_STEST.delegate = self;
         [sampleView setUserInteractionEnabled:YES];
@@ -157,17 +157,40 @@ UIImage* swaleIcon2 = nil;
     }
     
     // Creating Borders
-    [self.dropDown.layer setBorderWidth:2.0];
-    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.brightest_S.layer setBorderWidth:2.0];
+    [self.brightest_S.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
-    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
-    self.tableView.layer.borderWidth = 2.0;
-    
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
+    [self.darkest_S.layer setBorderWidth:2.0];
+    [self.darkest_S.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+        
+    // If we segue from save profile or tile detection, we could have added a new profile
     savedLocationsFromFile_S = [[savedLocations alloc] init];
+    
+    // If we segue from Tile Detection, we reset everything
+    if( seguedFromTileDetection == true){
+        // Remove all swale samples
+        [SwaleSamples removeAllObjects];
+            
+        // Necessary to find where to put the sampled color
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        
+        [self changeColorSetToIndex:clickedSegment_S];
+        
+        // Update First 2 samples as lightest and darkest
+        sample1.backgroundColor = _brightestColor_S;
+        sample2.backgroundColor = _darkestColor_S;
+        
+        // Adds the brightest and darkest color to swale samples
+        [SwaleSamples addObject:_brightestColor_S];
+        [SwaleSamples addObject:_darkestColor_S];
+        
+        seguedFromTileDetection = false;
+    }
+    
+    [self updateBrightAndDark];
     
 }
 #pragma -mark Sending high and low values to save screen
@@ -195,6 +218,7 @@ UIImage* swaleIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_S;
+        analysisViewController.clickedSegment_A = clickedSegment_S;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -231,10 +255,10 @@ UIImage* swaleIcon2 = nil;
         UIGraphicsBeginImageContext(_currentImage_S.size);
         [_currentImage_S drawInRect:CGRectMake(0, 0, _currentImage_S.size.width, _currentImage_S.size.height)];
         NSLog(@"stateChangedViewIcon -- Begin");
-
+        
         // Use the new HSV Values
         [self changeHSVVals];
-         NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
+        NSLog(@"stateChangedViewIcon -- AFTER WE CHANGE THE HSV VALUES");
         int HSV_values[30];
         [CVWrapper getHSV_Values:HSV_values];
         
@@ -246,18 +270,18 @@ UIImage* swaleIcon2 = nil;
         
         
         swaleCoordinatesCalibrated = [CVWrapper getSwaleCoordinates];
-         NSLog(@"There are %i swales detected" , swaleCoordinatesCalibrated.count);
+        NSLog(@"There are %i swales detected" , swaleCoordinatesCalibrated.count);
         [self drawIconsInArray:swaleCoordinatesCalibrated image:swaleIcon2];
         
         UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-    
+        
         [self updateScrollView:result];
         NSLog(@"stateChangedViewIcon -- End ");
     } else {
         [self updateScrollView:_currentImage_S];
     }
-
+    
 }
 
 -(void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage{
@@ -278,6 +302,9 @@ UIImage* swaleIcon2 = nil;
  */
 - (void) updateScrollView:(UIImage *) newImg {
     //MAKE SURE THAT IMAGE VIEW IS REMOVED IF IT EXISTS ON SCROLLVIEW!!
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint offset = CGPointMake(self.scrollView.contentOffset.x,self.scrollView.contentOffset.y);
+    
     if (img_S != nil)
     {
         [img_S removeFromSuperview];
@@ -288,11 +315,11 @@ UIImage* swaleIcon2 = nil;
     
     
     
-     //handle pinching in/ pinching out to zoom
-     img_S.userInteractionEnabled = YES;
-     img_S.backgroundColor = [UIColor clearColor];
-     img_S.contentMode =  UIViewContentModeCenter;
-     //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    //handle pinching in/ pinching out to zoom
+    img_S.userInteractionEnabled = YES;
+    img_S.backgroundColor = [UIColor clearColor];
+    img_S.contentMode =  UIViewContentModeCenter;
+    //img.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     self.scrollView.minimumZoomScale=0.5;
     self.scrollView.maximumZoomScale=6.0;
@@ -301,11 +328,14 @@ UIImage* swaleIcon2 = nil;
     self.scrollView.delegate = self;
     self.scrollView.showsVerticalScrollIndicator = true;
     self.scrollView.showsHorizontalScrollIndicator = true;
-
+    
     
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_S];
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
+    
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
@@ -333,9 +363,12 @@ UIImage* swaleIcon2 = nil;
     }
     
     [self setHighandlowVal_Sues];
+    [self updateBrightAndDark];
     
+    /*
     if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
         [self changeColorSetToIndex: 0];
+     */
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -356,8 +389,10 @@ UIImage* swaleIcon2 = nil;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    [self changeColorSetToIndex:clickedSegment_S];
+    //[self changeColorSetToIndex:clickedSegment_S];
+    [self resetHSV];
     [self setHighandlowVal_Sues];
+    [self updateBrightAndDark];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -407,11 +442,10 @@ UIImage* swaleIcon2 = nil;
         [viewIconSwitch setOn:false];
         [self updateScrollView:_currentImage_S];
     }
-
     
-    [self changeColorSetToIndex: clickedSegment_S];
     
-    [self setHighandlowVal_Sues];
+    [self resetHSV];
+    [self updateBrightAndDark];
 }
 
 #pragma mark - Threshold Switch
@@ -475,42 +509,7 @@ UIImage* swaleIcon2 = nil;
  * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
-    /*
-    int hsvValues[30];
-    [CVWrapper getHSV_Values:hsvValues];
-    
-    NSError *error;
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"hsvValues"];
-    fileName = [fileName stringByAppendingPathExtension:@"txt"];
-    
-    NSString* content = [NSString stringWithContentsOfFile:fileName
-                                                  encoding:NSUTF8StringEncoding
-                                                     error:&error];
-    
-    // if file reading creates an error, set values to default
-    if(error) {
-        NSLog(@"File reading error: default hsv values loaded");
-        int hsvDefault[] = {10, 80, 50, 200, 50, 255,       // Green (Swale)
-            80, 175, 140, 255, 100, 255,    // Red (Rain Barrel
-            90, 110, 40, 100, 120, 225,     // Brown (Green Roof)
-            0, 15, 30, 220, 50, 210,        // Blue (Permeable Paver)
-            15, 90, 35, 200, 35, 130};      // Dark Green (Corner Markers)
-        [CVWrapper setHSV_Values:hsvDefault];
-        return;
-    }
-    
-    NSLog(@"Reading from hsvValues.txt from setHSVValues: %@", content);
-    
-    NSArray *arr = [content componentsSeparatedByString:@" "];
-    
-    int i;
-    for(i = 0; i < 30; i++) {
-        // loss of precision is fine since all numbers stored in arr will have only zeroes after the decimal
-        hsvValues[i] = [[arr objectAtIndex:i]integerValue];
-    }
-    */
-    
+
     int hsvValues[] = {255, 0, 255, 0, 255, 0,
         255, 0, 255, 0, 255, 0,
         255, 0, 255, 0, 255, 0,
@@ -536,14 +535,9 @@ UIImage* swaleIcon2 = nil;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (SwaleSamples == NULL)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
-    
     // Find the High and Low Values from Samples
-    [self setHighandlowVal_Sues];
+    if( SwaleSamples.count != 0)
+        [self setHighandlowVal_Sues];
     
     // changes the values by the CVWrapper
     vals[caseNum * 6] = lowHue_S;
@@ -559,9 +553,10 @@ UIImage* swaleIcon2 = nil;
 #pragma change HSV Values based on samples
 
 /*
- * Goes through the Array of Colors and sets the High and Low Values of the Hue, Saturation, and Value.
+ * Goes through the Array of Colors ( compares it to the current 6 values ) and sets the High and Low Values of the Hue, Saturation, and Value.
  */
 - (void) setHighandlowVal_Sues{
+    
     int H_Sample;
     int S_Sample;
     int V_Sample;
@@ -591,17 +586,18 @@ UIImage* swaleIcon2 = nil;
 
 #pragma -mark Drop Down Menu
 // Number of thins shown in the drop down
-
+/*
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
     return [savedLocationsFromFile_S count];
 }
-
+*/
 /*
  * Returns the table cell at the specified index path.
  *
  * Return Value
  * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
  */
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
@@ -623,18 +619,24 @@ UIImage* swaleIcon2 = nil;
 /*
  * Tells the delegate that the specified row is now selected.
  */
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // shouldn't be ever called anymore
     if( _threshSwitch.isOn || viewIconSwitch.isOn){
         [_threshSwitch setOn:false];
         [viewIconSwitch setOn:false];
         [self updateScrollView:_currentImage_S];
     }
-
+    
     clickedSegment_S = index;
-    [self changeColorSetToIndex:indexPath.row];
+    //[self changeColorSetToIndex:indexPath.row];
 }
+*/
 
+
+// should only be called in the beginning
 - (void) changeColorSetToIndex: (int)index{
+    
     clickedSegment_S = index;
     
     [self.dropDown setTitle: [savedLocationsFromFile_S nameOfObjectAtIndex:index]  forState:UIControlStateNormal];
@@ -654,24 +656,84 @@ UIImage* swaleIcon2 = nil;
     
     [self changeHSVVals];
     
-    self.tableView.hidden =  TRUE;
+    //self.tableView.hidden =  TRUE;
+    
 }
 
-// Called after we save to change the tableview 
+// Called after we save to change the tableview
 - (void) changeFromFile{
     savedLocationsFromFile_S = [savedLocationsFromFile_S changeFromFile];
-    [self.tableView reloadData];
+   // [self.tableView reloadData];
 }
 
 
 - (IBAction)dropDownButton:(id)sender {
+    /*
     if( self.tableView.hidden == TRUE )
         self.tableView.hidden =  FALSE;
     else
         self.tableView.hidden = TRUE;
+     */
 }
 
+#pragma -mark Bright and Dark
+-(void) updateBrightAndDark{
+    NSLog(@"Changing the dark and brightest to these values");
+    NSLog(@" LH:%d LS:%d LV:%d", lowHue_S, lowSaturation_S, lowVal_S);
+    NSLog(@" HH:%d HS:%d HV:%d", highHue_S, highSaturation_S, highVal_S);
 
+    if( lowHue_S == 255 && lowSaturation_S == 255 && lowVal_S == 255 &&
+       highHue_S == 0 && highSaturation_S == 0 && highVal_S == 0){
+        // choose a color first
+        darkest_S.backgroundColor = UIColor.whiteColor;
+        brightest_S.backgroundColor = UIColor.whiteColor;
+        
+        return;
+    }
+        
+    
+    
+    double R_low;
+    double G_low;
+    double B_low;
+    double R_high;
+    double G_high;
+    double B_high;
+    
+    [CVWrapper getRGBValuesFromH:lowHue_S
+                               S:lowSaturation_S
+                               V:lowVal_S
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:highHue_S
+                               S:highSaturation_S
+                               V:highVal_S
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    _darkestColor_S = [[UIColor alloc] initWithRed:R_low/255.0
+                                             green:G_low/255.0
+                                              blue:B_low/255.0
+                                             alpha:1];
+    darkest_S.backgroundColor = _darkestColor_S;
+    
+    _brightestColor_S = [[UIColor alloc] initWithRed:R_high/255.0
+                                               green:G_high/255.0
+                                                blue:B_high/255.0
+                                               alpha:1];
+    brightest_S.backgroundColor = _brightestColor_S;
 
+}
+
+-(void) resetHSV{
+    lowHue_S = 255;
+    highHue_S = 0;
+    lowSaturation_S = 255;
+    highSaturation_S = 0;
+    lowVal_S = 255;
+    highVal_S = 0;
+}
 
 @end

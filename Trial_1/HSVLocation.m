@@ -69,4 +69,9 @@
     }
     return values;
 }
+
+-(NSMutableArray*) getAllValues{
+    NSMutableArray * values = [HSVValues copy];
+    return values;
+}
 @end

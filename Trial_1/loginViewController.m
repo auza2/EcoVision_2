@@ -17,6 +17,8 @@
 
 @synthesize serverIP;
 @synthesize groupNumber;
+@synthesize currentImage_L;
+@synthesize originalImage_L;
 
 /*
  *  I don't know why this is here.
@@ -34,6 +36,15 @@
     self.serverIP.keyboardType = UIKeyboardTypeNumberPad;
     self.groupNumber.keyboardType =UIKeyboardTypeNumberPad;
 }
+- (void) viewDidAppear:(BOOL)animated{
+    
+    if( groupNumber != nil){
+        serverIP.text = _IPAddress;
+        groupNumber.text = _grpNumber;
+        
+    }
+    
+}
 
 /*
  * I don't know why this is here
@@ -50,7 +61,6 @@
  */
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
     if ([[segue identifier] isEqualToString:@"Associate"])
     {
         NSLog(@" Login: Group Number = %@ || IP = %@", serverIP.text, groupNumber.text);
@@ -58,10 +68,11 @@
         takeAPictureViewController *takeAPictureViewController = [segue destinationViewController];
         takeAPictureViewController.groupNumber = groupNumber.text;
         takeAPictureViewController.IPAddress = serverIP.text;
+        takeAPictureViewController.currentImage_TAP = currentImage_L;
+        takeAPictureViewController.userImage_TAP = originalImage_L;
         [self.navigationController popViewControllerAnimated:YES];
     }
     
-
 }
 
 
@@ -113,5 +124,9 @@
     
     
     return;
+}
+
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskLandscape;
 }
 @end

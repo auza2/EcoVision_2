@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface analysisViewController : UIViewController <UIScrollViewDelegate>
+@interface analysisViewController : UIViewController <UIScrollViewDelegate, UITabBarControllerDelegate,UITableViewDelegate, UITableViewDataSource>
+
 @property (nonatomic, weak) IBOutlet UIImageView* imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -19,21 +20,20 @@
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView;
 
-@property (weak, nonatomic) IBOutlet UISwitch *swaleSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *rainBarrelSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *permeablePaverSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *greenRoofSwitch;
 
 @property (weak, nonatomic) IBOutlet UIButton *addSwaleButton;
 @property (weak, nonatomic) IBOutlet UIButton *addRainBarrelButton;
 @property (weak, nonatomic) IBOutlet UIButton *addGreenRoofButton;
 @property (weak, nonatomic) IBOutlet UIButton *addPermeablePaverButton;
+@property (weak, nonatomic) IBOutlet UIButton *dropDown;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)addGi:(id)sender;
 - (IBAction)retakePicture:(id)sender;
 - (IBAction)send:(id)sender;
 - (IBAction)overwriteTest:(id)sender;
 - (IBAction)readTrialNumbers:(id)sender;
+- (IBAction)dropDownButton:(id)sender;
 
 - (void) test;
 - (void) drawIconsInArray:(NSMutableArray *)iconArray image:(UIImage*)iconImage;
@@ -43,5 +43,6 @@
 @property NSMutableArray* switches;
 @property NSString * groupNumber;
 @property NSString * IPAddress;
+@property long int clickedSegment_A;
 
 @end

@@ -23,5 +23,6 @@
 -(NSMutableArray*) getPermeablePaverValues;
 -(NSMutableArray*) getCornerValues;
 -(NSMutableArray*) getValuesFromIcon:(NSInteger) caseNum;
+-(NSMutableArray*) getAllValues;
 
 @end

@@ -169,6 +169,7 @@ UIImage* greenRoofIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_GR;
+        analysisViewController.userImage_A = _originalImage_GR;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -268,6 +269,9 @@ UIImage* greenRoofIcon2 = nil;
  * Update the scroll view
  */
 - (void) updateScrollView:(UIImage *) newImg {
+    CGFloat zoomScale = self.scrollView.zoomScale;
+    CGPoint offset = CGPointMake(self.scrollView.contentOffset.x,self.scrollView.contentOffset.y);
+    
     //MAKE SURE THAT IMAGE VIEW IS REMOVED IF IT EXISTS ON SCROLLVIEW!!
     if (img_GR != nil)
     {
@@ -294,9 +298,10 @@ UIImage* greenRoofIcon2 = nil;
     self.scrollView.showsHorizontalScrollIndicator = true;
     
     
-    
     //Set image on the scrollview
     [self.scrollView addSubview:img_GR];
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{

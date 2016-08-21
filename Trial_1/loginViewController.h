@@ -11,12 +11,14 @@
 @interface loginViewController : UIViewController
 
 - (IBAction)begin:(id)sender;
+@property (nonatomic,strong) UIImage * currentImage_L;
+@property (nonatomic,strong) UIImage * originalImage_L;
 
 @property (weak, nonatomic) IBOutlet UITextField *serverIP;
 @property (weak, nonatomic) IBOutlet UITextField *groupNumber;
 
 @property NSString * grpNumber;
-@property NSString *IPAddress;
+@property NSString * IPAddress;
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "takeAPictureViewController.h"
 #import "analysisViewController.h"
+#import "loginViewController.h"
 #import "CVWrapper.h"
 
 @interface takeAPictureViewController ()
@@ -20,9 +21,9 @@
 @synthesize analyzeScreen;
 
 UIImage *threshedGlobal = nil;
-UIImage *userImage = nil;
+@synthesize userImage_TAP;
 UIImage *testImg;  //test image to be warped/analyzed if no picture is taken
-UIImage *warpedGlobal;
+@synthesize warpedGlobal;
 UIImage *warpedGlobalMean;
 UIAlertView * progress;
 UIImagePickerController *picker;
@@ -37,21 +38,24 @@ int studyNumber;
 //char results[5000];
 char results[5000]; // changed to do testing
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self performSegueWithIdentifier:@"toTips" sender:self];
+    
     [self setHSVValues];
     [analyzeScreen setEnabled:FALSE];
     testImg = [UIImage imageNamed:@"IMG_0030.jpg"];
     
     picker = [[UIImagePickerController alloc] init];
-    
+    warpedGlobal = currentImage_TAP;
 }
 
 - (void) viewDidAppear:(BOOL)animated{
-
+    if( currentImage_TAP != nil){
+        [self updateScrollView:currentImage_TAP];
+        [analyzeScreen setEnabled:TRUE];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,7 +84,16 @@ char results[5000]; // changed to do testing
         analysisViewController.currentImage_A = currentImage_TAP;
         analysisViewController.groupNumber = self.groupNumber;
         analysisViewController.IPAddress = self.IPAddress;
-        analysisViewController.userImage_A = userImage;
+        analysisViewController.userImage_A = userImage_TAP;
+    }
+    if ([[segue identifier] isEqualToString:@"toLogin"])
+    {
+        currentImage_TAP = warpedGlobal;
+        loginViewController * login = [segue destinationViewController];
+        login.grpNumber = self.groupNumber;
+        login.IPAddress = self.IPAddress;
+        login.currentImage_L = currentImage_TAP;
+        login.originalImage_L = userImage_TAP;
     }
 }
 
@@ -107,24 +120,23 @@ char results[5000]; // changed to do testing
 
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
-
     /*
-     picker.delegate = self;
-     picker.allowsEditing = NO;
-     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-     [self presentViewController:picker animated:YES completion:NULL];
-    [analyzeScreen setEnabled:TRUE];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:picker animated:YES completion:NULL];
      */
     //*******To Test Image*******//
     
-   
-    
     // Bypass Camera and go straight to the method that updates the scrollView
     
-    userImage = [UIImage imageNamed:@"IMG_0058.jpg"];
-    [CVWrapper setCurrentImage:userImage];
-    [self updateScrollView:userImage];
+    
+    userImage_TAP = [UIImage imageNamed:@"IMG_0030.jpg"];
+    [CVWrapper setCurrentImage:userImage_TAP];
+    //[self updateScrollView:userImage_TAP];
+    [self processMap];
     [analyzeScreen setEnabled:TRUE];
+    
 
 }
 
@@ -133,45 +145,44 @@ char results[5000]; // changed to do testing
  * Required to be a delegate for UIImagePickerController. This method gets called once the user finishes taking a picture.
  */
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    userImage = info[UIImagePickerControllerOriginalImage];
+    userImage_TAP = info[UIImagePickerControllerOriginalImage];
     
-    //[CVWrapper setCurrentImage:userImage];
+    //[CVWrapper setCurrentImage:userImage_TAP];
     
-    if (userImage == nil) {
+    if (userImage_TAP == nil) {
         [self throwErrorAlert:@"Error taking photo! Please try taking the picture again"];
         self.scrollView.backgroundColor = [UIColor whiteColor]; // hides scrollView
     }
     else {
         
-        //mean_image = [CVWrapper ApplyMedianFilter:userImage];
-        //userImage = [UIImage imageWithCGImage:mean_image.CGImage];
+        //mean_image = [CVWrapper ApplyMedianFilter:userImage_TAP];
+        //userImage_TAP = [UIImage imageWithCGImage:mean_image.CGImage];
         
-        [CVWrapper setCurrentImage:userImage];
-        [self updateScrollView:userImage];
+        [CVWrapper setCurrentImage:userImage_TAP];
+        //[self updateScrollView:userImage_TAP];
+        [self processMap];
+        [analyzeScreen setEnabled:TRUE];
     }
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-
 }
 
 - (IBAction)beginProcessing:(id)sender {
-    //[CVWrapper setCurrentImage:userImage];
+    //[CVWrapper setCurrentImage:userImage_TAP];
     
     // Process then Analyze the picture
     [self processMap];
     //[self analyze]; - withoutcoords
-    //[analyzeScreen setEnabled:TRUE]; // withoutcoords
+    [analyzeScreen setEnabled:TRUE];
 }
 
 - ( void ) beginProcessingMap{
-    
-    [CVWrapper setCurrentImage:userImage];
+    [CVWrapper setCurrentImage:userImage_TAP];
     
     // Process then Analyze the picture
     [self processMap];
     //[self analyze];
     [analyzeScreen setEnabled:TRUE];
-    
 }
 
 
@@ -184,7 +195,7 @@ char results[5000]; // changed to do testing
 
 #pragma mark - Change the Screen
 /*
- * The following code presents userImage in scrollView
+ * The following code presents userImage_TAP in scrollView
  */
 - (void) updateScrollView:(UIImage *) img {
     
@@ -198,6 +209,7 @@ char results[5000]; // changed to do testing
     newView.backgroundColor = [UIColor clearColor];
     newView.contentMode =  UIViewContentModeCenter;
     
+    
     self.imageView = newView;
     [self.scrollView addSubview:newView];
     self.scrollView.backgroundColor = [UIColor whiteColor];
@@ -208,8 +220,10 @@ char results[5000]; // changed to do testing
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
     
-    self.scrollView.contentOffset = CGPointMake(-(self.scrollView.bounds.size.width-self.imageView.bounds.size.width)/2, -(self.scrollView.bounds.size.height-self.imageView.bounds.size.height)/2);
+    //self.scrollView.contentOffset = CGPointMake(-(self.scrollView.bounds.size.width-self.imageView.bounds.size.width)/2, -(self.scrollView.bounds.size.height-self.imageView.bounds.size.height)/2);
+    
     [self.scrollView addSubview:newView];
+    
     //Set image on the scrollview
 }
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
@@ -298,9 +312,10 @@ char results[5000]; // changed to do testing
      */
 }
 - (int) threshy{
-    if (userImage == nil) {
-        userImage = testImg;
+    if (userImage_TAP == nil) {
+        userImage_TAP = testImg;
     }
+    
     /* thresholds image
      ** colorCases: 0 = green
      **             1 = red
@@ -309,10 +324,7 @@ char results[5000]; // changed to do testing
      **             4 = dark green (corner markers)
      */
     
-    
-    threshedGlobal = [CVWrapper thresh:userImage colorCase: 4];
-    
-    
+    threshedGlobal = [CVWrapper thresh:userImage_TAP colorCase: 4];
     return (threshedGlobal == nil) ? 0 : 1;
 }
 - (int)contoury{
@@ -332,7 +344,7 @@ char results[5000]; // changed to do testing
 }
 - (int) warpy{
     int height = (widthGlobal * 23) / 25;
-    if (userImage == nil || threshedGlobal == nil || widthGlobal == 0) {
+    if (userImage_TAP == nil || threshedGlobal == nil || widthGlobal == 0) {
         [self throwErrorAlert:@"Can not warp! \nMake sure you threshold and contour first!"];
         return 0;
     }
@@ -347,7 +359,7 @@ char results[5000]; // changed to do testing
     thumbnailRect.size.width  = targetSize.width;
     thumbnailRect.size.height = targetSize.height;
     
-    [userImage drawInRect:thumbnailRect];
+    [userImage_TAP drawInRect:thumbnailRect];
     
     
     dst = UIGraphicsGetImageFromCurrentImageContext();
@@ -356,10 +368,9 @@ char results[5000]; // changed to do testing
     UIGraphicsEndImageContext();
     // finished making image
     
-    
     // make a UIImage which will be perspectively warped from stitchedImage
     // use stitchedImageGlobal because it is the global equivalent to stitchedImage
-    UIImage* destination = [CVWrapper warp:userImage destination_image:dst];
+    UIImage* destination = [CVWrapper warp:userImage_TAP destination_image:dst];
     
     if (destination == nil) {
         [self throwErrorAlert:@"Image warping failed! \nPlease take your picture again"];
@@ -392,7 +403,7 @@ char results[5000]; // changed to do testing
         [alert show];
         
         
-        // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold somthing
+        // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold something
         
         /*
          UIImage* threshedImage = [CVWrapper thresh:warpedGlobal colorCase: [CVWrapper getSegmentIndex]];

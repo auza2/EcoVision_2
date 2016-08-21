@@ -190,118 +190,28 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cds-d3-9Q2">
-                                <rect key="frame" x="25" y="-2" width="168" height="66.5"/>
+                                <rect key="frame" x="25" y="-3" width="233" height="66.5"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Analysis">
+                                    <fragment content="Tile Detection">
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="37" name="Avenir-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="0.0" colorSpace="calibratedRGB"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swale" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xUV-ik-l5B">
-                                <rect key="frame" x="444" y="38" width="81" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oUu-C3-VRv">
-                                <rect key="frame" x="588" y="72" width="51" height="31"/>
-                                <color key="onTintColor" red="0.62745098039215685" green="0.26666666666666666" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
-                            </switch>
-                            <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Mp-gx-d92">
-                                <rect key="frame" x="729" y="71" width="51" height="31"/>
-                                <color key="onTintColor" red="0.75686274509803919" green="0.69411764705882351" blue="0.59215686274509804" alpha="1" colorSpace="calibratedRGB"/>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rain Barrel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhK-8L-BlB">
-                                <rect key="frame" x="571" y="39" width="120" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Permeable Paver" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igy-Bc-s5m">
-                                <rect key="frame" x="844" y="36" width="160" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Green Roof" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NAR-ry-Dxl">
-                                <rect key="frame" x="710" y="38" width="115" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <switch opaque="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DGW-Zk-bNQ">
-                                <rect key="frame" x="877" y="71" width="51" height="31"/>
-                                <color key="onTintColor" red="0.29803921568627451" green="0.26666666666666666" blue="0.74509803921568629" alpha="1" colorSpace="calibratedRGB"/>
-                            </switch>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09A-9P-bxA">
-                                <rect key="frame" x="603" y="131" width="22" height="22"/>
-                                <connections>
-                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="NnH-Jj-YVk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9V-xb-SFp">
-                                <rect key="frame" x="742" y="131" width="22" height="22"/>
-                                <connections>
-                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="qiM-Gr-DjP"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-EL-edh">
-                                <rect key="frame" x="897" y="131" width="22" height="22"/>
-                                <connections>
-                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="02i-Bv-DLj"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Arl-KM-cTu">
-                                <rect key="frame" x="456" y="131" width="22" height="22"/>
-                                <connections>
-                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="zD6-QX-AXW"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U25-pB-fSV">
-                                <rect key="frame" x="93" y="113" width="81" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Toggle Icons shown" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iBs-Xx-rnW">
-                                <rect key="frame" x="114" y="84" width="138" height="33"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="delete an icon," textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iBs-Xx-rnW">
+                                <rect key="frame" x="81" y="73" width="112" height="34.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8DN-me-Gl1">
-                                <rect key="frame" x="93" y="72" width="68" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Add Icons by selecting &quot;+&quot; and a location below" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MGF-Oj-LZa">
-                                <rect key="frame" x="114" y="126" width="321" height="33"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Double tap Icons to Remove" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cQX-t8-kEn">
-                                <rect key="frame" x="114" y="142" width="199" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FYP-ic-hWc">
-                                <rect key="frame" x="25" y="180" width="979" height="521"/>
+                                <rect key="frame" x="25" y="152" width="794" height="549"/>
                             </scrollView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JYS-Ut-ujn">
-                                <rect key="frame" x="443" y="71" width="51" height="31"/>
-                                <color key="onTintColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </switch>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4bi-m9-MWI">
                                 <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
                                 <items>
@@ -347,6 +257,151 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swale" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xUV-ik-l5B">
+                                <rect key="frame" x="911" y="152" width="75" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rain Barrel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhK-8L-BlB">
+                                <rect key="frame" x="900" y="221" width="101" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Permeable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igy-Bc-s5m">
+                                <rect key="frame" x="897" y="324" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Green Roof" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NAR-ry-Dxl">
+                                <rect key="frame" x="894" y="273" width="112" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="RainBarrel_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="djz-ha-S2Q">
+                                <rect key="frame" x="836" y="213" width="60" height="60"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Swale_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="Kmh-Rz-vDZ">
+                                <rect key="frame" x="836" y="152" width="60" height="60"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GreenRoof_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="O2W-kI-Ec8">
+                                <rect key="frame" x="839" y="273" width="57" height="51"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PermeablePaver_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="LuE-BN-Fid">
+                                <rect key="frame" x="842" y="332" width="54" height="60"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="The camera may not ave recognized some of the green infrastructure. You can change the infrastructure icons here." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Hl4-KQ-ter">
+                                <rect key="frame" x="25" y="44" width="914" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="To " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="csl-cJ-ZPR">
+                                <rect key="frame" x="60" y="73.5" width="30" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text=" double tap it." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5xd-BC-LId">
+                                <rect key="frame" x="183" y="73.5" width="208" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="add an icon," textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lMF-Zp-fDr">
+                                <rect key="frame" x="81" y="102" width="112" height="34.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="To " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GJu-SE-hGu">
+                                <rect key="frame" x="60" y="102.5" width="30" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="tap the + button next to the green infrastructure type you want to add, and tap on the location on the map." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oEK-KT-D8W">
+                                <rect key="frame" x="166" y="102" width="795" height="49.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="If you are seeing many errors, it could be due to lighting.You can try using a different tile detection profile:" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qIX-QS-RQr">
+                                <rect key="frame" x="828" y="392" width="185" height="97"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="If no profiles work, you can create your own by tapping on “Calibrate” below." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jjX-tp-Hxy">
+                                <rect key="frame" x="832" y="616" width="177" height="85"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Paver" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aS-uu-4CW">
+                                <rect key="frame" x="902" y="343" width="94" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Detection Profiles:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXI-Wv-Qcj">
+                                <rect key="frame" x="832" y="486" width="141" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7B-gN-YQ3">
+                                <rect key="frame" x="832" y="506" width="154" height="30"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Pick Below"/>
+                                <connections>
+                                    <action selector="dropDownButton:" destination="hlP-2N-2fI" eventType="touchUpInside" id="eX4-PK-0zp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxP-ok-C9v">
+                                <rect key="frame" x="984" y="506" width="25" height="30"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button" image="arrow-down-icon-png-1"/>
+                                <connections>
+                                    <action selector="dropDownButton:" destination="hlP-2N-2fI" eventType="touchUpInside" id="b00-Jt-Fjn"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="76Y-5R-yRP">
+                                <rect key="frame" x="832" y="535" width="177" height="73"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09A-9P-bxA">
+                                <rect key="frame" x="937" y="243" width="22" height="22"/>
+                                <color key="tintColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="NnH-Jj-YVk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9V-xb-SFp">
+                                <rect key="frame" x="938" y="299" width="22" height="22"/>
+                                <color key="tintColor" red="0.50196081400000003" green="0.25098040700000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="qiM-Gr-DjP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Arl-KM-cTu">
+                                <rect key="frame" x="937" y="181" width="22" height="22"/>
+                                <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="zD6-QX-AXW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-EL-edh">
+                                <rect key="frame" x="938" y="362" width="22" height="22"/>
+                                <color key="tintColor" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="addGi:" destination="hlP-2N-2fI" eventType="touchUpInside" id="02i-Bv-DLj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -357,16 +412,14 @@
                         <outlet property="addPermeablePaverButton" destination="Hi3-EL-edh" id="v7h-tr-I24"/>
                         <outlet property="addRainBarrelButton" destination="09A-9P-bxA" id="nRV-UA-7sj"/>
                         <outlet property="addSwaleButton" destination="Arl-KM-cTu" id="0NL-W6-k7F"/>
-                        <outlet property="greenRoofSwitch" destination="0Mp-gx-d92" id="jAX-KK-2tg"/>
-                        <outlet property="permeablePaverSwitch" destination="DGW-Zk-bNQ" id="WzD-ox-H5b"/>
-                        <outlet property="rainBarrelSwitch" destination="oUu-C3-VRv" id="DJ7-MX-eNI"/>
+                        <outlet property="dropDown" destination="c7B-gN-YQ3" id="rk6-cY-Wlq"/>
                         <outlet property="scrollView" destination="FYP-ic-hWc" id="5bw-76-Coy"/>
-                        <outlet property="swaleSwitch" destination="JYS-Ut-ujn" id="e1w-bm-4TO"/>
+                        <outlet property="tableView" destination="76Y-5R-yRP" id="wHD-1A-H2o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2x-P7-uqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4354" y="-301"/>
+            <point key="canvasLocation" x="4343" y="-309"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="a7R-QJ-rhm">
@@ -394,7 +447,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S1i-SX-Tdk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3693" y="667"/>
+            <point key="canvasLocation" x="3713" y="727"/>
         </scene>
         <!--Rain Barrel-->
         <scene sceneID="6Jy-bs-YEH">
@@ -575,7 +628,7 @@
         <!--TakeAPicture-->
         <scene sceneID="tWT-NR-dkD">
             <objects>
-                <viewController title="TakeAPicture" modalTransitionStyle="crossDissolve" hidesBottomBarWhenPushed="YES" id="NPb-yw-Qe1" customClass="takeAPictureViewController" sceneMemberID="viewController">
+                <viewController title="TakeAPicture" extendedLayoutIncludesOpaqueBars="YES" modalTransitionStyle="crossDissolve" hidesBottomBarWhenPushed="YES" id="NPb-yw-Qe1" customClass="takeAPictureViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0CX-m9-8Ml"/>
                         <viewControllerLayoutGuide type="bottom" id="Mxy-uT-HGV"/>
@@ -584,12 +637,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7J2-VJ-Dge">
+                                <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" id="p5x-2i-IWy">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Dns-JZ-wOb">
+                                            <rect key="frame" x="20" y="-1" width="57" height="46"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Camera"/>
+                                            <connections>
+                                                <action selector="takePhoto:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="Mqk-0J-9o0"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem width="744" style="plain" systemItem="fixedSpace" id="X6h-q4-Fei"/>
+                                    <barButtonItem style="plain" id="z8N-R0-waJ">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iVS-x1-7vz">
+                                            <rect key="frame" x="831" y="7" width="210" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Analyze Screen"/>
+                                            <connections>
+                                                <action selector="toAnalyze:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="94F-9N-DlY"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="STv-K5-ttD">
                                 <rect key="frame" x="20" y="93" width="970" height="612"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgo-sC-sbc">
-                                <rect key="frame" x="361" y="27" width="289" height="52"/>
+                                <rect key="frame" x="384" y="21" width="289" height="52"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Take a Picture">
                                         <attributes>
@@ -601,45 +680,8 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7J2-VJ-Dge">
-                                <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" id="1tg-QZ-JqL">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WzR-y9-cPr">
-                                            <rect key="frame" x="20" y="11" width="163" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Back"/>
-                                            <connections>
-                                                <action selector="toLogin:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="lDM-9h-dI2"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem width="282" style="plain" systemItem="fixedSpace" id="X6h-q4-Fei"/>
-                                    <barButtonItem style="plain" id="p5x-2i-IWy">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Dns-JZ-wOb">
-                                            <rect key="frame" x="475" y="-1" width="57" height="46"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" backgroundImage="icon-camera-128 copy"/>
-                                            <connections>
-                                                <action selector="takePhoto:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="Mqk-0J-9o0"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem width="258" style="plain" systemItem="fixedSpace" id="H26-8o-EQY"/>
-                                    <barButtonItem style="plain" id="z8N-R0-waJ">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iVS-x1-7vz">
-                                            <rect key="frame" x="800" y="7" width="210" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Analyze Screen"/>
-                                            <connections>
-                                                <action selector="toAnalyze:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="94F-9N-DlY"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFZ-CE-Mm7">
-                                <rect key="frame" x="628" y="42" width="22" height="22"/>
+                                <rect key="frame" x="645" y="38" width="22" height="22"/>
                                 <connections>
                                     <segue destination="u7s-FO-gz0" kind="showDetail" id="Ebj-Wv-g6S">
                                         <segue key="commit" inheritsFrom="parent" id="wSC-zh-5Bn"/>
@@ -647,11 +689,12 @@
                                     </segue>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sR-Id-cgu">
-                                <rect key="frame" x="790" y="38" width="119" height="30"/>
-                                <state key="normal" title="Begin processing"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfM-TD-LtQ">
+                                <rect key="frame" x="0.0" y="38" width="234" height="30"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="&lt;&lt; Back to Login"/>
                                 <connections>
-                                    <action selector="beginProcessing:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="0Cf-1J-gon"/>
+                                    <action selector="toLogin:" destination="NPb-yw-Qe1" eventType="touchUpInside" id="D4l-9K-2RU"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -670,6 +713,7 @@
                         <outlet property="view" destination="lwV-h0-1ZB" id="Or1-Wp-Bcn"/>
                         <segue destination="hlP-2N-2fI" kind="show" identifier="toAnalyze" id="lWp-2h-f0H"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="toLogin" id="7PR-sd-JyE"/>
+                        <segue destination="u7s-FO-gz0" kind="show" identifier="toTips" id="hEJ-x0-wgM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyf-1A-BEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -704,45 +748,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Light-Bulb-PNG-Images" translatesAutoresizingMaskIntoConstraints="NO" id="wAm-QR-GZe">
                                 <rect key="frame" x="20" y="20" width="113" height="113"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How to get an applicable picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2Q-JE-WlM">
-                                <rect key="frame" x="141" y="102" width="392" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Pr7-TR-k2n">
-                                <rect key="frame" x="58" y="131" width="946" height="49.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">We need to take a picture of the planning grid to process your solution. You will be able to take a picture on the next page. To ensure a better quality picture:</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Take the picture from overhead" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jid-tn-4ZE">
-                                <rect key="frame" x="116" y="172" width="465" height="36"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Make sure the whole map is in the picture, showing the four green corner-marking squares." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-1x-NdU">
+                                <rect key="frame" x="116" y="227" width="607" height="31.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Make sure the whole grid is in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-1x-NdU">
-                                <rect key="frame" x="116" y="236" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Take the picture in a well lit room" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="S2n-HG-KaP">
-                                <rect key="frame" x="116" y="266" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Fit the Green Square edge boxes in the picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Lwd-8a-Qnu">
-                                <rect key="frame" x="116" y="300" width="465" height="36"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Remove any arbitrary objects near the grid." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9B6-cv-x6n">
-                                <rect key="frame" x="116" y="205" width="465" height="36"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Make sure you are in a well-lit room" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="S2n-HG-KaP">
+                                <rect key="frame" x="116" y="175" width="465" height="36"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -765,7 +778,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Successfully processed grid picture" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ry3-ia-edV">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Good Picture ( add Bad picture later 'click on camera to try again' )" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ry3-ia-edV">
                                         <rect key="frame" x="662" y="292" width="246" height="52"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -796,6 +809,31 @@
                                     <segue destination="NPb-yw-Qe1" kind="showDetail" id="6PT-uP-2pU"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Frame the picture from overhead" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mjy-7P-gFJ">
+                                <rect key="frame" x="116" y="201" width="465" height="25"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Take the picture from overhead" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jid-tn-4ZE">
+                                <rect key="frame" x="116" y="281" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Remove any green or blue objects near the map." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9B6-cv-x6n">
+                                <rect key="frame" x="116" y="255" width="465" height="36"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Pr7-TR-k2n">
+                                <rect key="frame" x="58" y="131" width="946" height="49.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">You need to take a picture of the green infrastructure map to run the simulation. You will be able to take a picture on the next page. To ensure a good quality picture:</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -804,7 +842,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Shc-ih-Igo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2312" y="-1188"/>
+            <point key="canvasLocation" x="2543" y="-1356"/>
         </scene>
         <!--TakeAPicturePopUp-->
         <scene sceneID="itf-I3-0j5">
@@ -871,23 +909,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="utH-3p-WpR">
-                                <rect key="frame" x="23" y="170" width="375" height="47"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hTc-zQ-hc4">
-                                        <rect key="frame" x="341" y="12" width="22" height="22"/>
-                                    </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qcf-tF-4fs">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="47"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <string key="text">Touch the image to add colors to the detection palette. Touch colors in the palette to remove them.
-</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LVJ-wC-G9d">
                                 <rect key="frame" x="20" y="0.0" width="84" height="115"/>
                                 <subviews>
@@ -911,62 +932,50 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TvS-Cs-6dJ">
-                                <rect key="frame" x="452" y="170" width="537" height="394"/>
+                                <rect key="frame" x="452" y="154" width="537" height="410"/>
                             </scrollView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bxF-6X-3nX">
-                                <rect key="frame" x="61" y="266" width="298" height="298"/>
+                                <rect key="frame" x="68" y="385" width="336" height="179"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gOF-sX-wv6">
-                                        <rect key="frame" x="31" y="118" width="62" height="62"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vi9-mt-q1B">
-                                        <rect key="frame" x="116" y="118" width="62" height="62"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAE-iy-hEO">
-                                        <rect key="frame" x="118" y="209" width="62" height="62"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P58-8j-q8G">
-                                        <rect key="frame" x="206" y="27" width="62" height="62"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsg-Eb-bCW">
-                                        <rect key="frame" x="206" y="118" width="62" height="62"/>
+                                        <rect key="frame" x="36" y="103" width="62" height="62"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5ja-Jz-usC">
-                                        <rect key="frame" x="31" y="27" width="62" height="62"/>
+                                        <rect key="frame" x="36" y="19" width="62" height="62"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vi9-mt-q1B">
+                                        <rect key="frame" x="134" y="103" width="62" height="62"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fhT-V2-nbP">
-                                        <rect key="frame" x="116" y="27" width="62" height="62"/>
+                                        <rect key="frame" x="134" y="19" width="62" height="62"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9GL-fm-0mo">
-                                        <rect key="frame" x="206" y="209" width="62" height="62"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsg-Eb-bCW">
+                                        <rect key="frame" x="237" y="103" width="62" height="62"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2it-xJ-41R">
-                                        <rect key="frame" x="31" y="209" width="62" height="62"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P58-8j-q8G">
+                                        <rect key="frame" x="237" y="19" width="62" height="62"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4A5-MN-Mtv">
-                                <rect key="frame" x="940" y="571" width="51" height="31"/>
+                                <rect key="frame" x="948" y="610" width="51" height="31"/>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrn-kc-lYs">
-                                <rect key="frame" x="107" y="572" width="207" height="30"/>
+                                <rect key="frame" x="133" y="585" width="207" height="30"/>
                                 <state key="normal" title="Remove All"/>
                                 <connections>
                                     <action selector="removeAll:" destination="FBL-l9-Ose" eventType="touchUpInside" id="zNX-NL-0df"/>
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="75P-Gw-JQT">
-                                <rect key="frame" x="940" y="610" width="51" height="31"/>
+                                <rect key="frame" x="948" y="571" width="51" height="31"/>
                                 <color key="onTintColor" red="0.29803921568627451" green="0.59215686274509804" blue="0.23921568627450981" alpha="1" colorSpace="calibratedRGB"/>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjz-ip-tKs">
@@ -977,33 +986,106 @@
                                     <action selector="backButton:" destination="FBL-l9-Ose" eventType="touchUpInside" id="S61-mg-nsW"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Threshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TV-bX-aGu">
-                                <rect key="frame" x="840" y="576" width="100" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="overlay :" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pY1-SC-9NK">
+                                <rect key="frame" x="880" y="574" width="72" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="To see what is being detected as a swale, toggle the" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qcf-tF-4fs">
+                                <rect key="frame" x="578" y="574" width="309" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="threshold :" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FAm-mo-6Mb">
+                                <rect key="frame" x="871" y="609" width="90" height="31"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="To see exactly what the computer is seeing, toggle the " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ezx-jB-Zih">
+                                <rect key="frame" x="557" y="609" width="370" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Jc4-e3-YTR">
+                                <rect key="frame" x="299" y="672" width="471" height="47"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">To calibrate the other tile types, tap on the tile type below.
+When you are satisfied with the tile detection, tap on save profile below </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="oST-qJ-W7G">
+                                <rect key="frame" x="68" y="316" width="336" height="73.5"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" staticText="YES"/>
+                                </accessibility>
+                                <string key="text">Touch one of the swales to add its color to the tile detection palette. Try to add the lightest and darkest swale colors to the palette. If you want to remove a color from the palette, double tap it. </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="utH-3p-WpR">
+                                <rect key="frame" x="68" y="180" width="336" height="138"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9GL-fm-0mo">
+                                        <rect key="frame" x="216" y="43" width="62" height="62"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Darkest Color" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6gn-xc-R5E">
+                                        <rect key="frame" x="181" y="105" width="132" height="33"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VAE-iy-hEO">
+                                        <rect key="frame" x="55" y="43" width="62" height="62"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Color range used to detect swales" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xV6-xF-18B">
+                                        <rect key="frame" x="28" y="0.0" width="280" height="35.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Lightest Color" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3US-zx-o6d">
+                                        <rect key="frame" x="28" y="105" width="116" height="33"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hTc-zQ-hc4">
+                                        <rect key="frame" x="314" y="0.0" width="22" height="22"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" staticText="YES"/>
+                                </accessibility>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Selected Profile: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uel-bw-sTq">
+                                <rect key="frame" x="68" y="152" width="116" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rfg-c0-mwb">
-                                <rect key="frame" x="61" y="228" width="298" height="30"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Choose Saved Color Palette">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPs-r1-100">
+                                <rect key="frame" x="199" y="148" width="205" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="dropDownButton:" destination="FBL-l9-Ose" eventType="touchUpInside" id="zJU-nr-z0b"/>
+                                    <action selector="dropDownButton:" destination="FBL-l9-Ose" eventType="touchUpInside" id="b8G-Pj-qtB"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mZn-an-mlT">
-                                <rect key="frame" x="61" y="257" width="298" height="218"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexBackgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                            </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View Icons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJd-S8-z7H">
-                                <rect key="frame" x="840" y="615" width="100" height="21"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="Use this screen to make sure that all swales on the map are being properly detected. " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ujQ-qq-MaY">
+                                <rect key="frame" x="452" y="44" width="537" height="75.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1011,18 +1093,16 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
-                        <outlet property="dropDown" destination="Rfg-c0-mwb" id="fiZ-oh-5Lb"/>
+                        <outlet property="brightest_S" destination="VAE-iy-hEO" id="alo-7C-9ay"/>
+                        <outlet property="darkest_S" destination="9GL-fm-0mo" id="Oto-xg-Ln1"/>
+                        <outlet property="dropDown" destination="PPs-r1-100" id="tRI-0t-5ZW"/>
                         <outlet property="sample1" destination="5ja-Jz-usC" id="5yy-l0-LKw"/>
                         <outlet property="sample2" destination="fhT-V2-nbP" id="hPD-TV-b65"/>
                         <outlet property="sample3" destination="P58-8j-q8G" id="hpY-8R-yj1"/>
                         <outlet property="sample4" destination="gOF-sX-wv6" id="rTY-f8-cEc"/>
                         <outlet property="sample5" destination="Vi9-mt-q1B" id="ey3-qr-tsM"/>
                         <outlet property="sample6" destination="bsg-Eb-bCW" id="oD3-VB-j67"/>
-                        <outlet property="sample7" destination="2it-xJ-41R" id="5PQ-3J-47O"/>
-                        <outlet property="sample8" destination="VAE-iy-hEO" id="jUc-9e-AKJ"/>
-                        <outlet property="sample9" destination="9GL-fm-0mo" id="bqS-OJ-W3s"/>
                         <outlet property="scrollView" destination="TvS-Cs-6dJ" id="IaZ-W8-AoJ"/>
-                        <outlet property="tableView" destination="mZn-an-mlT" id="NDx-Ko-cNn"/>
                         <outlet property="threshSwitch" destination="4A5-MN-Mtv" id="81E-xj-VyR"/>
                         <outlet property="viewIconSwitch" destination="75P-Gw-JQT" id="v8A-U3-J8W"/>
                         <segue destination="hlP-2N-2fI" kind="show" identifier="backToAnalysis" id="Rwg-zc-RgN"/>
@@ -2396,6 +2476,23 @@
             </objects>
             <point key="canvasLocation" x="2198" y="1440"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Ldw-I2-LAT">
+            <objects>
+                <viewController id="6rc-HS-e0s" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="B83-aM-djl"/>
+                        <viewControllerLayoutGuide type="bottom" id="6F8-V0-81u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fjL-7g-qzD">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pw2-qq-w1d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
     <resources>
         <image name="GreenCorner_Icon" width="533" height="533"/>
@@ -2406,14 +2503,14 @@
         <image name="PermeablePaver_Icon" width="533" height="533"/>
         <image name="RainBarrel_Icon" width="533" height="533"/>
         <image name="Swale_Icon" width="533" height="533"/>
+        <image name="arrow-down-icon-png-1" width="512" height="512"/>
         <image name="ellipse" width="1693" height="1233"/>
         <image name="frog-1" width="1693" height="1233"/>
-        <image name="icon-camera-128 copy" width="157" height="157"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lWp-2h-f0H"/>
-        <segue reference="6PT-uP-2pU"/>
         <segue reference="wSC-zh-5Bn"/>
+        <segue reference="ZBs-YI-45i"/>
+        <segue reference="Rwg-zc-RgN"/>
         <segue reference="2VZ-p5-MTx"/>
     </inferredMetricsTieBreakers>
 </document>
