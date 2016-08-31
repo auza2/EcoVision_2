@@ -37,21 +37,16 @@ savedLocations* savedLocationsFromFile_PP;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize sample7;
-@synthesize sample8;
-@synthesize sample9;
+@synthesize lightest_PP;
+@synthesize darkest_PP;
 @synthesize viewIconSwitch;
-@synthesize tableView;
-
-
-long int clickedSegment_PP;
+@synthesize clickedSegment_PP;
 
 UIImage* permeablePaverIcon2 = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"Permeable Paver";
     
     // Initializing the switch
     [self.threshSwitch addTarget:self
@@ -61,31 +56,9 @@ UIImage* permeablePaverIcon2 = nil;
     // Set Default HSV Values
     [self setHSVValues];
     
-    if( PermeablePaverSamples.count == 0) {
-        PermeablePaverSamples = [NSMutableArray array];
-        sampleImages_PP = [NSMutableArray array];
-        
-        [sampleImages_PP addObject:sample1];
-        [sampleImages_PP addObject:sample2];
-        [sampleImages_PP addObject:sample3];
-        [sampleImages_PP addObject:sample4];
-        [sampleImages_PP addObject:sample5];
-        [sampleImages_PP addObject:sample6];
-        [sampleImages_PP addObject:sample7];
-        [sampleImages_PP addObject:sample8];
-        [sampleImages_PP addObject:sample9];
-        
-        // Necessary to find where to put the sampled color
-        sample1.backgroundColor = UIColor.whiteColor;
-        sample2.backgroundColor = UIColor.whiteColor;
-        sample3.backgroundColor = UIColor.whiteColor;
-        sample4.backgroundColor = UIColor.whiteColor;
-        sample5.backgroundColor = UIColor.whiteColor;
-        sample6.backgroundColor = UIColor.whiteColor;
-        sample7.backgroundColor = UIColor.whiteColor;
-        sample8.backgroundColor = UIColor.whiteColor;
-        sample9.backgroundColor = UIColor.whiteColor;
-    }
+    savedLocationsFromFile_PP = [[savedLocations alloc] init];
+    
+    
     
     
     // Switch to see icons
@@ -94,20 +67,42 @@ UIImage* permeablePaverIcon2 = nil;
     
     permeablePaverIcon2 = [UIImage imageNamed:@"PermeablePaver_Icon.png"];
     
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    savedLocationsFromFile_PP = [[savedLocations alloc] init];
-    
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
                                                                         style:UIBarButtonItemStyleDone
                                                                        target:self
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
-
-     _highLowVals_PP = [[NSMutableArray alloc]init];
+    
+    // To send data to save screen
+    _highLowVals_PP = [[NSMutableArray alloc]init];
+    
+    
+    
+    PermeablePaverSamples = [NSMutableArray array];
+    sampleImages_PP = [NSMutableArray array];
+    
+    [self changeColorSetToIndex:clickedSegment_PP]; // changes the 6 vals
+    [self updateBrightAndDark]; // gets lightest and darkest
+    
+    [sampleImages_PP addObject:sample1];
+    [sampleImages_PP addObject:sample2];
+    [sampleImages_PP addObject:sample3];
+    [sampleImages_PP addObject:sample4];
+    [sampleImages_PP addObject:sample5];
+    [sampleImages_PP addObject:sample6];
+    
+    
+    // Necessary to find where to put the sampled color
+    sample1.backgroundColor = _brightestColor_PP;
+    sample2.backgroundColor = _darkestColor_PP;
+    sample3.backgroundColor = UIColor.whiteColor;
+    sample4.backgroundColor = UIColor.whiteColor;
+    sample5.backgroundColor = UIColor.whiteColor;
+    sample6.backgroundColor = UIColor.whiteColor;
+    
+    [PermeablePaverSamples addObject:_brightestColor_PP];
+    [PermeablePaverSamples addObject:_darkestColor_PP];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,16 +120,16 @@ UIImage* permeablePaverIcon2 = nil;
     
     // Initializing the Tap Gestures
     singleTap_PP = [[UITapGestureRecognizer alloc]
-                   initWithTarget:self
-                   action:@selector(handleSingleTapFrom:)];
+                    initWithTarget:self
+                    action:@selector(handleSingleTapFrom:)];
     singleTap_PP.numberOfTapsRequired = 1;
     [_scrollView addGestureRecognizer:singleTap_PP];
     singleTap_PP.delegate = self;
     
     
     doubleTap_PP = [[UITapGestureRecognizer alloc]
-                   initWithTarget:self
-                   action:@selector(handleDoubleTapFrom:)];
+                    initWithTarget:self
+                    action:@selector(handleDoubleTapFrom:)];
     doubleTap_PP.numberOfTapsRequired = 2;
     doubleTap_PP.delegate = self;
     
@@ -145,8 +140,8 @@ UIImage* permeablePaverIcon2 = nil;
     // Adding a Double Tap Gesture for all the Sample Views for the Ability to remove
     for( UIImageView * sampleView in sampleImages_PP ){
         UITapGestureRecognizer * doubleTap_PPTEST = [[UITapGestureRecognizer alloc]
-                                                    initWithTarget:self
-                                                    action:@selector(handleDoubleTapFrom:)];
+                                                     initWithTarget:self
+                                                     action:@selector(handleDoubleTapFrom:)];
         doubleTap_PPTEST.numberOfTapsRequired = 2;
         doubleTap_PPTEST.delegate = self;
         [sampleView setUserInteractionEnabled:YES];
@@ -154,11 +149,40 @@ UIImage* permeablePaverIcon2 = nil;
     }
     
     // Creating Borders
-    [self.dropDown.layer setBorderWidth:2.0];
-    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.lightest_PP.layer setBorderWidth:2.0];
+    [self.lightest_PP.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
-    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
-    self.tableView.layer.borderWidth = 2.0;
+    [self.darkest_PP.layer setBorderWidth:2.0];
+    [self.darkest_PP.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    
+    // If we segue from save profile or tile detection, we could have added a new profile
+    savedLocationsFromFile_PP= [[savedLocations alloc] init];
+    
+    // If we segue from Tile Detection, we reset everything
+    if( _seguedFromTileDetection == true){
+        // Remove all swale samples
+        [PermeablePaverSamples removeAllObjects];
+        
+        // Necessary to find where to put the sampled color
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        
+        [self changeColorSetToIndex:clickedSegment_PP];
+        
+        // Update First 2 samples as lightest and darkest
+        sample1.backgroundColor = _brightestColor_PP;
+        sample2.backgroundColor = _darkestColor_PP;
+        
+        // Adds the brightest and darkest color to swale samples
+        [PermeablePaverSamples addObject:_brightestColor_PP];
+        [PermeablePaverSamples addObject:_darkestColor_PP];
+        
+        _seguedFromTileDetection = false;
+    }
+    
+    [self updateBrightAndDark];
     
 }
 
@@ -171,6 +195,7 @@ UIImage* permeablePaverIcon2 = nil;
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_PP;
         analysisViewController.userImage_A = _originalImage_PP;
+        analysisViewController.clickedSegment_A = clickedSegment_PP;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -283,8 +308,8 @@ UIImage* permeablePaverIcon2 = nil;
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_PP];
-    //self.scrollView.zoomScale = zoomScale;
-    //self.scrollView.contentOffset = offset;
+    self.scrollView.zoomScale = zoomScale;
+    self.scrollView.contentOffset = offset;
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
@@ -326,9 +351,7 @@ UIImage* permeablePaverIcon2 = nil;
     }
     
     [self setHighandlowVal_PPues];
-    
-    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
-        [self changeColorSetToIndex: 0];
+    [self updateBrightAndDark];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -349,8 +372,9 @@ UIImage* permeablePaverIcon2 = nil;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    [self changeColorSetToIndex:clickedSegment_PP];
+    [self resetHSV];
     [self setHighandlowVal_PPues];
+    [self updateBrightAndDark];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -397,8 +421,9 @@ UIImage* permeablePaverIcon2 = nil;
         [viewIconSwitch setOn:false];
         [self updateScrollView:_currentImage_PP];
     }
-    [self setHighandlowVal_PPues];
-    [self changeColorSetToIndex: clickedSegment_PP];
+    
+    [self resetHSV];
+    [self updateBrightAndDark];
 }
 
 #pragma mark - Threshold Switch
@@ -438,7 +463,7 @@ UIImage* permeablePaverIcon2 = nil;
      **             4 = dark green (corner markers)
      */
     
-    [CVWrapper setSegmentIndex:0];
+    [CVWrapper setSegmentIndex:3];
     [self changeHSVVals];
     
     threshedImage_PP = [CVWrapper thresh:plainImage_PP colorCase: 3];
@@ -463,7 +488,6 @@ UIImage* permeablePaverIcon2 = nil;
  * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
-    /*
     int hsvValues[30];
     [CVWrapper getHSV_Values:hsvValues];
     
@@ -497,13 +521,7 @@ UIImage* permeablePaverIcon2 = nil;
         // loss of precision is fine since all numbers stored in arr will have only zeroes after the decimal
         hsvValues[i] = [[arr objectAtIndex:i]integerValue];
     }
-    */
     
-    int hsvValues[] = {255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0};
     [CVWrapper setHSV_Values:hsvValues];
 }
 
@@ -524,11 +542,6 @@ UIImage* permeablePaverIcon2 = nil;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (PermeablePaverSamples == NULL)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
     
     // Find the High and Low Values from Samples
     [self setHighandlowVal_PPues];
@@ -574,76 +587,20 @@ UIImage* permeablePaverIcon2 = nil;
     }
 }
 
-- (void) setNoDefault{
-    lowHue_PP = 225;
+- (void) resetHSV{
+    lowHue_PP = 255;
     highHue_PP = 0;
     
-    lowSaturation_PP = 225;
+    lowSaturation_PP = 255;
     highSaturation_PP = 0;
     
-    lowVal_PP = 225;
+    lowVal_PP = 255;
     highVal_PP = 0;
-}
-
-- (void) setDefaultHSV{
-    
-    lowHue_PP = 10;
-    highHue_PP = 80;
-    
-    lowSaturation_PP = 50;
-    highSaturation_PP = 200;
-    
-    lowVal_PP = 50;
-    highVal_PP = 255;
 }
 
 #pragma Change HSV Values based on Location
 
 #pragma -mark Drop Down Menu
-// Number of thins shown in the drop down
-
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-    return [savedLocationsFromFile_PP count];
-}
-
-/*
- * Returns the table cell at the specified index path.
- *
- * Return Value
- * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // cell.textLabel.text = @"";
-    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
-    
-    cell.textLabel.text = [savedLocationsFromFile_PP nameOfObjectAtIndex:indexPath.row];
-    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
-    
-    return cell;
-}
-
-/*
- * Tells the delegate that the specified row is now selected.
- */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if( _threshSwitch.isOn || viewIconSwitch.isOn){
-        [_threshSwitch setOn:false];
-        [viewIconSwitch setOn:false];
-        [self updateScrollView:_currentImage_PP];
-    }
-    
-    clickedSegment_PP = index;
-    [self changeColorSetToIndex:indexPath.row];
-}
 
 - (void) changeColorSetToIndex: (int)index{
     clickedSegment_PP = index;
@@ -664,22 +621,69 @@ UIImage* permeablePaverIcon2 = nil;
     
     [self changeHSVVals];
     
-    self.tableView.hidden =  TRUE;
-    
     
 }
 
 // Called after we save to change the tableview
 - (void) changeFromFile{
     savedLocationsFromFile_PP = [savedLocationsFromFile_PP changeFromFile];
-    [self.tableView reloadData];
 }
 
 - (IBAction)dropDownButton:(id)sender {
+    /*
     if( self.tableView.hidden == TRUE )
         self.tableView.hidden =  FALSE;
     else
         self.tableView.hidden = TRUE;
+     */
+}
+
+#pragma -mark Bright and Dark
+-(void) updateBrightAndDark{
+    
+    if( lowHue_PP == 255 && lowSaturation_PP == 255 && lowVal_PP == 255 &&
+       highHue_PP == 0 && highSaturation_PP == 0 && highVal_PP == 0){
+        // choose a color first
+        darkest_PP.backgroundColor = UIColor.whiteColor;
+        lightest_PP.backgroundColor = UIColor.whiteColor;
+        
+        return;
+    }
+    
+    
+    
+    double R_low;
+    double G_low;
+    double B_low;
+    double R_high;
+    double G_high;
+    double B_high;
+    
+    [CVWrapper getRGBValuesFromH:lowHue_PP
+                               S:lowSaturation_PP
+                               V:lowVal_PP
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:highHue_PP
+                               S:highSaturation_PP
+                               V:highVal_PP
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    _darkestColor_PP = [[UIColor alloc] initWithRed:R_low/255.0
+                                              green:G_low/255.0
+                                               blue:B_low/255.0
+                                              alpha:1];
+    darkest_PP.backgroundColor = _darkestColor_PP;
+    
+    _brightestColor_PP = [[UIColor alloc] initWithRed:R_high/255.0
+                                                green:G_high/255.0
+                                                 blue:B_high/255.0
+                                                alpha:1];
+    lightest_PP.backgroundColor = _brightestColor_PP;
+    
 }
 
 

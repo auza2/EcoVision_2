@@ -39,7 +39,7 @@ int hasNoDefaultValues;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize brightest_S;
+@synthesize lightest_S;
 @synthesize darkest_S;
 @synthesize viewIconSwitch;
 
@@ -79,7 +79,6 @@ UIImage* swaleIcon2 = nil;
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
     
     // To send data to save screen
-    self.tabBarController.delegate = self;
     _highLowVals_S = [[NSMutableArray alloc]init];
     
 
@@ -157,8 +156,8 @@ UIImage* swaleIcon2 = nil;
     }
     
     // Creating Borders
-    [self.brightest_S.layer setBorderWidth:2.0];
-    [self.brightest_S.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.lightest_S.layer setBorderWidth:2.0];
+    [self.lightest_S.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
     [self.darkest_S.layer setBorderWidth:2.0];
     [self.darkest_S.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
@@ -218,6 +217,7 @@ UIImage* swaleIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_S;
+        analysisViewController.userImage_A = _originalImage_S;
         analysisViewController.clickedSegment_A = clickedSegment_S;
     }
 }
@@ -365,10 +365,7 @@ UIImage* swaleIcon2 = nil;
     [self setHighandlowVal_Sues];
     [self updateBrightAndDark];
     
-    /*
-    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
-        [self changeColorSetToIndex: 0];
-     */
+
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -389,7 +386,6 @@ UIImage* swaleIcon2 = nil;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    //[self changeColorSetToIndex:clickedSegment_S];
     [self resetHSV];
     [self setHighandlowVal_Sues];
     [self updateBrightAndDark];
@@ -473,7 +469,7 @@ UIImage* swaleIcon2 = nil;
         [alert show];
         return;
     }
-    
+
     
     //thresh either the plain image or the median filtered image
     /* thresholds image
@@ -585,54 +581,6 @@ UIImage* swaleIcon2 = nil;
 #pragma Change HSV Values based on Location
 
 #pragma -mark Drop Down Menu
-// Number of thins shown in the drop down
-/*
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-    return [savedLocationsFromFile_S count];
-}
-*/
-/*
- * Returns the table cell at the specified index path.
- *
- * Return Value
- * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
- */
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // cell.textLabel.text = @"";
-    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
-    
-    cell.textLabel.text = [savedLocationsFromFile_S nameOfObjectAtIndex:indexPath.row];
-    
-    return cell;
-}
-
-/*
- * Tells the delegate that the specified row is now selected.
- */
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // shouldn't be ever called anymore
-    if( _threshSwitch.isOn || viewIconSwitch.isOn){
-        [_threshSwitch setOn:false];
-        [viewIconSwitch setOn:false];
-        [self updateScrollView:_currentImage_S];
-    }
-    
-    clickedSegment_S = index;
-    //[self changeColorSetToIndex:indexPath.row];
-}
-*/
-
 
 // should only be called in the beginning
 - (void) changeColorSetToIndex: (int)index{
@@ -686,12 +634,10 @@ UIImage* swaleIcon2 = nil;
        highHue_S == 0 && highSaturation_S == 0 && highVal_S == 0){
         // choose a color first
         darkest_S.backgroundColor = UIColor.whiteColor;
-        brightest_S.backgroundColor = UIColor.whiteColor;
+        lightest_S.backgroundColor = UIColor.whiteColor;
         
         return;
     }
-        
-    
     
     double R_low;
     double G_low;
@@ -723,7 +669,7 @@ UIImage* swaleIcon2 = nil;
                                                green:G_high/255.0
                                                 blue:B_high/255.0
                                                alpha:1];
-    brightest_S.backgroundColor = _brightestColor_S;
+    lightest_S.backgroundColor = _brightestColor_S;
 
 }
 

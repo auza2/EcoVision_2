@@ -117,7 +117,6 @@ char results[5000]; // changed to do testing
     [self buttonizeButtonTap2:self];
 }
 
-
 - (IBAction)takePhoto:(id)sender {
     //******To Camera App********//
     /*
@@ -215,7 +214,7 @@ char results[5000]; // changed to do testing
     self.scrollView.backgroundColor = [UIColor whiteColor];
     self.scrollView.contentSize = self.imageView.bounds.size;
     self.scrollView.maximumZoomScale = 6.0;
-    self.scrollView.minimumZoomScale = 0.5;
+    self.scrollView.minimumZoomScale = 0.0;
     
     self.scrollView.clipsToBounds = YES;
     self.scrollView.delegate = self;
@@ -399,10 +398,11 @@ char results[5000]; // changed to do testing
     // After they analyze they reset the coords
     
     if(worked) {
+        /*
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"We found your pieces!" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
         [alert show];
         
-        
+        */
         // FOR TESTING PURPOSES ONLY-- Testing to see if we can actually threshold something
         
         /*

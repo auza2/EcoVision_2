@@ -38,13 +38,10 @@ savedLocations* savedLocationsFromFile_RB;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize sample7;
-@synthesize sample8;
-@synthesize sample9;
+@synthesize lightest_RB;
+@synthesize darkest_RB;
 @synthesize viewIconSwitch;
-@synthesize tableView;
-
-long int clickedSegment_RB;
+@synthesize clickedSegment_RB;
 
 UIImage* rainBarrelIcon2 = nil;
 
@@ -60,31 +57,9 @@ UIImage* rainBarrelIcon2 = nil;
     // Set Default HSV Values
     [self setHSVValues];
     
-    if( RainBarrelSamples.count == 0) {
-        RainBarrelSamples = [NSMutableArray array];
-        sampleImages_RB = [NSMutableArray array];
-        
-        [sampleImages_RB addObject:sample1];
-        [sampleImages_RB addObject:sample2];
-        [sampleImages_RB addObject:sample3];
-        [sampleImages_RB addObject:sample4];
-        [sampleImages_RB addObject:sample5];
-        [sampleImages_RB addObject:sample6];
-        [sampleImages_RB addObject:sample7];
-        [sampleImages_RB addObject:sample8];
-        [sampleImages_RB addObject:sample9];
-        
-        // Necessary to find where to put the sampled color
-        sample1.backgroundColor = UIColor.whiteColor;
-        sample2.backgroundColor = UIColor.whiteColor;
-        sample3.backgroundColor = UIColor.whiteColor;
-        sample4.backgroundColor = UIColor.whiteColor;
-        sample5.backgroundColor = UIColor.whiteColor;
-        sample6.backgroundColor = UIColor.whiteColor;
-        sample7.backgroundColor = UIColor.whiteColor;
-        sample8.backgroundColor = UIColor.whiteColor;
-        sample9.backgroundColor = UIColor.whiteColor;
-    }
+    savedLocationsFromFile_RB = [[savedLocations alloc] init];
+    
+    
     
     
     // Switch to see icons
@@ -93,12 +68,6 @@ UIImage* rainBarrelIcon2 = nil;
     
     rainBarrelIcon2 = [UIImage imageNamed:@"RainBarrel_Icon.png"];
     
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    savedLocationsFromFile_RB = [[savedLocations alloc] init];
-    
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
                                                                         style:UIBarButtonItemStyleDone
@@ -106,24 +75,37 @@ UIImage* rainBarrelIcon2 = nil;
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
     
-     _highLowVals_RB = [[NSMutableArray alloc]init];
-
-}
-
-#pragma -mark sending data
-- (NSString*) getColorPaletteLabel{
-    return self.dropDown.currentTitle;
-}
-
-- (NSMutableArray*) getHighLowVals{
-    [_highLowVals_RB removeAllObjects];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowHue_RB]];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highHue_RB]];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowSaturation_RB]];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highSaturation_RB]];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowVal_RB]];
-    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highVal_RB]];
-    return _highLowVals_RB;
+    // To send data to save screen
+    _highLowVals_RB = [[NSMutableArray alloc]init];
+    
+    
+    
+    RainBarrelSamples = [NSMutableArray array];
+    sampleImages_RB = [NSMutableArray array];
+    
+    [self changeColorSetToIndex:clickedSegment_RB]; // changes the 6 vals
+    [self updateBrightAndDark]; // gets lightest and darkest
+    
+    [sampleImages_RB addObject:sample1];
+    [sampleImages_RB addObject:sample2];
+    [sampleImages_RB addObject:sample3];
+    [sampleImages_RB addObject:sample4];
+    [sampleImages_RB addObject:sample5];
+    [sampleImages_RB addObject:sample6];
+    
+    
+    // Necessary to find where to put the sampled color
+    sample1.backgroundColor = _brightestColor_RB;
+    sample2.backgroundColor = _darkestColor_RB;
+    sample3.backgroundColor = UIColor.whiteColor;
+    sample4.backgroundColor = UIColor.whiteColor;
+    sample5.backgroundColor = UIColor.whiteColor;
+    sample6.backgroundColor = UIColor.whiteColor;
+    
+    [RainBarrelSamples addObject:_brightestColor_RB];
+    [RainBarrelSamples addObject:_darkestColor_RB];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -170,12 +152,56 @@ UIImage* rainBarrelIcon2 = nil;
     }
     
     // Creating Borders
-    [self.dropDown.layer setBorderWidth:2.0];
-    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.lightest_RB.layer setBorderWidth:2.0];
+    [self.lightest_RB.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
-    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
-    self.tableView.layer.borderWidth = 2.0;
+    [self.darkest_RB.layer setBorderWidth:2.0];
+    [self.darkest_RB.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
+    // If we segue from save profile or tile detection, we could have added a new profile
+    savedLocationsFromFile_RB= [[savedLocations alloc] init];
+    
+    // If we segue from Tile Detection, we reset everything
+    if( _seguedFromTileDetection == true){
+        // Remove all swale samples
+        [RainBarrelSamples removeAllObjects];
+        
+        // Necessary to find where to put the sampled color
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        
+        [self changeColorSetToIndex:clickedSegment_RB];
+        
+        // Update First 2 samples as lightest and darkest
+        sample1.backgroundColor = _brightestColor_RB;
+        sample2.backgroundColor = _darkestColor_RB;
+        
+        // Adds the brightest and darkest color to swale samples
+        [RainBarrelSamples addObject:_brightestColor_RB];
+        [RainBarrelSamples addObject:_darkestColor_RB];
+        
+        _seguedFromTileDetection = false;
+    }
+    
+    [self updateBrightAndDark];
+    
+}
+#pragma -mark sending data
+- (NSString*) getColorPaletteLabel{
+    return self.dropDown.currentTitle;
+}
+
+- (NSMutableArray*) getHighLowVals{
+    [_highLowVals_RB removeAllObjects];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowHue_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highHue_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowSaturation_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highSaturation_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",lowVal_RB]];
+    [_highLowVals_RB addObject:[NSString stringWithFormat:@"%d",highVal_RB]];
+    return _highLowVals_RB;
 }
 
 #pragma -mark Back Button
@@ -186,7 +212,8 @@ UIImage* rainBarrelIcon2 = nil;
     {
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _currentImage_RB;
-         analysisViewController.userImage_A = _originalImage_RB;
+        analysisViewController.userImage_A = _originalImage_RB;
+        analysisViewController.clickedSegment_A = clickedSegment_RB;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -327,9 +354,7 @@ UIImage* rainBarrelIcon2 = nil;
     }
     
     [self setHighandlowVal_RBues];
-    
-    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
-        [self changeColorSetToIndex: 0];
+    [self updateBrightAndDark];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -350,8 +375,9 @@ UIImage* rainBarrelIcon2 = nil;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    [self changeColorSetToIndex:clickedSegment_RB];
+    [self resetHSV];
     [self setHighandlowVal_RBues];
+    [self updateBrightAndDark];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -400,8 +426,8 @@ UIImage* rainBarrelIcon2 = nil;
         [self updateScrollView:_currentImage_RB];
     }
     
-    [self setHighandlowVal_RBues];
-    [self changeColorSetToIndex: clickedSegment_RB];
+    [self resetHSV];
+    [self updateBrightAndDark];
 }
 
 #pragma mark - Threshold Switch
@@ -440,7 +466,7 @@ UIImage* rainBarrelIcon2 = nil;
      **             4 = dark green (corner markers)
      */
     
-    [CVWrapper setSegmentIndex:0];
+    [CVWrapper setSegmentIndex:1];
     [self changeHSVVals];
     
     threshedImage_RB = [CVWrapper thresh:plainImage_RB colorCase: 1];
@@ -519,11 +545,6 @@ UIImage* rainBarrelIcon2 = nil;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (RainBarrelSamples == NULL)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
     
     // Find the High and Low Values from Samples
     [self setHighandlowVal_RBues];
@@ -570,54 +591,8 @@ UIImage* rainBarrelIcon2 = nil;
 }
 
 
-
-#pragma Change HSV Values based on Location
-
 #pragma -mark Drop Down Menu
-// Number of thins shown in the drop down
 
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-    return [savedLocationsFromFile_RB count];
-}
-
-/*
- * Returns the table cell at the specified index path.
- *
- * Return Value
- * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // cell.textLabel.text = @"";
-    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
-    
-    cell.textLabel.text = [savedLocationsFromFile_RB nameOfObjectAtIndex:indexPath.row];
-    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
-    
-    return cell;
-}
-
-/*
- * Tells the delegate that the specified row is now selected.
- */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if( _threshSwitch.isOn || viewIconSwitch.isOn){
-        [_threshSwitch setOn:false];
-        [viewIconSwitch setOn:false];
-        [self updateScrollView:_currentImage_RB];
-    }
-    
-    clickedSegment_RB = index;
-    [self changeColorSetToIndex:indexPath.row];
-}
 
 - (void) changeColorSetToIndex: (int)index{
     clickedSegment_RB = index;
@@ -647,23 +622,77 @@ UIImage* rainBarrelIcon2 = nil;
     
     [self changeHSVVals];
     
-    self.tableView.hidden =  TRUE;
 }
 
 // Called after we save to change the tableview
 - (void) changeFromFile{
     savedLocationsFromFile_RB = [savedLocationsFromFile_RB changeFromFile];
-    [self.tableView reloadData];
 }
 
 
 - (IBAction)dropDownButton:(id)sender {
+    /*
     if( self.tableView.hidden == TRUE )
         self.tableView.hidden =  FALSE;
     else
         self.tableView.hidden = TRUE;
+     */
 }
-
+-(void) resetHSV{
+    lowHue_RB = 255;
+    highHue_RB = 0;
+    lowSaturation_RB = 255;
+    highSaturation_RB = 0;
+    lowVal_RB = 255;
+    highVal_RB = 0;
+}
+#pragma -mark Bright and Dark
+-(void) updateBrightAndDark{
+    
+    if( lowHue_RB == 255 && lowSaturation_RB == 255 && lowVal_RB == 255 &&
+       highHue_RB == 0 && highSaturation_RB == 0 && highVal_RB == 0){
+        // choose a color first
+        darkest_RB.backgroundColor = UIColor.whiteColor;
+        lightest_RB.backgroundColor = UIColor.whiteColor;
+        
+        return;
+    }
+    
+    
+    
+    double R_low;
+    double G_low;
+    double B_low;
+    double R_high;
+    double G_high;
+    double B_high;
+    
+    [CVWrapper getRGBValuesFromH:lowHue_RB
+                               S:lowSaturation_RB
+                               V:lowVal_RB
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:highHue_RB
+                               S:highSaturation_RB
+                               V:highVal_RB
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    _darkestColor_RB = [[UIColor alloc] initWithRed:R_low/255.0
+                                              green:G_low/255.0
+                                               blue:B_low/255.0
+                                              alpha:1];
+    darkest_RB.backgroundColor = _darkestColor_RB;
+    
+    _brightestColor_RB = [[UIColor alloc] initWithRed:R_high/255.0
+                                                green:G_high/255.0
+                                                 blue:B_high/255.0
+                                                alpha:1];
+    lightest_RB.backgroundColor = _brightestColor_RB;
+    
+}
 
 
 @end

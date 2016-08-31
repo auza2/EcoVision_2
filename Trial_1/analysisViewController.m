@@ -354,43 +354,43 @@ NSArray* trialNumbers;
         UINavigationController *navController = [segue destinationViewController];
         
         Swale *swale = navController.viewControllers[0];
+        swale.clickedSegment_S = clickedSegment_A;
         swale.currentImage_S = plainImage2;
         swale.originalImage_S = _userImage_A;
-
-        if( swale.clickedSegment_S != clickedSegment_A){
-            swale.seguedFromTileDetection = true;
-            swale.clickedSegment_S = clickedSegment_A;
-        }
-        
-        
-        /*
-         sample1.backgroundColor = brightest_S.backgroundColor;
-         sample2.backgroundColor = darkest_S.backgroundColor;
-         [SwaleSamples addObject:brightest_S.backgroundColor];
-         [SwaleSamples addObject:darkest_S.backgroundColor];
-         */
+        swale.seguedFromTileDetection = true;
         
         PermeablePaver * permeablepaver = navController.viewControllers[1];
+        permeablepaver.clickedSegment_PP = clickedSegment_A;
         permeablepaver.currentImage_PP = plainImage2;
         permeablepaver.originalImage_PP = _userImage_A;
+        permeablepaver.seguedFromTileDetection = true;
         permeablepaver.title = @"Permeable Paver";
         
         GreenRoof *greenRoof = navController.viewControllers[2];
+        greenRoof.clickedSegment_GR = clickedSegment_A;
         greenRoof.currentImage_GR  = plainImage2;
         greenRoof.originalImage_GR  = _userImage_A;
+        greenRoof.seguedFromTileDetection = true;
         
         RainBarrel *rainBarrel = navController.viewControllers[3];
+        rainBarrel.clickedSegment_RB = clickedSegment_A;
         rainBarrel.currentImage_RB = plainImage2;
         rainBarrel.originalImage_RB = _userImage_A;
+        rainBarrel.seguedFromTileDetection = true;
         
-       
         GreenCorners * greenCorners =navController.viewControllers[4];
         greenCorners.title = @"Green Corners";
+        greenCorners.clickedSegment_GC = clickedSegment_A;
         greenCorners.originalImage = _userImage_A;
         greenCorners.processedImage = plainImage2;
+        greenCorners.seguedFromTileDetection = true;
         
         saveColors *saveColors = navController.viewControllers[5];
-        saveColors.title = @"Save Colors";
+        saveColors.clickedSegment_SC = clickedSegment_A;
+        saveColors.seguedFromTileDetection = true;
+        //saveColors.originalImage_SC = _userImage_A;
+        //saveColors.currentImage_SC = plainImage2;
+        saveColors.title = @"Save Profile";
         
      }
     
@@ -399,7 +399,8 @@ NSArray* trialNumbers;
         takeAPictureViewController.warpedGlobal = currentImage_A;
         takeAPictureViewController.groupNumber= _groupNumber;
         takeAPictureViewController.IPAddress = IPAddress;
-        takeAPictureViewController.currentImage_TAP = _userImage_A;
+        takeAPictureViewController.currentImage_TAP = currentImage_A;
+        takeAPictureViewController.userImage_TAP = _userImage_A;
     }
 
     
@@ -455,7 +456,7 @@ NSArray* trialNumbers;
 }
 - (void) setHSVValues {
     
-    int hsvDefault[] = {10, 80, 50, 200, 50, 255, 80, 175, 140, 255, 100, 255, 90, 110, 40, 100, 120, 225, 0, 15, 30, 220, 50, 210, 15, 90, 35, 200, 35, 130};
+    int hsvDefault[] = {10, 80, 50, 200, 50, 255, 120,115,182,97,240,121, 90, 110, 40, 100, 120, 225, 0, 15, 30, 220, 50, 210, 15, 90, 35, 200, 35, 130};
     
     [CVWrapper setHSV_Values:hsvDefault];
     

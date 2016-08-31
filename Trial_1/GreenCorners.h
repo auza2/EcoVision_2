@@ -17,12 +17,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample4;
 @property (weak, nonatomic) IBOutlet UIImageView *sample5;
 @property (weak, nonatomic) IBOutlet UIImageView *sample6;
-@property (weak, nonatomic) IBOutlet UIImageView *sample7;
-@property (weak, nonatomic) IBOutlet UIImageView *sample8;
-@property (weak, nonatomic) IBOutlet UIImageView *sample9;
+@property (weak, nonatomic) IBOutlet UIImageView *lightest_GC;
+@property (weak, nonatomic) IBOutlet UIImageView *darkest_GC;
+
+@property (nonatomic, strong) UIColor * brightestColor_GC;
+@property (nonatomic, strong) UIColor * darkestColor_GC;
 
 @property (weak, nonatomic) IBOutlet UIButton *dropDown;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+//@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
@@ -36,6 +38,9 @@
 - (NSMutableArray*) getHighLowVals;
 - (void) changeFromFile;
 - (void) changeColorSetToIndex: (int)index;
+@property Boolean seguedFromTileDetection;
+@property long int clickedSegment_GC;
+
 
 @property (nonatomic,strong) NSMutableArray * GreenCornerSamples;
 @property (nonatomic,strong) UIImage * originalImage;

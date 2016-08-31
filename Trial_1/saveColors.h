@@ -15,11 +15,18 @@
 
 @interface saveColors : UIViewController <UIImagePickerControllerDelegate>
 
-@property (weak, nonatomic) NSMutableArray*swaleColors;
-@property (weak, nonatomic) NSMutableArray*rainBarrelColors;
-@property (weak, nonatomic) NSMutableArray*permeablePaverColors;
-@property (weak, nonatomic) NSMutableArray*greenRoofColors;
-@property (weak, nonatomic) NSMutableArray*greenCornerColors;
+@property long int clickedSegment_SC;
+@property Boolean seguedFromTileDetection;
+@property (nonatomic,strong) UIImage * currentImage_SC;
+@property (nonatomic,strong) UIImage * originalImage_SC;
+
+@property (strong, nonatomic) NSMutableArray*swaleColors;
+@property (strong, nonatomic) NSMutableArray*rainBarrelColors;
+@property (strong, nonatomic) NSMutableArray*permeablePaverColors;
+@property (strong, nonatomic) NSMutableArray*greenRoofColors;
+@property (strong, nonatomic) NSMutableArray*greenCornerColors;
+@property (weak, nonatomic) IBOutlet UITextField *profileText;
+
 
 @property (strong, nonatomic) Swale * Swale;
 @property (strong, nonatomic) RainBarrel * RainBarrel;
@@ -33,11 +40,6 @@
 @property (weak, nonatomic) NSString * permeablePaverLabel;
 @property (weak, nonatomic) NSString * greenRoofLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *colorPalette_S;
-@property (weak, nonatomic) IBOutlet UILabel *colorPalette_RB;
-@property (weak, nonatomic) IBOutlet UILabel *colorPalette_PP;
-@property (weak, nonatomic) IBOutlet UILabel *colorPalette_GR;
-@property (weak, nonatomic) IBOutlet UILabel *colorPalette_GC;
 
 // Save Button
 - (IBAction)saveAs:(id)sender;

@@ -11,9 +11,16 @@
 #import "HSVLocation.h"
 #import "savedLocations.h"
 #import "CVWrapper.h"
-
+#import "analysisViewController.h"
 
 @implementation saveColors
+@synthesize clickedSegment_SC;
+@synthesize rainBarrelColors;
+@synthesize swaleColors;
+@synthesize permeablePaverColors;
+@synthesize greenRoofColors;
+@synthesize greenCornerColors;
+
 savedLocations* savedLocationsFromFile_SC;
 double R_low;
 double G_low;
@@ -34,32 +41,109 @@ NSString * nameOfEntry;
     _RainBarrel = [self.tabBarController.childViewControllers objectAtIndex:3];
     _GreenCorners = [self.tabBarController.childViewControllers objectAtIndex:4];
     
-     savedLocationsFromFile_SC = [[savedLocations alloc] init];
-
+    
+    savedLocationsFromFile_SC = [[savedLocations alloc] init];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    noChoiceMade = false;
-    [self updateSwaleLabels];
-    [self updateRainBarrelLabels];
-    [self updatePermeablePaverLabels];
-    [self updateGreenRoofLabels];
-    [self updateGreenCornerLabels];
+    nameOfEntry = [savedLocationsFromFile_SC nameOfObjectAtIndex:clickedSegment_SC];
+    _profileText.text = nameOfEntry;
+    
+    for(int i = 0; i < 5; i++){
+            switch(i){
+                case 0:
+                    if( [_Swale seguedFromTileDetection] == true){
+                        swaleColors = [savedLocationsFromFile_SC getHSVForSavedLocationAtIndex:clickedSegment_SC Icon:0];
+                        _low_S.backgroundColor = [self getDarkest: swaleColors];
+                        _high_S.backgroundColor = [self getBrightest:swaleColors];
+                        _LH_S.text = [swaleColors objectAtIndex:0];
+                        _LS_S.text = [swaleColors objectAtIndex:2];
+                        _LB_S.text = [swaleColors objectAtIndex:4];
+                        _HH_S.text = [swaleColors objectAtIndex:1];
+                        _HS_S.text = [swaleColors objectAtIndex:3];
+                        _HB_S.text = [swaleColors objectAtIndex:5];
+                    }else{
+                        [self updateSwaleLabels];
+                    }
+                    break;
+                case 1:
+                    if( [_RainBarrel seguedFromTileDetection] == true){
+                        rainBarrelColors = [savedLocationsFromFile_SC getHSVForSavedLocationAtIndex:clickedSegment_SC Icon:1];
+                        _low_RB.backgroundColor = [self getDarkest: rainBarrelColors];
+                        _high_RB.backgroundColor = [self getBrightest:rainBarrelColors];
+                        _LH_RB.text = [rainBarrelColors objectAtIndex:0];
+                        _LS_RB.text = [rainBarrelColors objectAtIndex:2];
+                        _LB_RB.text = [rainBarrelColors objectAtIndex:4];
+                        _HH_RB.text = [rainBarrelColors objectAtIndex:1];
+                        _HS_RB.text = [rainBarrelColors objectAtIndex:3];
+                        _HB_RB.text = [rainBarrelColors objectAtIndex:5];
+                    }else{
+                        [self updateRainBarrelLabels];
+                    }
+                    break;
+                case 2:
+                    if( [_GreenRoof seguedFromTileDetection] == true){
+                        greenRoofColors = [savedLocationsFromFile_SC getHSVForSavedLocationAtIndex:clickedSegment_SC Icon:2];
+                        _low_GR.backgroundColor = [self getDarkest: greenRoofColors];
+                        _high_GR.backgroundColor = [self getBrightest:greenRoofColors];
+                        _LH_GR.text = [greenRoofColors objectAtIndex:0];
+                        _LS_GR.text = [greenRoofColors objectAtIndex:2];
+                        _LB_GR.text = [greenRoofColors objectAtIndex:4];
+                        _HH_GR.text = [greenRoofColors objectAtIndex:1];
+                        _HS_GR.text = [greenRoofColors objectAtIndex:3];
+                        _HB_GR.text = [greenRoofColors objectAtIndex:5];
+                    }else{
+                        [self updateGreenRoofLabels];
+                    }
+                    break;
+                case 3:
+                    if( [_PermeablePaver seguedFromTileDetection] == true){
+                        permeablePaverColors = [savedLocationsFromFile_SC getHSVForSavedLocationAtIndex:clickedSegment_SC Icon:3];
+                        _low_PP.backgroundColor = [self getDarkest: permeablePaverColors];
+                        _high_PP.backgroundColor = [self getBrightest:permeablePaverColors];
+                        _LH_PP.text = [permeablePaverColors objectAtIndex:0];
+                        _LS_PP.text = [permeablePaverColors objectAtIndex:2];
+                        _LB_PP.text = [permeablePaverColors objectAtIndex:4];
+                        _HH_PP.text = [permeablePaverColors objectAtIndex:1];
+                        _HS_PP.text = [permeablePaverColors objectAtIndex:3];
+                        _HB_PP.text = [permeablePaverColors objectAtIndex:5];
+                    }else{
+                        [self updatePermeablePaverLabels];
+                    }
+                    break;
+                case 4: ;
+                    if( [_GreenCorners seguedFromTileDetection] == true){
+                        greenCornerColors = [savedLocationsFromFile_SC getHSVForSavedLocationAtIndex:clickedSegment_SC Icon:4];
+                        _low_GC.backgroundColor = [self getDarkest: greenCornerColors];
+                        _high_GC.backgroundColor = [self getBrightest:greenCornerColors];
+                        _LH_GC.text = [greenCornerColors objectAtIndex:0];
+                        _LS_GC.text = [greenCornerColors objectAtIndex:2];
+                        _LB_GC.text = [greenCornerColors objectAtIndex:4];
+                        _HH_GC.text = [greenCornerColors objectAtIndex:1];
+                        _HS_GC.text = [greenCornerColors objectAtIndex:3];
+                        _HB_GC.text = [greenCornerColors objectAtIndex:5];
+                    }else{
+                        [self updateGreenCornerLabels];
+                    }
+                    break;
+
+            }
+    }
     
 }
 
 -(void) updateSwaleLabels{
-    _colorPalette_S.text = [_Swale getColorPaletteLabel];
-    _swaleColors = [_Swale getHighLowVals];
+    swaleColors = [_Swale getHighLowVals];
     
-    _LH_S.text = [_swaleColors objectAtIndex:0];
-    _LS_S.text = [_swaleColors objectAtIndex:2];
-    _LB_S.text = [_swaleColors objectAtIndex:4];
-    _HH_S.text = [_swaleColors objectAtIndex:1];
-    _HS_S.text = [_swaleColors objectAtIndex:3];
-    _HB_S.text = [_swaleColors objectAtIndex:5];
+    _LH_S.text = [swaleColors objectAtIndex:0];
+    _LS_S.text = [swaleColors objectAtIndex:2];
+    _LB_S.text = [swaleColors objectAtIndex:4];
+    _HH_S.text = [swaleColors objectAtIndex:1];
+    _HS_S.text = [swaleColors objectAtIndex:3];
+    _HB_S.text = [swaleColors objectAtIndex:5];
     
     
     [CVWrapper getRGBValuesFromH:[_LH_S.text intValue]
@@ -86,24 +170,21 @@ NSString * nameOfEntry;
                                                       blue:B_high/255.0
                                                      alpha:1];
     
-    if( _swaleColors == nil || [_colorPalette_S.text isEqualToString:@"Choose Saved Color Palette"]){
-        noChoiceMade = true;
-    }
 }
 
 -(void) updateRainBarrelLabels{
     //NSLog(@"%@", [_RainBarrel getColorPaletteLabel]);
     //NSLog(@"%@", [_RainBarrel getHighLowVals]);
     
-    _colorPalette_RB.text = [_RainBarrel getColorPaletteLabel];
-    _rainBarrelColors = [_RainBarrel getHighLowVals];
+
+    rainBarrelColors = [_RainBarrel getHighLowVals];
     
-    _LH_RB.text = [_rainBarrelColors objectAtIndex:0];
-    _LS_RB.text = [_rainBarrelColors objectAtIndex:2];
-    _LB_RB.text = [_rainBarrelColors objectAtIndex:4];
-    _HH_RB.text = [_rainBarrelColors objectAtIndex:1];
-    _HS_RB.text = [_rainBarrelColors objectAtIndex:3];
-    _HB_RB.text = [_rainBarrelColors objectAtIndex:5];
+    _LH_RB.text = [rainBarrelColors objectAtIndex:0];
+    _LS_RB.text = [rainBarrelColors objectAtIndex:2];
+    _LB_RB.text = [rainBarrelColors objectAtIndex:4];
+    _HH_RB.text = [rainBarrelColors objectAtIndex:1];
+    _HS_RB.text = [rainBarrelColors objectAtIndex:3];
+    _HB_RB.text = [rainBarrelColors objectAtIndex:5];
     
     [CVWrapper getRGBValuesFromH:[_LH_RB.text intValue]
                                S:[_LS_RB.text intValue]
@@ -131,9 +212,6 @@ NSString * nameOfEntry;
                                                       blue:B_high/255.0
                                                      alpha:1];
     
-    if( _rainBarrelColors == nil  || [_colorPalette_RB.text isEqualToString:@"Choose Saved Color Palette"]){
-        noChoiceMade = true;
-    }
 
 }
 
@@ -141,15 +219,15 @@ NSString * nameOfEntry;
     //NSLog(@"%@", [_PermeablePaver getColorPaletteLabel]);
     //NSLog(@"%@", [_PermeablePaver getHighLowVals]);
     
-    _colorPalette_PP.text = [_PermeablePaver getColorPaletteLabel];
-    _permeablePaverColors = [_PermeablePaver getHighLowVals];
+
+    permeablePaverColors = [_PermeablePaver getHighLowVals];
     
-    _LH_PP.text = [_permeablePaverColors objectAtIndex:0];
-    _LS_PP.text = [_permeablePaverColors objectAtIndex:2];
-    _LB_PP.text = [_permeablePaverColors objectAtIndex:4];
-    _HH_PP.text = [_permeablePaverColors objectAtIndex:1];
-    _HS_PP.text = [_permeablePaverColors objectAtIndex:3];
-    _HB_PP.text = [_permeablePaverColors objectAtIndex:5];
+    _LH_PP.text = [permeablePaverColors objectAtIndex:0];
+    _LS_PP.text = [permeablePaverColors objectAtIndex:2];
+    _LB_PP.text = [permeablePaverColors objectAtIndex:4];
+    _HH_PP.text = [permeablePaverColors objectAtIndex:1];
+    _HS_PP.text = [permeablePaverColors objectAtIndex:3];
+    _HB_PP.text = [permeablePaverColors objectAtIndex:5];
     
     [CVWrapper getRGBValuesFromH:[_LH_PP.text intValue]
                                S:[_LS_PP.text intValue]
@@ -174,24 +252,22 @@ NSString * nameOfEntry;
                                                      green:G_high/255.0
                                                       blue:B_high/255.0
                                                      alpha:1];
-    if( _permeablePaverColors ==  nil || [_colorPalette_PP.text isEqualToString:@"Choose Saved Color Palette"]){
-        noChoiceMade = true;
-    }
+
 }
 
 -(void) updateGreenRoofLabels{
-    //NSLog(@"%@", [_GreenRoof getColorPaletteLabel]);
+    //NSLog(@"%@", [reenRoof getColorPaletteLabel]);
     //NSLog(@"%@", [_GreenRoof getHighLowVals]);
     
-    _colorPalette_GR.text = [_GreenRoof getColorPaletteLabel];
-    _greenRoofColors = [_GreenRoof getHighLowVals];
+
+    greenRoofColors = [_GreenRoof getHighLowVals];
     
-    _LH_GR.text = [_greenRoofColors objectAtIndex:0];
-    _LS_GR.text = [_greenRoofColors objectAtIndex:2];
-    _LB_GR.text = [_greenRoofColors objectAtIndex:4];
-    _HH_GR.text = [_greenRoofColors objectAtIndex:1];
-    _HS_GR.text = [_greenRoofColors objectAtIndex:3];
-    _HB_GR.text = [_greenRoofColors objectAtIndex:5];
+    _LH_GR.text = [greenRoofColors objectAtIndex:0];
+    _LS_GR.text = [greenRoofColors objectAtIndex:2];
+    _LB_GR.text = [greenRoofColors objectAtIndex:4];
+    _HH_GR.text = [greenRoofColors objectAtIndex:1];
+    _HS_GR.text = [greenRoofColors objectAtIndex:3];
+    _HB_GR.text = [greenRoofColors objectAtIndex:5];
     
     [CVWrapper getRGBValuesFromH:[_LH_GR.text intValue]
                                S:[_LS_GR.text intValue]
@@ -216,9 +292,6 @@ NSString * nameOfEntry;
                                                       green:G_high/255.0
                                                        blue:B_high/255.0
                                                       alpha:1];
-    if( _greenRoofColors == nil || [_colorPalette_GR.text isEqualToString:@"Choose Saved Color Palette"]){
-        noChoiceMade = true;
-    }
     
 }
 
@@ -226,15 +299,15 @@ NSString * nameOfEntry;
     //NSLog(@"%@", [_GreenRoof getColorPaletteLabel]);
     //NSLog(@"%@", [_GreenRoof getHighLowVals]);
     
-    _colorPalette_GC.text = [_GreenCorners getColorPaletteLabel];
-    _greenCornerColors = [_GreenCorners getHighLowVals];
+
+    greenCornerColors = [_GreenCorners getHighLowVals];
     
-    _LH_GC.text = [_greenCornerColors objectAtIndex:0];
-    _LS_GC.text = [_greenCornerColors objectAtIndex:2];
-    _LB_GC.text = [_greenCornerColors objectAtIndex:4];
-    _HH_GC.text = [_greenCornerColors objectAtIndex:1];
-    _HS_GC.text = [_greenCornerColors objectAtIndex:3];
-    _HB_GC.text = [_greenCornerColors objectAtIndex:5];
+    _LH_GC.text = [greenCornerColors objectAtIndex:0];
+    _LS_GC.text = [greenCornerColors objectAtIndex:2];
+    _LB_GC.text = [greenCornerColors objectAtIndex:4];
+    _HH_GC.text = [greenCornerColors objectAtIndex:1];
+    _HS_GC.text = [greenCornerColors objectAtIndex:3];
+    _HB_GC.text = [greenCornerColors objectAtIndex:5];
     
     [CVWrapper getRGBValuesFromH:[_LH_GC.text intValue]
                                S:[_LS_GC.text intValue]
@@ -259,13 +332,13 @@ NSString * nameOfEntry;
                                                       green:G_high/255.0
                                                        blue:B_high/255.0
                                                       alpha:1];
-    if( _greenCornerColors ==  nil || [_colorPalette_GC.text isEqualToString:@"Choose Saved Color Palette"] ){
-        noChoiceMade = true;
-    }
     
 }
 
 - (IBAction)saveAs:(id)sender {
+    [self writeToFile:_profileText.text];
+    
+    /*
     if( noChoiceMade == true){
         NSString * info = [NSString stringWithFormat: @"Choose a Saved Color Palette for all Icons before saving"];
         UIAlertView * alertNull = [[UIAlertView alloc] initWithTitle:@"Error!" message: info delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -280,16 +353,17 @@ NSString * nameOfEntry;
     UITextField * alertTextField = [alert textFieldAtIndex:0];
     alertTextField.placeholder = @"Insert name here";
     [alert show];
+     */
 }
 
 -(void) writeToFile: (NSString*) name{
     NSMutableArray * saveValues = [[NSMutableArray alloc] init];
     
-    [saveValues addObjectsFromArray:[_Swale getHighLowVals]];
-    [saveValues addObjectsFromArray:[_RainBarrel getHighLowVals]];
-    [saveValues addObjectsFromArray:[_GreenRoof getHighLowVals]];
-    [saveValues addObjectsFromArray:[_PermeablePaver getHighLowVals]];
-    [saveValues addObjectsFromArray:[_GreenCorners getHighLowVals]];
+    [saveValues addObjectsFromArray:swaleColors];
+    [saveValues addObjectsFromArray:rainBarrelColors];
+    [saveValues addObjectsFromArray:greenRoofColors];
+    [saveValues addObjectsFromArray:permeablePaverColors];
+    [saveValues addObjectsFromArray:greenCornerColors];
     
     int index = [savedLocationsFromFile_SC saveEntryWithName:name Values:saveValues];
     
@@ -305,12 +379,26 @@ NSString * nameOfEntry;
     [_PermeablePaver changeColorSetToIndex: index];
     [_GreenCorners changeFromFile];
     [_GreenCorners changeColorSetToIndex: index];
+    // Go back to tile detection
+    [self performSegueWithIdentifier:@"backToAnalysis" sender:self];
     // Any action can be performed here
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"backToAnalysis"])
+    {
+        analysisViewController *analysisViewController = [segue destinationViewController];
+        analysisViewController.currentImage_A = _currentImage_SC;
+        //analysisViewController.userImage_A = _originalImage_SC;
+        //analysisViewController.clickedSegment_A = clickedSegment_SC;
+    }
 }
 
 
 // Gets called after we enter from the alert view
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    /*
     if (buttonIndex == 0 )
     {
         // User Clicked Cancel
@@ -335,5 +423,39 @@ NSString * nameOfEntry;
         // if the user chooses to overwrite
         [self writeToFile:[[alertView textFieldAtIndex:0]text]];
     }
+     */
 }
-    @end
+
+
+
+- (UIColor*) getDarkest:(NSMutableArray*)HSVValues{
+    [CVWrapper getRGBValuesFromH:[[HSVValues objectAtIndex:0] integerValue]
+                               S:[[HSVValues objectAtIndex:2] integerValue]
+                               V:[[HSVValues objectAtIndex:4] integerValue]
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    
+    
+    return [[UIColor alloc] initWithRed:R_high/255.0
+                                  green:G_high/255.0
+                                   blue:B_high/255.0
+                                  alpha:1];
+}
+
+- (UIColor*) getBrightest:(NSMutableArray*)HSVValues{
+    
+    [CVWrapper getRGBValuesFromH:[[HSVValues objectAtIndex:1] integerValue]
+                               S:[[HSVValues objectAtIndex:3] integerValue]
+                               V:[[HSVValues objectAtIndex:5] integerValue]
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+
+    
+    return [[UIColor alloc] initWithRed:R_low/255.0
+                                  green:G_low/255.0
+                                   blue:B_low/255.0
+                                  alpha:1];
+}
+@end

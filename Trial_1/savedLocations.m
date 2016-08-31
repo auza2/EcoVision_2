@@ -39,8 +39,7 @@
             [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
             
             // Add Default HSV values to file
-            NSString* defaultHSV = @"Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
-            
+            NSString* defaultHSV = @"Default:10 80 50 200 50 255 115 120 97 182 121 240 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
             NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
             [file writeData:[defaultHSV dataUsingEncoding:NSUTF8StringEncoding]];
         }
@@ -89,7 +88,7 @@
         
         // Add Default HSV values to file
         // < New Color Palette >:255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0 255 0\n 
-        NSString* defaultHSV = @"Default:10 80 50 200 50 255 80 175 140 255 100 255 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
+        NSString* defaultHSV = @"Default:10 80 50 200 50 255 115 120 97 182 121 240 90 110 40 100 120 225 0 15 30 220 50 210 15 90 35 200 35 130\n";
         
         NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
         [file writeData:[defaultHSV dataUsingEncoding:NSUTF8StringEncoding]];
@@ -141,7 +140,7 @@
     int index = [allSavedLocations count];
     HSVLocation * entry = [HSVLocation alloc];
     for( int i = 0 ; i < [allSavedLocations count]; i++){
-         [allSavedLocations objectAtIndex:i];
+         entry = [allSavedLocations objectAtIndex:i];
         if([[entry getName] isEqualToString:name] ){
             // They are overwriting
             index = i;

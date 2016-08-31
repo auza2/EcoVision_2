@@ -37,14 +37,10 @@ savedLocations* savedLocationsFromFile_GR;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize sample7;
-@synthesize sample8;
-@synthesize sample9;
+@synthesize lightest_GR;
+@synthesize darkest_GR;
 @synthesize viewIconSwitch;
-@synthesize tableView;
 
-
-long int clickedSegment_GR;
 
 UIImage* greenRoofIcon2 = nil;
 
@@ -60,31 +56,9 @@ UIImage* greenRoofIcon2 = nil;
     // Set Default HSV Values
     [self setHSVValues];
     
-    if( GreenRoofSamples.count == 0) {
-        GreenRoofSamples = [NSMutableArray array];
-        sampleImages_GR = [NSMutableArray array];
-        
-        [sampleImages_GR addObject:sample1];
-        [sampleImages_GR addObject:sample2];
-        [sampleImages_GR addObject:sample3];
-        [sampleImages_GR addObject:sample4];
-        [sampleImages_GR addObject:sample5];
-        [sampleImages_GR addObject:sample6];
-        [sampleImages_GR addObject:sample7];
-        [sampleImages_GR addObject:sample8];
-        [sampleImages_GR addObject:sample9];
-        
-        // Necessary to find where to put the sampled color
-        sample1.backgroundColor = UIColor.whiteColor;
-        sample2.backgroundColor = UIColor.whiteColor;
-        sample3.backgroundColor = UIColor.whiteColor;
-        sample4.backgroundColor = UIColor.whiteColor;
-        sample5.backgroundColor = UIColor.whiteColor;
-        sample6.backgroundColor = UIColor.whiteColor;
-        sample7.backgroundColor = UIColor.whiteColor;
-        sample8.backgroundColor = UIColor.whiteColor;
-        sample9.backgroundColor = UIColor.whiteColor;
-    }
+    savedLocationsFromFile_GR = [[savedLocations alloc] init];
+    
+    
     
     
     // Switch to see icons
@@ -93,20 +67,44 @@ UIImage* greenRoofIcon2 = nil;
     
     greenRoofIcon2 = [UIImage imageNamed:@"GreenRoof_Icon.png"];
     
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    savedLocationsFromFile_GR = [[savedLocations alloc] init];
-    
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
                                                                         style:UIBarButtonItemStyleDone
                                                                        target:self
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
-
+    
+    // To send data to save screen
     _highLowVals_GR = [[NSMutableArray alloc]init];
+    
+    
+    
+    GreenRoofSamples = [NSMutableArray array];
+    sampleImages_GR = [NSMutableArray array];
+    
+    [self changeColorSetToIndex:_clickedSegment_GR]; // changes the 6 vals
+    [self updateBrightAndDark]; // gets lightest and darkest
+    
+    [sampleImages_GR addObject:sample1];
+    [sampleImages_GR addObject:sample2];
+    [sampleImages_GR addObject:sample3];
+    [sampleImages_GR addObject:sample4];
+    [sampleImages_GR addObject:sample5];
+    [sampleImages_GR addObject:sample6];
+    
+    
+    // Necessary to find where to put the sampled color
+    sample1.backgroundColor = _brightestColor_GR;
+    sample2.backgroundColor = _darkestColor_GR;
+    sample3.backgroundColor = UIColor.whiteColor;
+    sample4.backgroundColor = UIColor.whiteColor;
+    sample5.backgroundColor = UIColor.whiteColor;
+    sample6.backgroundColor = UIColor.whiteColor;
+    
+    [GreenRoofSamples addObject:_brightestColor_GR];
+    [GreenRoofSamples addObject:_darkestColor_GR];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,16 +122,16 @@ UIImage* greenRoofIcon2 = nil;
     
     // Initializing the Tap Gestures
     singleTap_GR = [[UITapGestureRecognizer alloc]
-                    initWithTarget:self
-                    action:@selector(handleSingleTapFrom:)];
+                   initWithTarget:self
+                   action:@selector(handleSingleTapFrom:)];
     singleTap_GR.numberOfTapsRequired = 1;
     [_scrollView addGestureRecognizer:singleTap_GR];
     singleTap_GR.delegate = self;
     
     
     doubleTap_GR = [[UITapGestureRecognizer alloc]
-                    initWithTarget:self
-                    action:@selector(handleDoubleTapFrom:)];
+                   initWithTarget:self
+                   action:@selector(handleDoubleTapFrom:)];
     doubleTap_GR.numberOfTapsRequired = 2;
     doubleTap_GR.delegate = self;
     
@@ -144,8 +142,8 @@ UIImage* greenRoofIcon2 = nil;
     // Adding a Double Tap Gesture for all the Sample Views for the Ability to remove
     for( UIImageView * sampleView in sampleImages_GR ){
         UITapGestureRecognizer * doubleTap_GRTEST = [[UITapGestureRecognizer alloc]
-                                                     initWithTarget:self
-                                                     action:@selector(handleDoubleTapFrom:)];
+                                                    initWithTarget:self
+                                                    action:@selector(handleDoubleTapFrom:)];
         doubleTap_GRTEST.numberOfTapsRequired = 2;
         doubleTap_GRTEST.delegate = self;
         [sampleView setUserInteractionEnabled:YES];
@@ -153,11 +151,40 @@ UIImage* greenRoofIcon2 = nil;
     }
     
     // Creating Borders
-    [self.dropDown.layer setBorderWidth:2.0];
-    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.lightest_GR.layer setBorderWidth:2.0];
+    [self.lightest_GR.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
-    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
-    self.tableView.layer.borderWidth = 2.0;
+    [self.darkest_GR.layer setBorderWidth:2.0];
+    [self.darkest_GR.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    
+    // If we segue from save profile or tile detection, we could have added a new profile
+    savedLocationsFromFile_GR= [[savedLocations alloc] init];
+    
+    // If we segue from Tile Detection, we reset everything
+    if( _seguedFromTileDetection == true){
+        // Remove all swale samples
+        [GreenRoofSamples removeAllObjects];
+        
+        // Necessary to find where to put the sampled color
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        
+        [self changeColorSetToIndex:_clickedSegment_GR];
+        
+        // Update First 2 samples as lightest and darkest
+        sample1.backgroundColor = _brightestColor_GR;
+        sample2.backgroundColor = _darkestColor_GR;
+        
+        // Adds the brightest and darkest color to swale samples
+        [GreenRoofSamples addObject:_brightestColor_GR];
+        [GreenRoofSamples addObject:_darkestColor_GR];
+        
+        _seguedFromTileDetection = false;
+    }
+    
+    [self updateBrightAndDark];
     
 }
 
@@ -329,9 +356,7 @@ UIImage* greenRoofIcon2 = nil;
     }
     
     [self setHighandlowVal_GRues];
-    
-    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
-        [self changeColorSetToIndex: 0];
+    [self updateBrightAndDark];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -352,8 +377,9 @@ UIImage* greenRoofIcon2 = nil;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    [self changeColorSetToIndex:clickedSegment_GR];
+    [self resetHSV];
     [self setHighandlowVal_GRues];
+    [self updateBrightAndDark];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -401,8 +427,8 @@ UIImage* greenRoofIcon2 = nil;
         [self updateScrollView:_currentImage_GR];
     }
 
-    [self setHighandlowVal_GRues];
-    [self changeColorSetToIndex: clickedSegment_GR];
+    [self resetHSV];
+    [self updateBrightAndDark];
 }
 
 #pragma mark - Threshold Switch
@@ -441,11 +467,10 @@ UIImage* greenRoofIcon2 = nil;
      **             4 = dark green (corner markers)
      */
     
-    [CVWrapper setSegmentIndex:0];
+    [CVWrapper setSegmentIndex:2];
     [self changeHSVVals];
     
     threshedImage_GR = [CVWrapper thresh:plainImage_GR colorCase: 2];
-    //_scrollView.zoomScale = plainImage_GR.scale;
     [self updateScrollView:threshedImage_GR];
 }
 
@@ -520,11 +545,7 @@ UIImage* greenRoofIcon2 = nil;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (GreenRoofSamples == NULL)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
+
     
     // Find the High and Low Values from Samples
     [self setHighandlowVal_GRues];
@@ -595,56 +616,9 @@ UIImage* greenRoofIcon2 = nil;
 
 #pragma Change HSV Values based on Location
 
-#pragma -mark Drop Down Menu
-// Number of thins shown in the drop down
-
-- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section{
-    return [savedLocationsFromFile_GR count];
-}
-
-/*
- * Returns the table cell at the specified index path.
- *
- * Return Value
- * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // cell.textLabel.text = @"";
-    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
-    
-    cell.textLabel.text = [savedLocationsFromFile_GR nameOfObjectAtIndex:indexPath.row];
-    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
-    
-    return cell;
-}
-
-/*
- * Tells the delegate that the specified row is now selected.
- */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if( _threshSwitch.isOn || viewIconSwitch.isOn){
-        [_threshSwitch setOn:false];
-        [viewIconSwitch setOn:false];
-        [self updateScrollView:_currentImage_GR];
-    }
-    
-    clickedSegment_GR = index;
-    [self changeColorSetToIndex:indexPath.row];
-}
-
 - (void) changeColorSetToIndex: (int)index{
-    clickedSegment_GR = index;
     
-    [self.dropDown setTitle: [savedLocationsFromFile_GR nameOfObjectAtIndex:index]  forState:UIControlStateNormal];
+    [self.dropDown setTitle: [savedLocationsFromFile_GR nameOfObjectAtIndex:_clickedSegment_GR]  forState:UIControlStateNormal];
     
     // Icon == CaseNum
     NSMutableArray * newSetting  = [savedLocationsFromFile_GR getHSVForSavedLocationAtIndex:index Icon:2];
@@ -662,20 +636,77 @@ UIImage* greenRoofIcon2 = nil;
     
     [self changeHSVVals];
     
-    self.tableView.hidden =  TRUE;
 }
 
 // Called after we save to change the tableview
 - (void) changeFromFile{
     savedLocationsFromFile_GR = [savedLocationsFromFile_GR changeFromFile];
-    [self.tableView reloadData];
+}
+
+#pragma -mark Bright and Dark
+-(void) updateBrightAndDark{
+    
+    if( lowHue_GR == 255 && lowSaturation_GR == 255 && lowVal_GR == 255 &&
+       highHue_GR == 0 && highSaturation_GR == 0 && highVal_GR == 0){
+        // choose a color first
+        darkest_GR.backgroundColor = UIColor.whiteColor;
+        lightest_GR.backgroundColor = UIColor.whiteColor;
+        
+        return;
+    }
+    
+    
+    
+    double R_low;
+    double G_low;
+    double B_low;
+    double R_high;
+    double G_high;
+    double B_high;
+    
+    [CVWrapper getRGBValuesFromH:lowHue_GR
+                               S:lowSaturation_GR
+                               V:lowVal_GR
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:highHue_GR
+                               S:highSaturation_GR
+                               V:highVal_GR
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    _darkestColor_GR = [[UIColor alloc] initWithRed:R_low/255.0
+                                             green:G_low/255.0
+                                              blue:B_low/255.0
+                                             alpha:1];
+    darkest_GR.backgroundColor = _darkestColor_GR;
+    
+    _brightestColor_GR = [[UIColor alloc] initWithRed:R_high/255.0
+                                               green:G_high/255.0
+                                                blue:B_high/255.0
+                                               alpha:1];
+    lightest_GR.backgroundColor = _brightestColor_GR;
+    
+}
+
+-(void) resetHSV{
+    lowHue_GR = 255;
+    highHue_GR = 0;
+    lowSaturation_GR = 255;
+    highSaturation_GR = 0;
+    lowVal_GR = 255;
+    highVal_GR = 0;
 }
 
 - (IBAction)dropDownButton:(id)sender {
+    /*
     if( self.tableView.hidden == TRUE )
         self.tableView.hidden =  FALSE;
     else
         self.tableView.hidden = TRUE;
+    */
 }
 
 

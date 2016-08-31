@@ -20,9 +20,7 @@
 @synthesize currentImage_L;
 @synthesize originalImage_L;
 
-/*
- *  I don't know why this is here.
- */
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -41,14 +39,10 @@
     if( groupNumber != nil){
         serverIP.text = _IPAddress;
         groupNumber.text = _grpNumber;
-        
     }
-    
 }
 
-/*
- * I don't know why this is here
- */
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

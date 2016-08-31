@@ -36,13 +36,10 @@ savedLocations* savedLocationsFromFile_GC;
 @synthesize sample4;
 @synthesize sample5;
 @synthesize sample6;
-@synthesize sample7;
-@synthesize sample8;
-@synthesize sample9;
-@synthesize tableView;
+@synthesize lightest_GC;
+@synthesize darkest_GC;
 @synthesize originalImage;
-
-long int clickedSegment_GC;
+@synthesize clickedSegment_GC;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,38 +53,8 @@ long int clickedSegment_GC;
     // Set Default HSV Values
     [self setHSVValues];
     
-    if( GreenCornerSamples.count == 0) {
-        GreenCornerSamples = [NSMutableArray array];
-        sampleImages_GC = [NSMutableArray array];
-        
-        [sampleImages_GC addObject:sample1];
-        [sampleImages_GC addObject:sample2];
-        [sampleImages_GC addObject:sample3];
-        [sampleImages_GC addObject:sample4];
-        [sampleImages_GC addObject:sample5];
-        [sampleImages_GC addObject:sample6];
-        [sampleImages_GC addObject:sample7];
-        [sampleImages_GC addObject:sample8];
-        [sampleImages_GC addObject:sample9];
-        
-        // Necessary to find where to put the sampled color
-        sample1.backgroundColor = UIColor.whiteColor;
-        sample2.backgroundColor = UIColor.whiteColor;
-        sample3.backgroundColor = UIColor.whiteColor;
-        sample4.backgroundColor = UIColor.whiteColor;
-        sample5.backgroundColor = UIColor.whiteColor;
-        sample6.backgroundColor = UIColor.whiteColor;
-        sample7.backgroundColor = UIColor.whiteColor;
-        sample8.backgroundColor = UIColor.whiteColor;
-        sample9.backgroundColor = UIColor.whiteColor;
-    }
-    
-    
-    // For Drop Down
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
     savedLocationsFromFile_GC = [[savedLocations alloc] init];
+    
     
     // Back Button
     UIBarButtonItem *buttonizeButton = [[UIBarButtonItem alloc] initWithTitle:@"Buttonize"
@@ -96,7 +63,35 @@ long int clickedSegment_GC;
                                                                        action:@selector(buttonizeButtonTap:)];
     self.navigationItem.rightBarButtonItems = @[buttonizeButton];
     
+    // To send data to save screen
     _highLowVals_GC = [[NSMutableArray alloc]init];
+    
+    
+    
+    GreenCornerSamples = [NSMutableArray array];
+    sampleImages_GC = [NSMutableArray array];
+    
+    [self changeColorSetToIndex:clickedSegment_GC]; // changes the 6 vals
+    [self updateBrightAndDark]; // gets lightest and darkest
+    
+    [sampleImages_GC addObject:sample1];
+    [sampleImages_GC addObject:sample2];
+    [sampleImages_GC addObject:sample3];
+    [sampleImages_GC addObject:sample4];
+    [sampleImages_GC addObject:sample5];
+    [sampleImages_GC addObject:sample6];
+    
+    
+    // Necessary to find where to put the sampled color
+    sample1.backgroundColor = _brightestColor_GC;
+    sample2.backgroundColor = _darkestColor_GC;
+    sample3.backgroundColor = UIColor.whiteColor;
+    sample4.backgroundColor = UIColor.whiteColor;
+    sample5.backgroundColor = UIColor.whiteColor;
+    sample6.backgroundColor = UIColor.whiteColor;
+    
+    [GreenCornerSamples addObject:_brightestColor_GC];
+    [GreenCornerSamples addObject:_darkestColor_GC];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,8 +103,7 @@ long int clickedSegment_GC;
 {
     [super viewWillAppear:animated];
     plainImage_GC = originalImage;
-    
-    [self updateScrollView:originalImage];
+    [self updateScrollView:plainImage_GC];
     
     
     // Initializing the Tap Gestures
@@ -143,11 +137,40 @@ long int clickedSegment_GC;
     }
     
     // Creating Borders
-    [self.dropDown.layer setBorderWidth:2.0];
-    [self.dropDown.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    [self.lightest_GC.layer setBorderWidth:2.0];
+    [self.lightest_GC.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
     
-    tableView.layer.borderColor = [UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor;
-    self.tableView.layer.borderWidth = 2.0;
+    [self.darkest_GC.layer setBorderWidth:2.0];
+    [self.darkest_GC.layer setBorderColor:[UIColor colorWithRed:0.86 green:0.85 blue:0.87 alpha:1.0].CGColor];
+    
+    // If we segue from save profile or tile detection, we could have added a new profile
+    savedLocationsFromFile_GC= [[savedLocations alloc] init];
+    
+    // If we segue from Tile Detection, we reset everything
+    if( _seguedFromTileDetection == true){
+        // Remove all swale samples
+        [GreenCornerSamples removeAllObjects];
+        
+        // Necessary to find where to put the sampled color
+        sample3.backgroundColor = UIColor.whiteColor;
+        sample4.backgroundColor = UIColor.whiteColor;
+        sample5.backgroundColor = UIColor.whiteColor;
+        sample6.backgroundColor = UIColor.whiteColor;
+        
+        [self changeColorSetToIndex:clickedSegment_GC];
+        
+        // Update First 2 samples as lightest and darkest
+        sample1.backgroundColor = _brightestColor_GC;
+        sample2.backgroundColor = _darkestColor_GC;
+        
+        // Adds the brightest and darkest color to swale samples
+        [GreenCornerSamples addObject:_brightestColor_GC];
+        [GreenCornerSamples addObject:_darkestColor_GC];
+        
+        _seguedFromTileDetection = false;
+    }
+    
+    [self updateBrightAndDark];
     
 }
 
@@ -160,6 +183,7 @@ long int clickedSegment_GC;
         analysisViewController *analysisViewController = [segue destinationViewController];
         analysisViewController.currentImage_A = _processedImage;
         analysisViewController.userImage_A = originalImage;
+        analysisViewController.clickedSegment_A = clickedSegment_GC;
     }
 }
 -(void)buttonizeButtonTap:(id)sender{
@@ -205,8 +229,6 @@ long int clickedSegment_GC;
     
     img_GC = [[UIImageView alloc] initWithImage:newImg];
     
-    
-    
     //handle pinching in/ pinching out to zoom
     img_GC.userInteractionEnabled = YES;
     img_GC.backgroundColor = [UIColor clearColor];
@@ -220,8 +242,6 @@ long int clickedSegment_GC;
     self.scrollView.delegate = self;
     self.scrollView.showsVerticalScrollIndicator = true;
     self.scrollView.showsHorizontalScrollIndicator = true;
-    
-    
     
     //Set image on the scrollview
     [self.scrollView addSubview:img_GC];
@@ -268,9 +288,7 @@ long int clickedSegment_GC;
     }
     
     [self setHighandlowVal_GCues];
-    
-    if( [self.dropDown.currentTitle isEqualToString:@"Choose Saved Color Palette"])
-        [self changeColorSetToIndex: 0];
+    [self updateBrightAndDark];
 }
 
 - (void) handleDoubleTapFrom: (UITapGestureRecognizer *) recognizer
@@ -289,8 +307,9 @@ long int clickedSegment_GC;
     }
     
     // Before setting the High and Low values, change to default from picked color set
-    [self changeColorSetToIndex:clickedSegment_GC];
+    [self resetHSV];
     [self setHighandlowVal_GCues];
+    [self updateBrightAndDark];
     
     // Remove the color on the view
     view.backgroundColor = UIColor.whiteColor;
@@ -336,8 +355,8 @@ long int clickedSegment_GC;
         [_threshSwitch setOn:false];
         [self updateScrollView:originalImage];
     }
-    [self setHighandlowVal_GCues];
-    [self changeColorSetToIndex: clickedSegment_GC];
+    [self resetHSV];
+    [self updateBrightAndDark];
 }
 
 #pragma mark - Threshold Switch
@@ -398,48 +417,28 @@ long int clickedSegment_GC;
  * Gets the integers from hsvValues.txt and sends them to CVWrapper
  */
 - (void) setHSVValues {
-    /*
-     int hsvValues[30];
-     [CVWrapper getHSV_Values:hsvValues];
-     
-     NSError *error;
-     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-     NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"hsvValues"];
-     fileName = [fileName stringByAppendingPathExtension:@"txt"];
-     
-     NSString* content = [NSString stringWithContentsOfFile:fileName
-     encoding:NSUTF8StringEncoding
-     error:&error];
-     
-     // if file reading creates an error, set values to default
-     if(error) {
-     NSLog(@"File reading error: default hsv values loaded");
-     int hsvDefault[] = {10, 80, 50, 200, 50, 255,       // Green (Swale)
-     80, 175, 140, 255, 100, 255,    // Red (Rain Barrel
-     90, 110, 40, 100, 120, 225,     // Brown (Green Roof)
-     0, 15, 30, 220, 50, 210,        // Blue (Permeable Paver)
-     15, 90, 35, 200, 35, 130};      // Dark Green (Corner Markers)
-     [CVWrapper setHSV_Values:hsvDefault];
-     return;
-     }
-     
-     NSLog(@"Reading from hsvValues.txt from setHSVValues: %@", content);
-     
-     NSArray *arr = [content componentsSeparatedByString:@" "];
-     
-     int i;
-     for(i = 0; i < 30; i++) {
-     // loss of precision is fine since all numbers stored in arr will have only zeroes after the decimal
-     hsvValues[i] = [[arr objectAtIndex:i]integerValue];
-     }
-     */
+    int H_Sample;
+    int S_Sample;
+    int V_Sample;
     
-    int hsvValues[] = {255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0,
-        255, 0, 255, 0, 255, 0};
-    [CVWrapper setHSV_Values:hsvValues];
+    for( UIColor * color in GreenCornerSamples) {
+        const CGFloat* components = CGColorGetComponents(color.CGColor);
+        
+        int red = components[0]*255.0;
+        int green = components[1]*255.0;
+        int blue = components[2]*255.0;
+        
+        [CVWrapper getHSVValuesfromRed:red Green:green Blue:blue H:&H_Sample S:&S_Sample V:&V_Sample];
+        
+        highHue_GC = ( highHue_GC < H_Sample ) ? H_Sample : highHue_GC ;
+        highSaturation_GC = ( highSaturation_GC < S_Sample ) ? S_Sample : highSaturation_GC ;
+        highVal_GC = ( highVal_GC < V_Sample ) ? V_Sample : highVal_GC ;
+        
+        lowHue_GC = ( lowHue_GC > H_Sample ) ? H_Sample : lowHue_GC ;
+        lowSaturation_GC = ( lowSaturation_GC > S_Sample ) ? S_Sample : lowSaturation_GC ;
+        lowVal_GC = ( lowVal_GC > V_Sample ) ? V_Sample : lowVal_GC;
+        
+    }
 }
 
 /*
@@ -459,11 +458,6 @@ long int clickedSegment_GC;
     int vals[30] = {0};
     [CVWrapper getHSV_Values:vals];
     
-    if (GreenCornerSamples == NULL)
-    {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Samples of brown pieces not found: Please pick some samples" delegate:self cancelButtonTitle:@"Continue" otherButtonTitles:nil];
-        [alert show];
-    }
     
     // Find the High and Low Values from Samples
     [self setHighandlowVal_GCues];
@@ -518,43 +512,6 @@ long int clickedSegment_GC;
     return [savedLocationsFromFile_GC count];
 }
 
-/*
- * Returns the table cell at the specified index path.
- *
- * Return Value
- * An object representing a cell of the table, or nil if the cell is not visible or indexPath is out of range.
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // cell.textLabel.text = @"";
-    // indexPath.row -- I'm guessing this gets called multiple times to initialize all the cells
-    
-    cell.textLabel.text = [savedLocationsFromFile_GC nameOfObjectAtIndex:indexPath.row];
-    cell.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.40 green:0.60 blue:0.20 alpha:1.0];
-    
-    return cell;
-}
-
-/*
- * Tells the delegate that the specified row is now selected.
- */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if( _threshSwitch.isOn ){
-        [_threshSwitch setOn:false];
-        [self updateScrollView:originalImage];
-    }
-    
-    clickedSegment_GC = index;
-    [self changeColorSetToIndex:indexPath.row];
-}
 
 - (void) changeColorSetToIndex: (int)index{
     clickedSegment_GC = index;
@@ -575,24 +532,81 @@ long int clickedSegment_GC;
     
     [self changeHSVVals];
     
-    self.tableView.hidden =  TRUE;
-    
     
 }
 
 // Called after we save to change the tableview
 - (void) changeFromFile{
     savedLocationsFromFile_GC = [savedLocationsFromFile_GC changeFromFile];
-    [self.tableView reloadData];
+
 }
 
 - (IBAction)dropDownButton:(id)sender {
+    /*
     if( self.tableView.hidden == TRUE )
         self.tableView.hidden =  FALSE;
     else
         self.tableView.hidden = TRUE;
+     */
 }
 
+#pragma -mark Bright and Dark
+-(void) updateBrightAndDark{
+    
+    if( lowHue_GC == 255 && lowSaturation_GC == 255 && lowVal_GC == 255 &&
+       highHue_GC == 0 && highSaturation_GC == 0 && highVal_GC == 0){
+        // choose a color first
+        darkest_GC.backgroundColor = UIColor.whiteColor;
+        lightest_GC.backgroundColor = UIColor.whiteColor;
+        
+        return;
+    }
+    
+    
+    
+    double R_low;
+    double G_low;
+    double B_low;
+    double R_high;
+    double G_high;
+    double B_high;
+    
+    [CVWrapper getRGBValuesFromH:lowHue_GC
+                               S:lowSaturation_GC
+                               V:lowVal_GC
+                               R:&R_low
+                               G:&G_low
+                               B:&B_low];
+    
+    [CVWrapper getRGBValuesFromH:highHue_GC
+                               S:highSaturation_GC
+                               V:highVal_GC
+                               R:&R_high
+                               G:&G_high
+                               B:&B_high];
+    _darkestColor_GC = [[UIColor alloc] initWithRed:R_low/255.0
+                                              green:G_low/255.0
+                                               blue:B_low/255.0
+                                              alpha:1];
+    darkest_GC.backgroundColor = _darkestColor_GC;
+    
+    _brightestColor_GC = [[UIColor alloc] initWithRed:R_high/255.0
+                                                green:G_high/255.0
+                                                 blue:B_high/255.0
+                                                alpha:1];
+    lightest_GC.backgroundColor = _brightestColor_GC;
+    
+}
 
+- (void) resetHSV{
+    lowHue_GC = 255;
+    highHue_GC = 0;
+    
+    lowSaturation_GC = 255;
+    highSaturation_GC = 0;
+    
+    lowVal_GC = 255;
+    highVal_GC = 0;
+}
 
 @end

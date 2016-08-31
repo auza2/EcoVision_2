@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "savedLocations.h"
 
-@interface Swale : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate, UITabBarControllerDelegate,UITableViewDelegate, UITableViewDataSource>
+@interface Swale : UIViewController <UINavigationControllerDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate >
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UISwitch *threshSwitch;
 
@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sample5;
 @property (weak, nonatomic) IBOutlet UIImageView *sample6;
 //@property (weak, nonatomic) IBOutlet UIImageView *sample7;
-@property (weak, nonatomic) IBOutlet UIImageView *brightest_S;
+@property (weak, nonatomic) IBOutlet UIImageView *lightest_S;
 @property (weak, nonatomic) IBOutlet UIImageView *darkest_S;
 
 @property (nonatomic, strong) UIColor * brightestColor_S;

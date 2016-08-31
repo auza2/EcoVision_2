@@ -25,7 +25,8 @@
 
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)toAnalyze:(id)sender;
-- (IBAction)toLogin:(id)sender;
+- (IBAction)toMommaBird:(id)sender;
+
 - (IBAction)beginProcessing:(id)sender;
 
 
