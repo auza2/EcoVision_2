@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NPb-yw-Qe1">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
     </dependencies>
@@ -419,7 +418,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2x-P7-uqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6932" y="2154"/>
+            <point key="canvasLocation" x="4796" y="-342"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="a7R-QJ-rhm">
@@ -2647,9 +2646,9 @@ When you are satisfied with the tile detection, tap on save profile below </stri
         <image name="frog-1" width="1693" height="1233"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6PT-uP-2pU"/>
-        <segue reference="CWw-2f-Z3e"/>
-        <segue reference="fmp-eB-lJj"/>
+        <segue reference="lWp-2h-f0H"/>
+        <segue reference="ZBs-YI-45i"/>
+        <segue reference="wSC-zh-5Bn"/>
         <segue reference="2LJ-rm-gI0"/>
     </inferredMetricsTieBreakers>
 </document>
