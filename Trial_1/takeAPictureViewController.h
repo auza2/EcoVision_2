@@ -27,6 +27,7 @@
 - (IBAction)toAnalyze:(id)sender;
 - (IBAction)toMommaBird:(id)sender;
 
+- (IBAction)toTips:(id)sender;
 - (IBAction)beginProcessing:(id)sender;
 
 

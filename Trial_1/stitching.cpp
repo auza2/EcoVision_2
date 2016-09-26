@@ -439,10 +439,12 @@ int getCorners(IplImage * img, IplImage * original, CvPoint pts[], int frameNumb
     {
         
         result = cvApproxPoly(contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, cvContourPerimeter(contours) * 0.02, 0);
+
+        // Area on screen that is less than 40 -- green corner
         
         if(result->total>=3 && fabs(cvContourArea(result, CV_WHOLE_SEQ)) > 40)
         {
-            
+            printf("Area of Green corner %i: %f \n", ptsIndex, fabs(cvContourArea(result, CV_WHOLE_SEQ)));
             CvPoint * pt[result->total];
             for(int i=0;i < result->total; i++) {
                 pt[i] = (CvPoint * )cvGetSeqElem(result, i);
@@ -452,6 +454,7 @@ int getCorners(IplImage * img, IplImage * original, CvPoint pts[], int frameNumb
                 pts[ptsIndex] = tempPoint;
                 ptsIndex++;
                 // if it is about to go over the max size of CvPoints, return it right away
+
                 if(ptsIndex >= MAX_POINTS) return ptsIndex;
             }
         }
@@ -460,6 +463,8 @@ int getCorners(IplImage * img, IplImage * original, CvPoint pts[], int frameNumb
     
     cvReleaseImage(&temp);
     cvReleaseMemStorage(&storage);
+
+    printf("POINTS INDEX: %i\n", ptsIndex);
     return ptsIndex;
 }
 
