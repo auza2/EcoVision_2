@@ -600,11 +600,11 @@ NSArray* trialNumbers;
 #pragma -mark Sending Data
 - (IBAction)send:(id)sender {
     // Make sure IP address is able to connect and get the NSArray of the trial numbers of that Group Number / Study ID
-    [self getTrialNumbers];
-    
+    //[self getTrialNumbers];
+    /*
     if([trialNumbers isEqual:nil]) //unaable to send
         return;
-    
+    */
     NSString* suggestedTrailNumber = @"";
     if( [[trialNumbers objectAtIndex:0]isEqualToString:@""]){ // This is the first trial of this Group Number /  Study ID
         suggestedTrailNumber = @"0";
